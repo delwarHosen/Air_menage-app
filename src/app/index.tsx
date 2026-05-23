@@ -13,7 +13,22 @@ export default function HomeScreen() {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.roleCard}
-          onPress={() => router.replace('/host/(tabs)/index' as any)}
+          onPress={() => router.push('/(auth)/login' as any)}
+          activeOpacity={0.7}
+        >
+          <View style={[styles.iconBox, { backgroundColor: '#1e2d3d' }]}>
+            <Text style={styles.iconEmoji}>🏠</Text>
+          </View>
+          <View style={styles.roleText}>
+            <Text style={styles.roleName}>Authenticate</Text>
+            <Text style={styles.roleDesc}>please login today</Text>
+          </View>
+          <Text style={styles.arrow}>›</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.roleCard}
+          onPress={() => router.push('/host' as any)}
           activeOpacity={0.7}
         >
           <View style={[styles.iconBox, { backgroundColor: '#1e2d3d' }]}>
@@ -28,7 +43,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity
           style={styles.roleCard}
-          onPress={() => router.replace('/cleaner/(tabs)/index' as any)}
+          onPress={() => router.push('/cleaner' as any)}
           activeOpacity={0.7}
         >
           <View style={[styles.iconBox, { backgroundColor: '#1d2d1d' }]}>

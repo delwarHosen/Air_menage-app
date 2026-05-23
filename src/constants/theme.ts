@@ -1,82 +1,104 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * App-wide design tokens — colors and fonts.
+ *
+ * Usage:
+ *   import { Colors, Fonts } from '@/constants/Colors';
+ *   Colors.BRAND_PRIMARY  →  "#0088FF"
  */
 
+// ─── Raw palette ──────────────────────────────────────────────────────────────
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+// Brand
+const BRAND_PRIMARY        = "#0088FF";
+const BRAND_SECONDARY      = "#A5D4A9";
 
-const appBackground = "#FFFFFF";
-const primary_text_Color = "#000000";
-const secondary_text_color = "#2596BE";
-const text_white = "#FFFFFF";
-const search_placheholder_color = "#707070";
-const text_light = "#818181";
-const success_color = "#1D9E75";
-const placeholderText = "#00000080";
-const BRAND_PRIMARY = "#2596BE";
-const modal_button = "#E9A6A6"
-const colorActive = "#22C55E";
-const colorDanger = "#FF383C";
-const colorOranger = "#FF8D28";
-const accent_yellow = "#E4E500";
-const borderColor = "#EAEAEA";
-const cardBorder = "#E8E8E8";
-const cardBG = "#F8F8F8";
-const inputBackground = "#1D1733";
-const iconBgColor = "#FFFFFF0D"
-const otpColor = "#8C88A3"
+// Backgrounds
+const APP_BACKGROUND       = "#FAFAFA";
+const INPUT_BACKGROUND     = "#FFFFFF";
+const BG_BLACK             = "#000000";
 
+// Text
+const PRIMARY_TEXT         = "#1A1A1A";
+const SECONDARY_TEXT       = "#2A2A2A";
+const TEXT_COLOR           = "#606060";
+const SPECIAL_TEXT         = "#333333";
+const TEXT_WHITE           = "#FFFFFF";
+const PLACEHOLDER_TEXT     = "#7F7F7F80";
+
+// Border
+const BORDER_COLOR         = "#3C3C432E";
+
+// Status / feedback
+const STATUS_COLOR         = "#35A9D6";
+const STATUS_COLOR_OPACITY = "#35A9D614";
+const SUCCESS_COLOR        = "#1D9E75";
+const COLOR_ACTIVE         = "#22C55E";
+const COLOR_DANGER         = "#FF383C";
+const COLOR_ORANGE         = "#FF8D28";
+const ACCENT_YELLOW        = "#E4E500";
+
+// ─── Exports ──────────────────────────────────────────────────────────────────
 
 export const Colors = {
+
+    // ── Theme (light / dark) ────────────────────────────────────────────────
     light: {
-        text: '#11181C',
-        background: "#0F0B1A",
-        tint: tintColorLight,
-        icon: '#687076',
-        tabIconDefault: '#687076',
-        tabIconSelected: tintColorLight,
+        text:           PRIMARY_TEXT,
+        background:     APP_BACKGROUND,
+        tint:           BRAND_PRIMARY,
+        icon:           TEXT_COLOR,
+        tabIconDefault: TEXT_COLOR,
+        tabIconSelected: BRAND_PRIMARY,
     },
     dark: {
-        text: '#ECEDEE',
-        background: '#0F0B1A',
-        tint: tintColorDark,
-        icon: '#9BA1A6',
-        tabIconDefault: '#9BA1A6',
-        tabIconSelected: tintColorDark,
+        text:           TEXT_WHITE,
+        background:     BG_BLACK,
+        tint:           TEXT_WHITE,
+        icon:           TEXT_COLOR,
+        tabIconDefault: TEXT_COLOR,
+        tabIconSelected: TEXT_WHITE,
     },
 
-    APP_BACKGROUND: appBackground,
-    TEXT_COLOR: primary_text_Color,
-    PLACEHOLLDER_TEXT: placeholderText,
-    BRAND_PRIMARY: BRAND_PRIMARY,
-    //   BRAND_PRIMARY_LIGHT: BRAND_PRIMARY_LIGHT,
-    SECONDARY_TEXT_COLOR: secondary_text_color,
-    TEXT_WHITE: text_white,
-    SEARCH_PLACEHOLDER_COLOR: search_placheholder_color,
-    TEXT_LIGHT: text_light,
-    SUCCESS_COLOR: success_color,
-    MODAL_BUTTON: modal_button,
-    ACCENT_YELLOW: accent_yellow,
-    CARD_BORDER: cardBorder,
-    CART_BG: cardBG,
-    COLOR_ACTIVE: colorActive,
-    COLOR_DANGER: colorDanger,
-    COLOR_ORANGE: colorOranger,
-    BORDER_COLOR: borderColor,
-    INPUT_BACKGROUND: inputBackground,
-    ICON_BG_COLOR: iconBgColor,
-    OTP_COLOR: otpColor,
+    // ── Brand ───────────────────────────────────────────────────────────────
+    BRAND_PRIMARY,
+    BRAND_SECONDARY,
 
+    // ── Backgrounds ─────────────────────────────────────────────────────────
+    APP_BACKGROUND,
+    INPUT_BACKGROUND,
+    BG_BLACK,
 
+    // ── Text ────────────────────────────────────────────────────────────────
+    PRIMARY_TEXT,
+    SECONDARY_TEXT,
+    TEXT_COLOR,
+    SPECIAL_TEXT,
+    TEXT_WHITE,
+    PLACEHOLDER_TEXT,
+
+    // ── Border ──────────────────────────────────────────────────────────────
+    BORDER_COLOR,
+
+    // ── Status / feedback ───────────────────────────────────────────────────
+    STATUS_COLOR,
+    STATUS_COLOR_OPACITY,
+    SUCCESS_COLOR,
+    COLOR_ACTIVE,
+    COLOR_DANGER,
+    COLOR_ORANGE,
+    ACCENT_YELLOW,
 };
 
+// ─── Fonts ────────────────────────────────────────────────────────────────────
 
 export const Fonts = {
-    regular: 'Poppins_400Regular',
-    medium: 'Poppins_500Medium',
-    semiBold: 'Poppins_600SemiBold',
-    bold: 'Poppins_700Bold',
-    italic: 'Poppins_400Regular_Italic',
+    regular:       'Poppins_400Regular',
+    regularItalic: 'Poppins_400Regular_Italic',
+    medium:        'Poppins_500Medium',
+    mediumItalic:  'Poppins_500Medium_Italic',
+    semiBold:      'Poppins_600SemiBold',
+    semiBoldItalic:'Poppins_600SemiBold_Italic',
+    bold:          'Poppins_700Bold',
+    boldItalic:    'Poppins_700Bold_Italic',
+    extraBold:     'Poppins_800ExtraBold',
 };

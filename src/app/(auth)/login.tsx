@@ -1,16 +1,28 @@
 import { FormInput } from '@/components/inputForm/inputForm';
+import { AuthHeading } from '@/components/shared/AuthHeading';
 import { CustomButton } from '@/components/shared/CustomButton';
-import { Caption2 } from '@/components/typo/Typography';
+import SectionTitle from '@/components/shared/SectionTitle';
+import { Body3, Caption2, Caption3 } from '@/components/typo/Typography';
 import { FORM_FIELDS } from '@/components/ui/form';
+import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
 import { useForm } from '@/hooks/useForm';
-import { useRouter } from 'expo-router';
-import React from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Stack, useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import {
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import { hp, wp } from '../../../utils/responsiveDevice';
 import { validateEmail, validatePassword } from '../../../utils/validation';
 
 export default function LoginScreen() {
     const router = useRouter();
+    const [rememberMe, setRememberMe] = useState(false);
 
     const { values, errors, touched, handleChange, handleSubmit } = useForm({
         initialValues: {
@@ -27,73 +39,123 @@ export default function LoginScreen() {
     });
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{ flex: 1 }}
-        >
-            <ScrollView
-                contentContainerStyle={styles.scrollContent}
-                keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
+        <>
+            <Stack.Screen options={{ headerShown: false }} />
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
             >
-                <View style={styles.container}>
-                    <View style={{ width: '100%', maxWidth: 500 }}>
+                <ScrollView
+                    contentContainerStyle={styles.scrollContent}
+                    keyboardShouldPersistTaps="handled"
+                    showsVerticalScrollIndicator={false}
+                >
+                    <View style={styles.container}>
+                        <View style={styles.inner}>
 
-                        <View style={styles.form}>
-                            <FormInput
-                                value={values[FORM_FIELDS.EMAIL]}
-                                onChangeText={(text) => handleChange(FORM_FIELDS.EMAIL, text)}
-                                type="email"
-                                placeholder="Enter Your Email"
-                                error={errors[FORM_FIELDS.EMAIL]}
-                                touched={touched[FORM_FIELDS.EMAIL]}
+                            {/* Header */}
+                            <SectionTitle title="Sign In" />
+
+                            {/* Logo + title + description */}
+                            <AuthHeading
+                                imageSource={IMAGE_COMPONENTS.logo}
+                                title="Welcome to Gestlio"
+                                description="Cleaning your properties, from Planning to payment"
                             />
 
-                            <FormInput
-                                value={values[FORM_FIELDS.PASSWORD]}
-                                onChangeText={(text) => handleChange(FORM_FIELDS.PASSWORD, text)}
-                                placeholder="Enter Password"
-                                type="password"
-                                error={errors[FORM_FIELDS.PASSWORD]}
-                                touched={touched[FORM_FIELDS.PASSWORD]}
-                            />
+                            {/* Form */}
+                            <View style={styles.form}>
 
-                            <CustomButton
-                                title="Log in"
-                                onPress={handleSubmit}
-                                width="100%"
-                                height={70}
-                                borderRadius={16}
-                                style={{ marginTop: 8 }}
-                            />
-                        </View>
-
-                        <View style={{ marginTop: 20 }}>
-                            <View style={styles.forgotPasswordContainer}>
-
-                                <TouchableOpacity
-                                    onPress={() => router.push("/(auth)/forgot_password" as any)}
-                                >
-                                    <Caption2 color={Colors.BRAND_PRIMARY} style={styles.forgotPassword}>
-                                        Forgot password?
+                                {/* Email */}
+                                <View style={styles.fieldGroup}>
+                                    <Caption2 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                        Email
                                     </Caption2>
-                                </TouchableOpacity>
+                                    <FormInput
+                                        value={values[FORM_FIELDS.EMAIL]}
+                                        onChangeText={(text) => handleChange(FORM_FIELDS.EMAIL, text)}
+                                        type="email"
+                                        placeholder="Your Email"
+                                        error={errors[FORM_FIELDS.EMAIL]}
+                                        touched={touched[FORM_FIELDS.EMAIL]}
+                                    />
+                                </View>
 
+                                {/* Password */}
+                                <View style={styles.fieldGroup}>
+                                    <Caption2 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                        Password
+                                    </Caption2>
+                                    <FormInput
+                                        value={values[FORM_FIELDS.PASSWORD]}
+                                        onChangeText={(text) => handleChange(FORM_FIELDS.PASSWORD, text)}
+                                        placeholder="Your Password"
+                                        type="password"
+                                        error={errors[FORM_FIELDS.PASSWORD]}
+                                        touched={touched[FORM_FIELDS.PASSWORD]}
+                                    />
+                                </View>
+
+                                {/* Remember me + Forgot password */}
+                                <View style={styles.rememberRow}>
+                                    <TouchableOpacity
+                                        style={styles.rememberLeft}
+                                        onPress={() => setRememberMe(!rememberMe)}
+                                        activeOpacity={0.7}
+                                    >
+                                        <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
+                                            {rememberMe && <View style={styles.checkmark} />}
+                                        </View>
+                                        <Caption3 color={Colors.TEXT_COLOR} style={{ marginLeft: wp(6) }}>
+                                            Remember me
+                                        </Caption3>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        onPress={() => router.push("/(auth)/forgot_password" as any)}
+                                        activeOpacity={0.7}
+                                    >
+                                        <Caption3 color={Colors.BRAND_PRIMARY}>
+                                            Forgot password?
+                                        </Caption3>
+                                    </TouchableOpacity>
+                                </View>
+
+                                {/* Login button */}
+                                <CustomButton
+                                    title="Log in"
+                                    onPress={() => router.push("/(auth)/take_email" as any)}
+                                    width="100%"
+                                    height={hp(56)}
+                                    borderRadius={14}
+                                    style={{ marginTop: hp(8) }}
+                                />
                             </View>
 
+                            {/* Or divider */}
+                            <View style={styles.dividerRow}>
+                                <View style={styles.dividerLine} />
+                                <Body3 color={Colors.TEXT_COLOR} style={styles.dividerText}>
+                                    Or
+                                </Body3>
+                                <View style={styles.dividerLine} />
+                            </View>
+
+                            {/* Sign up */}
                             <View style={styles.footer}>
-                                <Caption2 color={Colors.PLACEHOLLDER_TEXT}>
+                                <Caption2 color={Colors.TEXT_COLOR}>
                                     Don't have an account?
                                 </Caption2>
-                                <TouchableOpacity>
-                                    <Caption2 color={Colors.BRAND_PRIMARY}> Sign up</Caption2>
+                                <TouchableOpacity activeOpacity={0.7}>
+                                    <Caption2 color={Colors.BRAND_PRIMARY}> Sign Up</Caption2>
                                 </TouchableOpacity>
                             </View>
+
                         </View>
                     </View>
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView >
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </>
     );
 }
 
@@ -104,19 +166,71 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        alignItems: 'center',
+        paddingHorizontal: wp(20),
+    },
+    inner: {
+        width: '100%',
+        maxWidth: 500,
+    },
+    form: {
+        marginTop: hp(8),
+    },
+    fieldGroup: {
+        marginBottom: hp(12),
+    },
+    label: {
+        marginBottom: hp(6),
+        marginLeft: wp(2),
+    },
+    rememberRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: hp(4),
+        marginBottom: hp(4),
+    },
+    rememberLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    checkbox: {
+        width: wp(18),
+        height: wp(18),
+        borderRadius: 4,
+        borderWidth: 1.5,
+        borderColor: Colors.BORDER_COLOR,
+        backgroundColor: Colors.INPUT_BACKGROUND,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 20,
     },
-    form: {},
-    forgotPasswordContainer: {
+    checkboxChecked: {
+        backgroundColor: Colors.BRAND_PRIMARY,
+        borderColor: Colors.BRAND_PRIMARY,
+    },
+    checkmark: {
+        width: wp(10),
+        height: wp(10),
+        backgroundColor: Colors.TEXT_WHITE,
+        borderRadius: 2,
+    },
+    dividerRow: {
+        flexDirection: 'row',
         alignItems: 'center',
-        marginTop: -5,
+        marginTop: hp(20),
+        marginBottom: hp(12),
     },
-    forgotPassword: {},
+    dividerLine: {
+        flex: 1,
+        height: 1,
+        backgroundColor: Colors.BORDER_COLOR,
+    },
+    dividerText: {
+        marginHorizontal: wp(12),
+    },
     footer: {
-        marginTop: 16,
         flexDirection: 'row',
         justifyContent: 'center',
+        marginBottom: hp(24),
     },
 });
