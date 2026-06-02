@@ -1,21 +1,22 @@
+import { EmailIcon } from '@/assets/icons/common_icon/EmailIcon';
+import { LockIcon } from '@/assets/icons/common_icon/LockIcon';
 import { FormInput } from '@/components/inputForm/inputForm';
 import { AuthHeading } from '@/components/shared/AuthHeading';
 import { CustomButton } from '@/components/shared/CustomButton';
 import SectionTitle from '@/components/shared/SectionTitle';
-import { Body3, Caption2, Caption3 } from '@/components/typo/Typography';
+import { Body3, Body6, Caption3 } from '@/components/typo/Typography';
 import { FORM_FIELDS } from '@/components/ui/form';
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
 import { useForm } from '@/hooks/useForm';
-import { Stack, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
     KeyboardAvoidingView,
     Platform,
-    ScrollView,
+    Pressable,
     StyleSheet,
-    TouchableOpacity,
-    View,
+    View
 } from 'react-native';
 import { hp, wp } from '../../../utils/responsiveDevice';
 import { validateEmail, validatePassword } from '../../../utils/validation';
@@ -40,120 +41,114 @@ export default function LoginScreen() {
 
     return (
         <>
-            <Stack.Screen options={{ headerShown: false }} />
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1 }}
+                style={styles.scrollContent}
             >
-                <ScrollView
-                    contentContainerStyle={styles.scrollContent}
-                    keyboardShouldPersistTaps="handled"
-                    showsVerticalScrollIndicator={false}
-                >
-                    <View style={styles.container}>
-                        <View style={styles.inner}>
+                <View>
+                    <SectionTitle title="Sign In" />
+                </View>
 
-                            {/* Header */}
-                            <SectionTitle title="Sign In" />
+                <View style={styles.container}>
+                    <View style={styles.inner}>
 
-                            {/* Logo + title + description */}
-                            <AuthHeading
-                                imageSource={IMAGE_COMPONENTS.logo}
-                                title="Welcome to Gestlio"
-                                description="Cleaning your properties, from Planning to payment"
-                            />
+                        {/* Logo + title + description */}
+                        <AuthHeading
+                            imageSource={IMAGE_COMPONENTS.logo}
+                            title="Welcome to Gestlio"
+                            description="Cleaning your properties, from Planning to payment"
+                        />
 
-                            {/* Form */}
-                            <View style={styles.form}>
+                        {/* Form */}
+                        <View style={styles.form}>
 
-                                {/* Email */}
-                                <View style={styles.fieldGroup}>
-                                    <Caption2 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                                        Email
-                                    </Caption2>
-                                    <FormInput
-                                        value={values[FORM_FIELDS.EMAIL]}
-                                        onChangeText={(text) => handleChange(FORM_FIELDS.EMAIL, text)}
-                                        type="email"
-                                        placeholder="Your Email"
-                                        error={errors[FORM_FIELDS.EMAIL]}
-                                        touched={touched[FORM_FIELDS.EMAIL]}
-                                    />
-                                </View>
-
-                                {/* Password */}
-                                <View style={styles.fieldGroup}>
-                                    <Caption2 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                                        Password
-                                    </Caption2>
-                                    <FormInput
-                                        value={values[FORM_FIELDS.PASSWORD]}
-                                        onChangeText={(text) => handleChange(FORM_FIELDS.PASSWORD, text)}
-                                        placeholder="Your Password"
-                                        type="password"
-                                        error={errors[FORM_FIELDS.PASSWORD]}
-                                        touched={touched[FORM_FIELDS.PASSWORD]}
-                                    />
-                                </View>
-
-                                {/* Remember me + Forgot password */}
-                                <View style={styles.rememberRow}>
-                                    <TouchableOpacity
-                                        style={styles.rememberLeft}
-                                        onPress={() => setRememberMe(!rememberMe)}
-                                        activeOpacity={0.7}
-                                    >
-                                        <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
-                                            {rememberMe && <View style={styles.checkmark} />}
-                                        </View>
-                                        <Caption3 color={Colors.TEXT_COLOR} style={{ marginLeft: wp(6) }}>
-                                            Remember me
-                                        </Caption3>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity
-                                        onPress={() => router.push("/(auth)/forgot_password" as any)}
-                                        activeOpacity={0.7}
-                                    >
-                                        <Caption3 color={Colors.BRAND_PRIMARY}>
-                                            Forgot password?
-                                        </Caption3>
-                                    </TouchableOpacity>
-                                </View>
-
-                                {/* Login button */}
-                                <CustomButton
-                                    title="Log in"
-                                    onPress={() => router.push("/(auth)/take_email" as any)}
-                                    width="100%"
-                                    height={hp(56)}
-                                    borderRadius={14}
-                                    style={{ marginTop: hp(8) }}
+                            {/* Email */}
+                            <View style={styles.fieldGroup}>
+                                <Body3 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                    Email
+                                </Body3>
+                                <FormInput
+                                    value={values[FORM_FIELDS.EMAIL]}
+                                    onChangeText={(text) => handleChange(FORM_FIELDS.EMAIL, text)}
+                                    type="email"
+                                    placeholder="Your Email"
+                                     leftIcon={<EmailIcon size={16} color="#8C88A3" />}
+                                    error={errors[FORM_FIELDS.EMAIL]}
+                                    touched={touched[FORM_FIELDS.EMAIL]}
                                 />
                             </View>
 
-                            {/* Or divider */}
-                            <View style={styles.dividerRow}>
-                                <View style={styles.dividerLine} />
-                                <Body3 color={Colors.TEXT_COLOR} style={styles.dividerText}>
-                                    Or
+                            {/* Password */}
+                            <View style={styles.fieldGroup}>
+                                <Body3 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                    Password
                                 </Body3>
-                                <View style={styles.dividerLine} />
+                                <FormInput
+                                    value={values[FORM_FIELDS.PASSWORD]}
+                                    onChangeText={(text) => handleChange(FORM_FIELDS.PASSWORD, text)}
+                                    placeholder="Your Password"
+                                     leftIcon={<LockIcon size={16} color="#8C88A3" />}
+                                    type="password"
+                                    error={errors[FORM_FIELDS.PASSWORD]}
+                                    touched={touched[FORM_FIELDS.PASSWORD]}
+                                />
                             </View>
 
-                            {/* Sign up */}
-                            <View style={styles.footer}>
-                                <Caption2 color={Colors.TEXT_COLOR}>
-                                    Don't have an account?
-                                </Caption2>
-                                <TouchableOpacity activeOpacity={0.7}>
-                                    <Caption2 color={Colors.BRAND_PRIMARY}> Sign Up</Caption2>
-                                </TouchableOpacity>
+                            {/* Remember me + Forgot password */}
+                            <View style={styles.rememberRow}>
+                                <Pressable
+                                    style={styles.rememberLeft}
+                                    onPress={() => setRememberMe(!rememberMe)}
+                                >
+                                    <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
+                                        {rememberMe && <View style={styles.checkmark} />}
+                                    </View>
+                                    <Caption3 color={Colors.TEXT_COLOR} style={{ marginLeft: wp(6) }}>
+                                        Remember me
+                                    </Caption3>
+                                </Pressable>
+
+                                <Pressable onPress={() => router.push("/(auth)/forgot_password" as any)}>
+                                    <Caption3 color={Colors.BRAND_PRIMARY}>
+                                        Forgot password?
+                                    </Caption3>
+                                </Pressable>
                             </View>
 
+                            {/* Login button */}
+                            <CustomButton
+                                title="Log in"
+                                onPress={() => console.log('Login pressed')}
+                                width="100%"
+                                height={hp(52)}
+                                borderRadius={14}
+                                style={{ marginTop: hp(8) }}
+                            />
                         </View>
+
+                        {/* Or divider */}
+                        <View style={styles.dividerRow}>
+                            <View style={styles.dividerLine} />
+                            <Body3 color={Colors.TEXT_COLOR} style={styles.dividerText}>
+                                Or
+                            </Body3>
+                            <View style={styles.dividerLine} />
+                        </View>
+
+                        {/* Sign up */}
+                        <View style={styles.footer}>
+                            <Body6 color={Colors.TEXT_COLOR}>
+                                Don't have an account?
+                            </Body6>
+                            <Pressable
+                                onPress={() => router.push("/(auth)/take_email" as any)}
+                            >
+                                <Body6 color={Colors.BRAND_PRIMARY}> Sign Up</Body6>
+                            </Pressable>
+                        </View>
+
                     </View>
-                </ScrollView>
+                </View>
             </KeyboardAvoidingView>
         </>
     );
@@ -161,13 +156,15 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
     scrollContent: {
-        flexGrow: 1,
+        flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
+        paddingHorizontal: wp(20),
+        paddingTop: hp(20),
     },
     container: {
         flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: wp(20),
     },
     inner: {
         width: '100%',
