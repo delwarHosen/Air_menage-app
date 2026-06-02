@@ -23,6 +23,7 @@ interface FormInputProps {
     editable?: boolean;
     rightIcon?: React.ReactNode;
     onBlur?: () => void;
+    leftIcon?: React.ReactNode;
 }
 
 export const FormInput: React.FC<FormInputProps> = ({
@@ -36,7 +37,8 @@ export const FormInput: React.FC<FormInputProps> = ({
     required = false,
     maxLength,
     rightIcon,
-    onBlur
+    onBlur,
+    leftIcon,
 }) => {
     const [showPassword, setShowPassword] = useState(false);
 
@@ -64,6 +66,11 @@ export const FormInput: React.FC<FormInputProps> = ({
             )}
 
             <View style={[styles.inputContainer, getError() && styles.inputError]}>
+                {leftIcon && (
+                    <View style={styles.leftIconButton}>
+                        {leftIcon}
+                    </View>
+                )}
                 <TextInput
                     style={styles.input}
                     value={value}
@@ -115,13 +122,18 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.BORDER_COLOR,
         paddingHorizontal: wp(16),
-        backgroundColor: 'transparent',
+        backgroundColor: Colors.INPUT_BACKGROUND,
         marginBottom: hp(12)
+
+    },
+    leftIconButton: {
+        marginRight: wp(8),
     },
     input: {
         flex: 1,
-        color: Colors.PLACEHOLLDER_TEXT,
-        paddingVertical: hp(24),
+        color: Colors.PLACEHOLDER_TEXT,
+        paddingVertical: hp(18),
+
     },
     inputError: {
         borderColor: '#EF4444',

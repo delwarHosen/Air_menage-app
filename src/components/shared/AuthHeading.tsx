@@ -4,14 +4,14 @@ import { Image } from 'expo-image';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { hp, wp } from '../../../utils/responsiveDevice';
-import { Caption1, H2 } from '../typo/Typography';
+import { Body6, H1 } from '../typo/Typography';
 
 export const AuthHeading: React.FC<AuthHeadingProps> = ({
     title,
     description,
     style,
     titleColor = Colors.PRIMARY_TEXT,
-    descriptionColor = Colors.PLACEHOLDER_TEXT,
+    descriptionColor = "#717171",
     imageSource,
 }) => {
     return (
@@ -24,18 +24,18 @@ export const AuthHeading: React.FC<AuthHeadingProps> = ({
                 />
             )}
 
-            <H2 color={titleColor} align="center">
+            <H1 color="#1A1A1A" align="center">
                 {title}
-            </H2>
+            </H1>
 
-            <Caption1
-                italic
+            <Body6
+                // italic
                 style={styles.description}
                 color={descriptionColor}
                 align="center"
             >
                 {description}
-            </Caption1>
+            </Body6>
         </View>
     );
 };
