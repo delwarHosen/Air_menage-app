@@ -1,137 +1,183 @@
-import { CustomButton } from '@/components/shared/CustomButton';
-import { Body2, Body6, H1 } from '@/components/typo/Typography';
+import { CentralizedIcon } from '@/assets/icons/host_icon/CentralizedIcon';
+import { HousekeeperIcon } from '@/assets/icons/host_icon/HousekeeperIcon';
+import { SendIcon } from '@/assets/icons/host_icon/SendIcon';
+import { Body5, Body6, ButtonText, H2 } from '@/components/typo/Typography';
+import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import {
+    Image,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../../utils/responsiveDevice';
 
 
-// Note: Replace this with your exact asset component if needed
-interface FeatureCardProps {
-    title: string;
-    description: string;
-    icon: React.ReactNode;
-}
+// SVG icons — swap with your icon components if needed
 
-const FeatureCard = ({ title, description, icon }: FeatureCardProps) => (
-    <View style={styles.card}>
-        <View style={styles.iconWrapper}>{icon}</View>
-        <View style={styles.cardContent}>
-            <Body2 color={Colors.PRIMARY_TEXT} style={{ fontFamily: 'Poppins_600SemiBold' }}>{title}</Body2>
-            <Body6 color="#717171" style={{ marginTop: hp(2) }}>{description}</Body6>
-        </View>
-    </View>
-);
 
-interface WelcomeGestlioProps {
-    onNext: () => void;
-    imageComponent: React.ReactNode; // Placeholder for your custom Illustration/Image component
-}
+const FEATURES = [
+    {
+        icon: <HousekeeperIcon size={22} color={Colors.STATUS_COLOR} />,
+        title: 'Find a trusted housekeeper',
+        desc: 'Select, communicate, and work with total peace of mind.',
+    },
+    {
+        icon: <SendIcon size={22} color={Colors.STATUS_COLOR} />,
+        title: 'Send your requests in just a few clicks',
+        desc: 'Schedule your cleanings quickly and track their status.',
+    },
+    {
+        icon: <CentralizedIcon size={22} color={Colors.STATUS_COLOR} />,
+        title: 'Everything is centralized',
+        desc: 'Manage your properties, your communications, and your history all in one place.',
+    },
+];
 
-const WelcomeGestlio = ({ onNext, imageComponent }: WelcomeGestlioProps) => {
+export default function WelcomeScreen() {
     const router = useRouter();
 
     return (
-        <View style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <SafeAreaView style={styles.safe}>
+            {/* Back button */}
+            <TouchableOpacity
+                onPress={() => router.back()}
+                style={styles.backBtn}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+                <Body5 color={Colors.PRIMARY_TEXT}>{'←'}</Body5>
+            </TouchableOpacity>
 
-                {/* Illustration Wrapper */}
-                <View style={styles.imageContainer}>
-                    {imageComponent}
-                </View>
+            <ScrollView
+                contentContainerStyle={styles.scroll}
+                showsVerticalScrollIndicator={false}
+            >
+                {/* Illustration */}
+                <Image
+                    source={IMAGE_COMPONENTS.hostWelcomeImage}
+                    style={styles.illustration}
+                    resizeMode="contain"
+                />
 
-                {/* Header Typography */}
-                <H1 color="#1A1A1A" align="center" style={{ marginBottom: hp(8) }}>
+                {/* Title */}
+                <H2 align="center" color={Colors.PRIMARY_TEXT} style={styles.title}>
                     Welcome to Gestlio!
-                </H1>
-                <Body6 color="#555555" align="center" style={{ paddingHorizontal: wp(20), marginBottom: hp(24) }}>
-                    Create your first property to organize your cleaning more easily and save time.
+                </H2>
+
+                {/* Description */}
+                <Body6
+                    align="center"
+                    color={Colors.TEXT_COLOR}
+                    style={styles.description}
+                >
+                    Create your first property to organize your cleaning more easily and
+                    save time.
                 </Body6>
 
-                {/* Features List */}
+                {/* Feature list */}
                 <View style={styles.featureList}>
-                    <FeatureCard
-                        title="Find a trusted housekeeper"
-                        description="Select, communicate, and work with total peace of mind."
-                        icon={<View style={styles.mockIcon} />} // Replace with your custom SVG icon component
-                    />
-                    <FeatureCard
-                        title="Send your requests in just a few clicks"
-                        description="Schedule your cleanings quickly and track their status."
-                        icon={<View style={styles.mockIcon} />} // Replace with your custom SVG icon component
-                    />
-                    <FeatureCard
-                        title="Everything is centralized"
-                        description="Manage your properties, your communications, and your history all in one place."
-                        icon={<View style={styles.mockIcon} />} // Replace with your custom SVG icon component
-                    />
+                    {FEATURES.map((f, i) => (
+                        <View key={i} style={styles.featureCard}>
+                            <View style={styles.iconBox}>{f.icon}</View>
+                            <View style={styles.featureText}>
+                                <Body5 color={Colors.PRIMARY_TEXT}>{f.title}</Body5>
+                                <Body6
+                                    color={Colors.TEXT_COLOR}
+                                    style={styles.featureDesc}
+                                >
+                                    {f.desc}
+                                </Body6>
+                            </View>
+                        </View>
+                    ))}
                 </View>
             </ScrollView>
 
-            {/* Sticky Footer Button */}
+            {/* CTA */}
             <View style={styles.footer}>
-                <CustomButton
-                    title="Next"
-                    backgroundColor="black"
-                    color="white"
-                    width="100%"
-                    height={hp(54)}
-                    borderRadius={12}
-                    // onPress={onNext}
-                    onPress={() => router.push('/host/onboarding/add_accommodation')} // Replace with actual navigation logic
-                />
+                <TouchableOpacity
+                    style={styles.btn}
+                    activeOpacity={0.85}
+                    onPress={() => router.push('/host/onboarding/accommodation')}
+                >
+                    <ButtonText color={Colors.TEXT_WHITE}>Next</ButtonText>
+                </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     );
-};
-export default WelcomeGestlio;
+}
 
 const styles = StyleSheet.create({
-    container: {
+    safe: {
         flex: 1,
-        backgroundColor: '#FAFAFA',
+        backgroundColor: Colors.APP_BACKGROUND,
     },
-    scrollContent: {
-        paddingHorizontal: wp(24),
-        paddingBottom: hp(100),
+    backBtn: {
+        marginTop: hp(12),
+        marginLeft: wp(20),
+        width: wp(32),
     },
-    imageContainer: {
-        alignItems: 'center',
-        marginTop: hp(20),
-        marginBottom: hp(16),
+    scroll: {
+        paddingHorizontal: wp(20),
+        paddingBottom: hp(20),
+    },
+    illustration: {
+        width: wp(220),
+        height: hp(180),
+        alignSelf: 'center',
+        marginTop: hp(8),
+        marginBottom: hp(20),
+    },
+    title: {
+        marginBottom: hp(10),
+    },
+    description: {
+        paddingHorizontal: wp(10),
+        marginBottom: hp(28),
     },
     featureList: {
-        gap: hp(16),
+        gap: hp(0),
     },
-    card: {
+    featureCard: {
         flexDirection: 'row',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 16,
+        alignItems: 'flex-start',
+        backgroundColor: Colors.INPUT_BACKGROUND,
+        borderRadius: wp(14),
         padding: wp(16),
+        marginBottom: hp(12),
+        gap: wp(14),
+    },
+    iconBox: {
+        width: wp(44),
+        height: wp(44),
+        borderRadius: wp(12),
+        backgroundColor: Colors.STATUS_COLOR_OPACITY,
         alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#EAEAEA',
+        justifyContent: 'center',
+        flexShrink: 0,
     },
-    iconWrapper: {
-        marginRight: wp(16),
-    },
-    mockIcon: {
-        width: wp(40),
-        height: wp(40),
-        borderRadius: 8,
-        backgroundColor: '#F0F4F8',
-    },
-    cardContent: {
+    featureText: {
         flex: 1,
+        gap: hp(3),
+    },
+    featureDesc: {
+        marginTop: hp(2),
     },
     footer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        paddingHorizontal: wp(24),
-        paddingBottom: hp(34),
-        backgroundColor: '#FAFAFA',
-    }
+        paddingHorizontal: wp(20),
+        paddingBottom: hp(24),
+        paddingTop: hp(10),
+        backgroundColor: Colors.APP_BACKGROUND,
+    },
+    btn: {
+        height: hp(54),
+        backgroundColor: Colors.BG_BLACK,
+        borderRadius: wp(14),
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });

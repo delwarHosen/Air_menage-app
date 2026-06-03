@@ -3,16 +3,20 @@ import { StepIndecatorIcon } from '@/assets/icons/common_icon/StepIndecatorIcon'
 import { Colors } from '@/constants/theme';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { hp, wp } from '../../../utils/responsiveDevice';
+import { hp } from '../../../utils/responsiveDevice';
 
 interface StepIndicatorProps {
     totalSteps?: number;
-    currentStep: number; // 1-indexed; steps <= currentStep are "done"
+    currentStep: number;
+    activeColor?: string;
+    inactiveColor?: string;
 }
 
 export const StepIndicator: React.FC<StepIndicatorProps> = ({
     totalSteps = 4,
     currentStep,
+    activeColor = Colors.COLOR_ACTIVE,
+    inactiveColor = Colors.BORDER_COLOR,
 }) => {
     return (
         <View style={styles.row}>
@@ -22,15 +26,12 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
 
                 return (
                     <React.Fragment key={index}>
-                        {/* Circle — icon swap */}
                         {isDone
-                            ? <StepIndecatorFillIcon />
-                            : <StepIndecatorIcon />
+                            ? <StepIndecatorFillIcon color={activeColor} />
+                            : <StepIndecatorIcon color={inactiveColor} />
                         }
-
-                        {/* Connector line */}
                         {index < totalSteps - 1 && (
-                            <View style={styles.line} />
+                            <View style={[styles.line, { backgroundColor: activeColor }]} />
                         )}
                     </React.Fragment>
                 );
@@ -38,7 +39,6 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
         </View>
     );
 };
-const CIRCLE = wp(28);
 
 const styles = StyleSheet.create({
     row: {
@@ -46,58 +46,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: hp(24),
     },
-    circle: {
-        width: CIRCLE,
-        height: CIRCLE,
-        borderRadius: CIRCLE / 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 2,
-    },
-    circleDone: {
-        backgroundColor: "#35A9D6",
-        borderColor: "#35A9D6",
-    },
-    circleEmpty: {
-        backgroundColor: 'transparent',
-        borderColor: "#35A9D6",
-    },
     line: {
         flex: 1,
         height: 1.5,
-        backgroundColor: "#35A9D6",
-    },
-    checkWrapper: {
-        width: wp(12),
-        height: wp(12),
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    // Simple SVG-style checkmark using two rotated views
-    checkL: {
-        position: 'absolute',
-        width: wp(4),
-        height: wp(8),
-        borderLeftWidth: 2,
-        borderBottomWidth: 2,
-        borderColor: 'transparent',
-        backgroundColor: "#35A9D6",
-        transform: [{ rotate: '-45deg' }, { translateX: -wp(1) }, { translateY: -wp(1) }],
-    },
-    checkR: {
-        position: 'absolute',
-        width: wp(4),
-        height: wp(8),
-        borderRightWidth: 2,
-        borderBottomWidth: 2,
-        borderColor: 'transparent',
-        backgroundColor: "#35A9D6",
-        transform: [{ rotate: '45deg' }],
-    },
-    checkColorDone: {
-        borderColor: Colors.TEXT_WHITE,
-    },
-    checkColorEmpty: {
-        borderColor: Colors.BORDER_COLOR,
     },
 });
