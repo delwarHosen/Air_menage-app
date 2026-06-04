@@ -16,22 +16,33 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
     totalSteps = 4,
     currentStep,
     activeColor = Colors.COLOR_ACTIVE,
-    inactiveColor = Colors.BORDER_COLOR,
+    inactiveColor = Colors.COLOR_ACTIVE,
 }) => {
     return (
         <View style={styles.row}>
             {Array.from({ length: totalSteps }).map((_, index) => {
                 const stepNumber = index + 1;
                 const isDone = stepNumber <= currentStep;
+                
+                
+                const isLineActive = stepNumber < currentStep;
 
                 return (
                     <React.Fragment key={index}>
-                        {isDone
-                            ? <StepIndecatorFillIcon color={activeColor} />
-                            : <StepIndecatorIcon color={inactiveColor} />
-                        }
+                        {isDone ? (
+                            <StepIndecatorFillIcon size={hp(20)} color={activeColor} />
+                        ) : (
+                            <StepIndecatorIcon size={hp(20)} color={inactiveColor} />
+                        )}
+                        
+                      
                         {index < totalSteps - 1 && (
-                            <View style={[styles.line, { backgroundColor: activeColor }]} />
+                            <View 
+                                style={[
+                                    styles.line, 
+                                    { backgroundColor: isLineActive ? activeColor : inactiveColor }
+                                ]} 
+                            />
                         )}
                     </React.Fragment>
                 );
@@ -44,10 +55,14 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center', 
+        width: '100%',            
+        paddingHorizontal: hp(20), 
         marginBottom: hp(24),
     },
     line: {
         flex: 1,
-        height: 1.5,
+        height: 2, 
+        marginHorizontal: hp(4), 
     },
 });

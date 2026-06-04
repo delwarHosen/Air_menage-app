@@ -3,7 +3,7 @@ import { SearchIcon } from '@/assets/icons/common_icon/SearchIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
 import SectionTitle from '@/components/shared/SectionTitle';
 import { StepIndicator } from '@/components/shared/StepIndicator';
-import { Body5, Body6, Caption1, Caption2, Caption3, H1 } from '@/components/typo/Typography';
+import { Body5, Caption1, Caption2, Caption3, H1 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import Slider from '@react-native-community/slider';
 import { useRouter } from 'expo-router';
@@ -50,26 +50,29 @@ export default function WorkLocationScreen() {
         <SafeAreaView style={styles.safe}>
             <SectionTitle title="Gestlio" />
 
-            <ScrollView
-                contentContainerStyle={styles.scroll}
-                showsVerticalScrollIndicator={false}
-                keyboardShouldPersistTaps="handled"
-            >
+            <View style={{ marginVertical: hp(20) }}>
                 <StepIndicator
                     totalSteps={5}
                     currentStep={3}
                     activeColor={Colors.COLOR_ACTIVE}
                 />
+            </View>
+            <ScrollView
+                contentContainerStyle={styles.scroll}
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+            >
 
-                <H1 color={Colors.PRIMARY_TEXT} style={styles.title}>
+
+                <H1 color="#4B4B4B" style={styles.title}>
                     Where do you work?
                 </H1>
-                <Body6 color={Colors.TEXT_COLOR} style={styles.subtitle}>
+                <Caption3 color={Colors.TEXT_COLOR} style={styles.subtitle}>
                     Indicate your main city and the radius within which you want to
                     receive missions.
-                </Body6>
+                </Caption3>
 
-                <Body5 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                <Body5 color={Colors.TEXT_COLOR} style={styles.label}>
                     Your city
                 </Body5>
                 <View style={[styles.searchBox, cityError ? styles.inputError : null]}>
@@ -93,7 +96,7 @@ export default function WorkLocationScreen() {
 
                 <View style={styles.radiusCard}>
                     <View style={styles.radiusHeader}>
-                        <Body5 color={Colors.PRIMARY_TEXT}>Service radius</Body5>
+                        <Body5 color={Colors.TEXT_COLOR}>Service radius</Body5>
                         <View style={styles.radiusBadge}>
                             <Caption2 color={Colors.COLOR_ACTIVE}>{radius} Km</Caption2>
                         </View>
@@ -107,11 +110,14 @@ export default function WorkLocationScreen() {
                         onValueChange={(v) => setRadius(Math.round(v))}
                         minimumTrackTintColor={Colors.COLOR_ACTIVE}
                         maximumTrackTintColor={Colors.BORDER_COLOR}
-                        thumbTintColor={Colors.INPUT_BACKGROUND}
+                        thumbTintColor={Colors.COLOR_ACTIVE}
                     />
                     <View style={styles.sliderLabels}>
                         {['5 KM', '10 KM', '20 KM', '30 KM'].map((l) => (
-                            <Caption3 key={l} color={Colors.TEXT_COLOR}>{l}</Caption3>
+                            <Caption3 key={l} 
+                            color={Colors.TEXT_COLOR}>
+                                {l}
+                            </Caption3>
                         ))}
                     </View>
                 </View>
@@ -134,7 +140,7 @@ export default function WorkLocationScreen() {
                     </MapView>
                     <View style={styles.serviceAreaBadge}>
                         <View style={styles.serviceAreaIcon}>
-                            <LocationPinIcon size={16} color={Colors.COLOR_ACTIVE} />
+                            <LocationPinIcon size={20} color={Colors.COLOR_ACTIVE} />
                         </View>
                         <View>
                             <Body5 color={Colors.PRIMARY_TEXT}>Service area</Body5>
@@ -151,7 +157,8 @@ export default function WorkLocationScreen() {
                     title="Continue"
                     isLoading={isLoading}
                     disabled={isLoading}
-                    onPress={handleContinue}
+                    // onPress={handleContinue}
+                    onPress={() => router.push('/cleaner/onboarding/final-review')}
                     backgroundColor={Colors.BG_BLACK}
                     width="100%"
                     height={hp(54)}
@@ -163,8 +170,15 @@ export default function WorkLocationScreen() {
 }
 
 const styles = StyleSheet.create({
-    safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND },
-    scroll: { paddingHorizontal: wp(20), paddingBottom: hp(20) },
+    safe: {
+        flex: 1,
+        backgroundColor: Colors.APP_BACKGROUND,
+        paddingHorizontal: wp(20)
+    },
+    scroll: {
+        //  paddingHorizontal: wp(20),
+        paddingBottom: hp(20)
+    },
     title: { marginBottom: hp(8) },
     subtitle: { marginBottom: hp(28) },
     label: { marginBottom: hp(8) },
@@ -242,7 +256,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     footer: {
-        paddingHorizontal: wp(20),
+        // paddingHorizontal: wp(20),
         paddingBottom: hp(24),
         paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,

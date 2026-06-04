@@ -4,7 +4,7 @@ import { CustomButton } from '@/components/shared/CustomButton';
 import { InfoCard } from '@/components/shared/InfoCard';
 import SectionTitle from '@/components/shared/SectionTitle';
 import { StepIndicator } from '@/components/shared/StepIndicator';
-import { Body5, Body6, Caption1, H1 } from '@/components/typo/Typography';
+import { Body5, Body6, Caption1, Caption3, H1 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
@@ -48,19 +48,21 @@ export default function SetupProfileScreen() {
     return (
         <SafeAreaView style={styles.safe}>
             <SectionTitle title="Gestlio" />
-
-            <ScrollView
-                contentContainerStyle={styles.scroll}
-                showsVerticalScrollIndicator={false}
-                keyboardShouldPersistTaps="handled"
-            >
+            <View style={{ marginVertical: hp(20) }}>
                 <StepIndicator
                     totalSteps={5}
                     currentStep={5}
                     activeColor={Colors.COLOR_ACTIVE}
                 />
+            </View>
+            <ScrollView
+                contentContainerStyle={styles.scroll}
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+            >
+              
 
-                <H1 color={Colors.PRIMARY_TEXT} style={styles.title}>
+                <H1 color="#4B4B4B" style={styles.title}>
                     Almost finished!
                 </H1>
                 <Body6 color={Colors.TEXT_COLOR} style={styles.subtitle}>
@@ -77,7 +79,7 @@ export default function SetupProfileScreen() {
                             />
                         ) : (
                             <View style={styles.avatarPlaceholder}>
-                                <CameraIcon size={32} color={Colors.PLACEHOLDER_TEXT} />
+                                <CameraIcon size={32} color={"#6F8393"} />
                             </View>
                         )}
                         <View style={styles.plusBadge}>
@@ -91,8 +93,8 @@ export default function SetupProfileScreen() {
 
                 {/* Biography */}
                 <View style={styles.bioLabelRow}>
-                    <Body5 color={Colors.PRIMARY_TEXT}>Biography</Body5>
-                    <Caption1 color={Colors.TEXT_COLOR}>  (Optional)</Caption1>
+                    <Body6 color={"#8E8E93"}>Biography</Body6>
+                    <Caption1 color={"#8E8E93"}>  (Optional)</Caption1>
                 </View>
                 <View style={styles.bioBox}>
                     <TextInput
@@ -106,9 +108,9 @@ export default function SetupProfileScreen() {
                         textAlignVertical="top"
                     />
                 </View>
-                <Body6 color={Colors.TEXT_COLOR} style={styles.bioHint}>
+                <Caption3 color={"#8E8E93"} style={styles.bioHint}>
                     This will be visible to your team and clients.
-                </Body6>
+                </Caption3>
 
                 <InfoCard
                     icon={<ShieldCheckIcon size={20} color={Colors.COLOR_ACTIVE} />}
@@ -135,8 +137,12 @@ export default function SetupProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-    safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND },
-    scroll: { paddingHorizontal: wp(20), paddingBottom: hp(20) },
+    safe: {
+        flex: 1,
+        backgroundColor: Colors.APP_BACKGROUND,
+        paddingHorizontal: wp(20)
+    },
+    scroll: {  paddingBottom: hp(20) },
     title: { marginBottom: hp(6) },
     subtitle: { marginBottom: hp(24) },
     avatarSection: {
@@ -156,7 +162,7 @@ const styles = StyleSheet.create({
         width: wp(110),
         height: wp(110),
         borderRadius: wp(55),
-        backgroundColor: Colors.INPUT_BACKGROUND,
+        backgroundColor: "#D9E0E5",
         borderWidth: 2,
         borderColor: Colors.BORDER_COLOR,
         borderStyle: 'dashed',
@@ -198,7 +204,7 @@ const styles = StyleSheet.create({
     bioHint: { marginBottom: hp(20) },
     infoCard: { marginTop: hp(4) },
     footer: {
-        paddingHorizontal: wp(20),
+        // paddingHorizontal: wp(20),
         paddingBottom: hp(24),
         paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,

@@ -1,10 +1,13 @@
 
-import { MenuIcon } from '@/assets/icons/cleaner_icon/MenuIcon';
+import { AroplainIcon } from '@/assets/icons/cleaner_icon/AroplainIcon';
+import { BellIcon } from '@/assets/icons/cleaner_icon/BellIcon';
 import { ShieldCheckIcon } from '@/assets/icons/cleaner_icon/ShieldCheckIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
 import SectionTitle from '@/components/shared/SectionTitle';
-import { Body5, Body6, H1 } from '@/components/typo/Typography';
+import { Body3, Body5, Body6, Body7, Caption3, H2 } from '@/components/typo/Typography';
+import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -35,41 +38,40 @@ export default function YouAreReadyScreen() {
                 showsVerticalScrollIndicator={false}
             >
                 {/* Big checkmark illustration */}
-                <View style={styles.checkCircleOuter}>
-                    <View style={styles.checkCircleInner}>
-                        <View style={styles.checkMark}>
-                            <View style={styles.checkShort} />
-                            <View style={styles.checkLong} />
-                        </View>
-                    </View>
+                <View style={{ alignItems: 'center', marginVertical: hp(20) }}>
+                    <Image
+                        source={IMAGE_COMPONENTS.successImage}
+                        contentFit="contain"
+                        style={{ width: wp(200), height: hp(200) }}
+                    />
                 </View>
 
-                <H1 align="center" color={Colors.COLOR_ACTIVE} style={styles.title}>
+                <H2 align="center" color={Colors.COLOR_ACTIVE} style={styles.title}>
                     You are ready!
-                </H1>
-                <Body6 align="center" color={Colors.TEXT_COLOR} style={styles.subtitle}>
-                    Your profile has been successfully created.{'\n'}
+                </H2>
+                <Body3 align="center" color={Colors.TEXT_COLOR} style={styles.subtitle}>
+                    Your profile has been successfully created.
                     You will start receiving your first missions.
-                </Body6>
+                </Body3>
 
                 {/* Next step card — full width */}
                 <View style={styles.nextStepCard}>
                     <View style={styles.nextStepIcon}>
-                        <MenuIcon size={22} color={Colors.COLOR_ACTIVE} />
+                      <AroplainIcon/>
                     </View>
                     <View style={styles.nextStepText}>
-                        <Body5 color={Colors.PRIMARY_TEXT}>Next step</Body5>
-                        <Body6 color={Colors.TEXT_COLOR}>
+                        <Body7 color={Colors.PRIMARY_TEXT}>Next step</Body7>
+                        <Caption3 color={Colors.TEXT_COLOR}>
                             Explore your personalized dashboard to complete your schedule and set your
                             availability for upcoming missions.
-                        </Body6>
+                        </Caption3>
                     </View>
                 </View>
 
                 {/* Two mini cards side by side */}
                 <View style={styles.miniCardsRow}>
                     <View style={styles.miniCard}>
-                        <MenuIcon size={26} color={Colors.COLOR_ACTIVE} />
+                       <BellIcon size={24}/>
                         <Body5 color={Colors.PRIMARY_TEXT} style={styles.miniCardTitle}>
                             Stay Alerts
                         </Body5>
@@ -102,62 +104,20 @@ export default function YouAreReadyScreen() {
 }
 
 const styles = StyleSheet.create({
-    safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND },
-    scroll: { paddingHorizontal: wp(20), paddingBottom: hp(20) },
-    checkCircleOuter: {
-        alignSelf: 'center',
-        width: wp(180),
-        height: wp(180),
-        borderRadius: wp(90),
-        backgroundColor: '#D6F5E3',
-        borderWidth: 2,
-        borderColor: Colors.COLOR_ACTIVE,
-        borderStyle: 'dashed',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: hp(24),
-        marginTop: hp(10),
+    safe: {
+        flex: 1,
+        backgroundColor: Colors.APP_BACKGROUND,
+        paddingHorizontal: wp(20)
+
     },
-    checkCircleInner: {
-        width: wp(120),
-        height: wp(120),
-        borderRadius: wp(60),
-        backgroundColor: Colors.COLOR_ACTIVE,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    checkMark: {
-        width: wp(50),
-        height: wp(35),
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    checkShort: {
-        position: 'absolute',
-        left: wp(4),
-        bottom: wp(8),
-        width: wp(16),
-        height: 3,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 2,
-        transform: [{ rotate: '45deg' }],
-    },
-    checkLong: {
-        position: 'absolute',
-        right: wp(2),
-        bottom: wp(4),
-        width: wp(30),
-        height: 3,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 2,
-        transform: [{ rotate: '-55deg' }],
-    },
+    scroll: {  paddingBottom: hp(20) },
+
     title: { marginBottom: hp(10) },
     subtitle: { marginBottom: hp(28) },
     nextStepCard: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        backgroundColor: '#E8F9EF',
+        backgroundColor: '#55D63514',
         borderRadius: wp(14),
         borderWidth: 1,
         borderColor: Colors.COLOR_ACTIVE,
@@ -169,7 +129,7 @@ const styles = StyleSheet.create({
         width: wp(44),
         height: wp(44),
         borderRadius: wp(12),
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#3AA6001A',
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
@@ -186,12 +146,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.BORDER_COLOR,
         padding: wp(16),
-        alignItems: 'flex-start',
+        alignItems: 'center',
         gap: hp(4),
     },
     miniCardTitle: { marginTop: hp(4) },
     footer: {
-        paddingHorizontal: wp(20),
+        // paddingHorizontal: wp(20),
         paddingBottom: hp(24),
         paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,

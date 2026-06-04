@@ -43,7 +43,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity
           style={styles.roleCard}
-          onPress={() => router.push('/cleaner/onboarding/housekeeper_welcome')}
+          onPress={() => router.push('/cleaner')}
           activeOpacity={0.7}
         >
           <View style={[styles.iconBox, { backgroundColor: '#1d2d1d' }]}>
