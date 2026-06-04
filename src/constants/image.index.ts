@@ -6,4 +6,13 @@ export const IMAGE_COMPONENTS = {
     welcomeImage: require("../../assets/images/welcomeImage.png"),
     hostWelcomeImage: require("../../assets/images/hostWelcome.png"),
     cleanerWelcomeImage: require("../../assets/images/cleanerWelcomeImage.png"),
+    successImage: require("../../assets/images/successImage.png"),
+    hostProfile: require("../../assets/images/hostProfile.png"),
+    visaCard: require("../../assets/images/visaCard.png"),
+    masterCard: require("../../assets/images/masterCard.png"),
+    americanEx: require("../../assets/images/americanEx.png"),
+    googlePay: require("../../assets/images/googlePay.png"),
+    applePay: require("../../assets/images/applePay.png"),
+    cleanerPP: require("../../assets/images/cleanerPP.png"),
+    apartment: require("../../assets/images/apartment.png"),
 } as const;

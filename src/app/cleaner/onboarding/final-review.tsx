@@ -1,12 +1,14 @@
 
 import { LocationPinIcon } from '@/assets/icons/cleaner_icon/LocationPinIcon';
-import { ShieldCheckIcon } from '@/assets/icons/cleaner_icon/ShieldCheckIcon';
 
-import { MenuIcon } from '@/assets/icons/cleaner_icon/MenuIcon';
+import { CalenderIcon } from '@/assets/icons/cleaner_icon/CalenderIcon';
+import { IdentificationIcon } from '@/assets/icons/cleaner_icon/IdentificationIcon';
+import { IndecatorIcon } from '@/assets/icons/cleaner_icon/IndecatorIcon';
+import { VerifyIcon } from '@/assets/icons/cleaner_icon/VerifyIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
 import SectionTitle from '@/components/shared/SectionTitle';
 import { StepIndicator } from '@/components/shared/StepIndicator';
-import { Body5, Body6, Caption3, H1 } from '@/components/typo/Typography';
+import { Body2, Body3, Body4, Body6, Caption3, H1 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -42,34 +44,36 @@ export default function FinalReviewScreen() {
         <SafeAreaView style={styles.safe}>
             <SectionTitle title="Gestlio" />
 
-            <ScrollView
-                contentContainerStyle={styles.scroll}
-                showsVerticalScrollIndicator={false}
-            >
+            <View style={{ marginVertical: hp(20) }}>
                 <StepIndicator
                     totalSteps={5}
                     currentStep={4}
                     activeColor={Colors.COLOR_ACTIVE}
                 />
+            </View>
 
-                <H1 color={Colors.PRIMARY_TEXT} style={styles.title}>
+            <ScrollView
+                contentContainerStyle={styles.scroll}
+                showsVerticalScrollIndicator={false}
+            >
+                <H1 color={"#4B4B4B"} style={styles.title}>
                     Final Review
                 </H1>
-                <Body6 color={Colors.TEXT_COLOR} style={styles.subtitle}>
+                <Caption3 color={Colors.SECONDARY_TEXT} style={styles.subtitle}>
                     Please confirm your profile details before completing the registration.
-                </Body6>
+                </Caption3>
 
                 {/* Professional Status card */}
                 <View style={styles.infoRow}>
                     <View style={styles.iconBox}>
-                        <ShieldCheckIcon size={20} color={Colors.COLOR_ACTIVE} />
+                        <VerifyIcon />
                     </View>
                     <View style={styles.infoText}>
-                        <Body5 color={Colors.PRIMARY_TEXT}>Professional Status</Body5>
+                        <Body2 color={Colors.SECONDARY_TEXT}>Professional Status</Body2>
                         <Body6 color={Colors.TEXT_COLOR}>Verified professional</Body6>
                     </View>
                     <View style={styles.verifiedBadge}>
-                        <ShieldCheckIcon size={18} color={Colors.BORDER_COLOR} />
+                        <IndecatorIcon />
                     </View>
                 </View>
 
@@ -95,45 +99,47 @@ export default function FinalReviewScreen() {
                 {/* Work Location card */}
                 <View style={styles.locationCard}>
                     <View style={styles.locationCardHeader}>
-                        <Body5 color={Colors.PRIMARY_TEXT}>Work Location</Body5>
+                        <Body4 color={"#4B4B4B"}>Work Location</Body4>
                         <Pressable onPress={() => router.push('/cleaner/onboarding/work-location' as any)}>
-                            <Body6 color={Colors.COLOR_ACTIVE}>Modify</Body6>
+                            <Body4 color={Colors.COLOR_ACTIVE}>Modify</Body4>
                         </Pressable>
                     </View>
-                    <Body5 color={Colors.PRIMARY_TEXT} style={styles.cityText}>
+                    <Body2 color={"#4B4B4B"} style={styles.cityText}>
                         San Francisco, CA
-                    </Body5>
-                    <Body6 color={Colors.TEXT_COLOR} style={styles.bioText}>
+                    </Body2>
+                    <Caption3 color={Colors.TEXT_COLOR} style={styles.bioText}>
                         Tell us a little bit about yourself or your professional background...
-                    </Body6>
+                    </Caption3>
                     <View style={styles.serviceAreaRow}>
                         <View style={styles.serviceAreaIcon}>
                             <LocationPinIcon size={14} color={Colors.COLOR_ACTIVE} />
                         </View>
-                        <Caption3 color={Colors.TEXT_COLOR}>Service area</Caption3>
-                        <Caption3 color={Colors.TEXT_COLOR}>  15km radius around London</Caption3>
+                        <View>
+                            <Caption3 color={Colors.TEXT_COLOR}>Service area</Caption3>
+                            <Caption3 color={Colors.TEXT_COLOR}>15km radius around London</Caption3>
+                        </View>
                     </View>
                 </View>
 
                 {/* Identification card */}
                 <View style={styles.infoRow}>
                     <View style={styles.iconBox}>
-                        <MenuIcon size={20} color={Colors.COLOR_ACTIVE} />
+                       <IdentificationIcon/>
                     </View>
                     <View style={styles.infoText}>
-                        <Body5 color={Colors.PRIMARY_TEXT}>Identification</Body5>
-                        <Body6 color={Colors.TEXT_COLOR}>Licence #44920</Body6>
+                        <Body6 color={"#4B4B4B"}>Identification</Body6>
+                        <Body3 color={Colors.TEXT_COLOR}>Licence #44920</Body3>
                     </View>
                 </View>
 
                 {/* Availability card */}
                 <View style={styles.infoRow}>
                     <View style={styles.iconBox}>
-                        <MenuIcon size={20} color={Colors.COLOR_ACTIVE} />
+                      <CalenderIcon/>
                     </View>
                     <View style={styles.infoText}>
-                        <Body5 color={Colors.PRIMARY_TEXT}>Availability</Body5>
-                        <Body6 color={Colors.TEXT_COLOR}>Full-time Ready</Body6>
+                        <Body6 color={Colors.PRIMARY_TEXT}>Availability</Body6>
+                        <Body3 color={Colors.TEXT_COLOR}>Full-time Ready</Body3>
                     </View>
                 </View>
             </ScrollView>
@@ -155,8 +161,15 @@ export default function FinalReviewScreen() {
 }
 
 const styles = StyleSheet.create({
-    safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND },
-    scroll: { paddingHorizontal: wp(20), paddingBottom: hp(20) },
+    safe: {
+        flex: 1,
+        backgroundColor: Colors.APP_BACKGROUND,
+        paddingHorizontal: wp(20)
+    },
+    scroll: {
+        // paddingHorizontal: wp(20),
+        paddingBottom: hp(20)
+    },
     title: { marginBottom: hp(6) },
     subtitle: { marginBottom: hp(20) },
     infoRow: {
@@ -167,7 +180,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.BORDER_COLOR,
         padding: wp(16),
-        marginBottom: hp(12),
+        marginBottom: hp(24),
         gap: wp(12),
     },
     iconBox: {
@@ -178,13 +191,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    infoText: { flex: 1, gap: hp(2) },
+    infoText: {
+        flex: 1,
+        gap: hp(2)
+    },
     verifiedBadge: {
-        width: wp(32),
-        height: wp(32),
-        borderRadius: wp(16),
-        borderWidth: 1,
-        borderColor: Colors.BORDER_COLOR,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -215,7 +226,7 @@ const styles = StyleSheet.create({
     serviceAreaRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: wp(6),
+        gap: wp(10),
     },
     serviceAreaIcon: {
         width: wp(24),
@@ -226,7 +237,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     footer: {
-        paddingHorizontal: wp(20),
+        // paddingHorizontal: wp(20),
         paddingBottom: hp(24),
         paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,

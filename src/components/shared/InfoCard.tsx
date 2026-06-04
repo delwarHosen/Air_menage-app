@@ -2,7 +2,7 @@ import { Colors } from '@/constants/theme';
 import React from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { hp, wp } from '../../../utils/responsiveDevice';
-import { Body5, Body6 } from '../typo/Typography';
+import { Body6, Caption3 } from '../typo/Typography';
 
 
 interface InfoCardProps {
@@ -35,11 +35,11 @@ export function InfoCard({
                 {icon}
             </View>
             <View style={styles.text}>
-                <Body5 color={Colors.PRIMARY_TEXT}>{title}</Body5>
+                <Body6 color={"#8E8E93"}>{title}</Body6>
                 {description ? (
-                    <Body6  color={Colors.TEXT_COLOR} style={styles.desc}>
+                    <Caption3  color={"#8E8E93"} style={styles.desc}>
                         {description}
-                    </Body6>
+                    </Caption3>
                 ) : null}
             </View>
         </View>
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         backgroundColor: Colors.INPUT_BACKGROUND,
         borderRadius: wp(14),
-        borderWidth: 1,
-        borderColor: Colors.BORDER_COLOR,
+        // borderWidth: 1,
+        // borderColor: Colors.BORDER_COLOR,
         padding: wp(16),
         gap: wp(14),
     },
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     iconBox: {
         width: wp(40),
         height: wp(40),
-        borderRadius: wp(10),
+        borderRadius: wp(20),
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
