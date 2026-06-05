@@ -1,6 +1,7 @@
 import { CentralizedIcon } from '@/assets/icons/host_icon/CentralizedIcon';
 import { HousekeeperIcon } from '@/assets/icons/host_icon/HousekeeperIcon';
 import { SendIcon } from '@/assets/icons/host_icon/SendIcon';
+import SectionTitle from '@/components/shared/SectionTitle';
 import { Body5, Body6, ButtonText, H2 } from '@/components/typo/Typography';
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
@@ -44,13 +45,7 @@ export default function WelcomeScreen() {
     return (
         <SafeAreaView style={styles.safe}>
             {/* Back button */}
-            <TouchableOpacity
-                onPress={() => router.back()}
-                style={styles.backBtn}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            >
-                <Body5 color={Colors.PRIMARY_TEXT}>{'←'}</Body5>
-            </TouchableOpacity>
+            <SectionTitle/>
 
             <ScrollView
                 contentContainerStyle={styles.scroll}
@@ -64,7 +59,7 @@ export default function WelcomeScreen() {
                 />
 
                 {/* Title */}
-                <H2 align="center" color={Colors.PRIMARY_TEXT} style={styles.title}>
+                <H2 align="center" color={Colors.TEXT_COLOR} style={styles.title}>
                     Welcome to Gestlio!
                 </H2>
 
@@ -84,7 +79,7 @@ export default function WelcomeScreen() {
                         <View key={i} style={styles.featureCard}>
                             <View style={styles.iconBox}>{f.icon}</View>
                             <View style={styles.featureText}>
-                                <Body5 color={Colors.PRIMARY_TEXT}>{f.title}</Body5>
+                                <Body5 color={Colors.TEXT_COLOR}>{f.title}</Body5>
                                 <Body6
                                     color={Colors.TEXT_COLOR}
                                     style={styles.featureDesc}
@@ -115,14 +110,11 @@ const styles = StyleSheet.create({
     safe: {
         flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
+         paddingHorizontal: wp(20),
     },
-    backBtn: {
-        marginTop: hp(12),
-        marginLeft: wp(20),
-        width: wp(32),
-    },
+   
     scroll: {
-        paddingHorizontal: wp(20),
+       
         paddingBottom: hp(20),
     },
     illustration: {
@@ -136,7 +128,7 @@ const styles = StyleSheet.create({
         marginBottom: hp(10),
     },
     description: {
-        paddingHorizontal: wp(10),
+        // paddingHorizontal: wp(10),
         marginBottom: hp(28),
     },
     featureList: {
@@ -168,7 +160,7 @@ const styles = StyleSheet.create({
         marginTop: hp(2),
     },
     footer: {
-        paddingHorizontal: wp(20),
+        // paddingHorizontal: wp(20),
         paddingBottom: hp(24),
         paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,

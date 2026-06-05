@@ -83,7 +83,12 @@ export default function CompleteInformationScreen() {
                 </View>
 
                 {/* Step indicator */}
-                <StepIndicator totalSteps={4} currentStep={3} />
+                <StepIndicator 
+                totalSteps={4} 
+                currentStep={3} 
+                activeColor={Colors.BRAND_PRIMARY}
+                inactiveColor={Colors.BRAND_PRIMARY}
+                />
 
                 <View style={styles.content}>
                     <H1 color={Colors.PRIMARY_TEXT} style={styles.title}>

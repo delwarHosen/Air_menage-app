@@ -1,4 +1,5 @@
 import { CalendarIcon } from '@/assets/icons/cleaner_icon/CalendarIcon';
+import { DocumentsIcon } from '@/assets/icons/cleaner_icon/DocumentsIcon';
 import { MonthIcon } from '@/assets/icons/cleaner_icon/MonthIcon';
 import { DownArrowIcon } from '@/assets/icons/common_icon/DownArrowIcon';
 import { RightAngleIcon } from '@/assets/icons/common_icon/RightAngleIcon';
@@ -31,7 +32,9 @@ const TRANSACTIONS = [
 export default function RevenueScreen() {
     return (
         <SafeAreaView style={revStyles.safe}>
-            <SectionTitle title="Revenues" />
+            <View style={{ paddingHorizontal: wp(20) }}>
+                <SectionTitle title="Revenues" />
+            </View>
             <ScrollView contentContainerStyle={revStyles.scroll} showsVerticalScrollIndicator={false}>
 
                 {/* Revenue this month card */}
@@ -95,9 +98,9 @@ export default function RevenueScreen() {
 
                 {/* View revenue summary */}
                 <Pressable style={revStyles.summaryBtn}>
-                    {/* <DocumentIcon size={18} color={Colors.TEXT_COLOR} /> */}
+                    <DocumentsIcon size={18} color={Colors.TEXT_COLOR} />
                     <Body6 color={Colors.TEXT_COLOR} style={{ flex: 1 }}>View revenue summary</Body6>
-                    <RightAngleIcon size={16} color={Colors.TEXT_COLOR} />
+                    <RightAngleIcon size={24} color={Colors.TEXT_COLOR} />
                 </Pressable>
 
                 {/* Upcoming transactions */}
@@ -115,7 +118,7 @@ export default function RevenueScreen() {
                                 <Caption3 color={Colors.TEXT_COLOR}>{tx.status}</Caption3>
                             </View>
                             <Body6 color={Colors.PRIMARY_TEXT}>{tx.amount}</Body6>
-                            <RightAngleIcon size={14} color={Colors.TEXT_COLOR} />
+                            <RightAngleIcon size={24} color={Colors.PLACEHOLDER_TEXT} />
                         </View>
                         {/* {idx < TRANSACTIONS.length - 1 && <View style={revStyles.divider} />} */}
                     </React.Fragment>
@@ -127,34 +130,56 @@ export default function RevenueScreen() {
 }
 
 const revStyles = StyleSheet.create({
-    safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND, paddingHorizontal: wp(20) },
+    safe: {
+        flex: 1,
+        backgroundColor: Colors.APP_BACKGROUND,
+
+    },
     scroll: { paddingBottom: hp(40) },
     card: {
         backgroundColor: Colors.INPUT_BACKGROUND,
         borderRadius: wp(14),
         // borderWidth: 1,
         // borderColor: Colors.BORDER_COLOR,
+        paddingHorizontal: wp(20),
         padding: wp(16),
     },
     // Chart
-    chartHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: hp(16) },
+    chartHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center', marginBottom: hp(16)
+    },
     monthPicker: {
         flexDirection: 'row',
         // alignItems: 'center',
         width: "100%",
-        padding:10,
-        borderRadius:10,
+        padding: 10,
+        borderRadius: 10,
         justifyContent: "space-between",
         backgroundColor: Colors.APP_BACKGROUND,
-        marginBottom:hp(10)
+        marginBottom: hp(10)
     },
-    chartArea: { flexDirection: 'row', height: hp(160) },
-    yLabels: { justifyContent: 'space-between', alignItems: 'flex-end', paddingRight: wp(6), paddingBottom: hp(20) },
-    barsContainer: { flex: 1, flexDirection: 'row', alignItems: 'flex-end', gap: wp(4) },
-    barCol: { 
-        flex: 1, 
+    chartArea: {
+        flexDirection: 'row',
+        height: hp(160)
+    },
+    yLabels: {
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        paddingRight: wp(6),
+        paddingBottom: hp(20)
+    },
+    barsContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        gap: wp(4)
+    },
+    barCol: {
+        flex: 1,
         alignItems: 'center'
-     },
+    },
     barTrack: {
         flex: 1, width: '100%',
         backgroundColor: Colors.BORDER_COLOR,
@@ -178,14 +203,20 @@ const revStyles = StyleSheet.create({
         borderRadius: wp(14),
         borderWidth: 1,
         borderColor: Colors.BORDER_COLOR,
+        marginHorizontal: wp(20)
     },
     // Transactions
-    txTitle: { marginTop: hp(24), marginBottom: hp(12) },
+    txTitle: {
+        marginTop: hp(24),
+        marginBottom: hp(12),
+        marginHorizontal: wp(20)
+    },
     txRow: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: wp(12),
         paddingVertical: hp(14),
+           marginHorizontal: wp(20)
     },
     txIcon: {
         width: wp(40), height: wp(40),

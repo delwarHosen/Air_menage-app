@@ -15,6 +15,7 @@ import { hp, wp } from '../../../../utils/responsiveDevice';
 
 import { DownArrowIcon } from '@/assets/icons/common_icon/DownArrowIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
+import SectionTitle from '@/components/shared/SectionTitle';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const DURATION_OPTIONS = ['1h00', '1h30', '2h00', '2h30', '3h00', '3h30', '4h00', '4h30', '5h00'];
@@ -96,35 +97,29 @@ export default function CleaningDurationScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <Pressable
-                onPress={() => router.back()}
-                style={styles.backBtn}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            >
-                <Body5 color={Colors.PRIMARY_TEXT}>{'←'}</Body5>
-            </Pressable>
+            <SectionTitle/>
 
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
             >
-                <H2 align="center" color={Colors.PRIMARY_TEXT} style={styles.title}>
+                <H2 align="center" color={Colors.TEXT_COLOR} style={styles.title}>
                     How long does a cleaning take on average?
                 </H2>
                 <Body6 align="center" color={Colors.TEXT_COLOR} style={styles.subtitle}>
                     This helps us optimize the organization and the rate.
                 </Body6>
 
-                <Body5 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                <Body5 color={Colors.TEXT_COLOR} style={styles.label}>
                     Average cleaning duration
                 </Body5>
                 <DurationDropdown value={duration} onChange={setDuration} />
 
-                <Body5 color={Colors.PRIMARY_TEXT} style={styles.rateQuestion}>
+                <Body5 color={Colors.TEXT_COLOR} style={styles.rateQuestion}>
                     What rate would you like to offer?
                 </Body5>
-                <Body5 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                <Body5 color={Colors.TEXT_COLOR} style={styles.label}>
                     Proposed rate
                 </Body5>
                 <View style={[styles.inputBox, rateError ? styles.inputError : null]}>
@@ -172,6 +167,7 @@ const styles = StyleSheet.create({
     safe: {
         flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
+          paddingHorizontal: wp(20),
     },
     backBtn: {
         marginTop: hp(12),
@@ -179,11 +175,10 @@ const styles = StyleSheet.create({
         width: wp(32),
     },
     scroll: {
-        paddingHorizontal: wp(20),
         paddingBottom: hp(20),
     },
     title: {
-        marginBottom: hp(10),
+        marginVertical: hp(10),
     },
     subtitle: {
         paddingHorizontal: wp(10),
@@ -250,7 +245,6 @@ const styles = StyleSheet.create({
         marginTop: hp(12),
     },
     footer: {
-        paddingHorizontal: wp(20),
         paddingBottom: hp(24),
         paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,

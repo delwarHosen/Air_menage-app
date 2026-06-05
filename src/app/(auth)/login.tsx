@@ -118,7 +118,7 @@ export default function LoginScreen() {
                             {/* Login button */}
                             <CustomButton
                                 title="Log in"
-                                onPress={() => console.log('Login pressed')}
+                                onPress={() => router.push("/host/(tabs)")}
                                 width="100%"
                                 height={hp(52)}
                                 borderRadius={14}

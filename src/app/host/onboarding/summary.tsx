@@ -1,4 +1,5 @@
 import { CustomButton } from '@/components/shared/CustomButton';
+import SectionTitle from '@/components/shared/SectionTitle';
 import { Body5, Body6, Caption1, H2 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
@@ -33,7 +34,7 @@ function SummaryRow({
 }) {
     return (
         <View style={styles.rowBlock}>
-            <Body5 color={Colors.PRIMARY_TEXT} style={styles.rowLabel}>
+            <Body5 color={Colors.TEXT_COLOR} style={styles.rowLabel}>
                 {label}
             </Body5>
             <View style={styles.rowCard}>
@@ -65,19 +66,13 @@ export default function SummaryScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <Pressable
-                onPress={() => router.back()}
-                style={styles.backBtn}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            >
-                <Body5 color={Colors.PRIMARY_TEXT}>{'←'}</Body5>
-            </Pressable>
-
+           
+<SectionTitle/>
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
             >
-                <H2 align="center" color={Colors.PRIMARY_TEXT} style={styles.title}>
+                <H2 align="center" color={Colors.TEXT_COLOR} style={styles.title}>
                     Summary
                 </H2>
                 <Body6 color={Colors.TEXT_COLOR} style={styles.subtitle}>
@@ -115,6 +110,7 @@ const styles = StyleSheet.create({
     safe: {
         flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
+          paddingHorizontal: wp(20),
     },
     backBtn: {
         marginTop: hp(12),
@@ -122,11 +118,10 @@ const styles = StyleSheet.create({
         width: wp(32),
     },
     scroll: {
-        paddingHorizontal: wp(20),
         paddingBottom: hp(20),
     },
     title: {
-        marginBottom: hp(6),
+        marginVertical: hp(12),
     },
     subtitle: {
         marginBottom: hp(20),
@@ -153,7 +148,6 @@ const styles = StyleSheet.create({
         marginRight: wp(12),
     },
     footer: {
-        paddingHorizontal: wp(20),
         paddingBottom: hp(24),
         paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,

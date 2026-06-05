@@ -15,4 +15,6 @@ export const IMAGE_COMPONENTS = {
     applePay: require("../../assets/images/applePay.png"),
     cleanerPP: require("../../assets/images/cleanerPP.png"),
     apartment: require("../../assets/images/apartment.png"),
+    emptyToDo: require("../../assets/images/emptyToDo.png"),
+    recomendedEmpty: require("../../assets/images/recomendedEmpty.png"),
 } as const;

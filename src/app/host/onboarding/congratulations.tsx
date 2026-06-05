@@ -1,15 +1,15 @@
 import { ChatIcon } from '@/assets/icons/host_icon/ChatIcon';
 import { HousekeeperIcon } from '@/assets/icons/host_icon/HousekeeperIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
+import SectionTitle from '@/components/shared/SectionTitle';
 import { Body5, Body6, H2 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Pressable,
     ScrollView,
     StyleSheet,
-    View,
+    View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../../utils/responsiveDevice';
@@ -47,19 +47,13 @@ export default function CongratulationsScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <Pressable
-                onPress={() => router.back()}
-                style={styles.backBtn}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            >
-                <Body5 color={Colors.PRIMARY_TEXT}>{'←'}</Body5>
-            </Pressable>
+           <SectionTitle/>
 
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
             >
-                <H2 align="center" color={Colors.PRIMARY_TEXT} style={styles.title}>
+                <H2 align="center" color={Colors.TEXT_COLOR} style={styles.title}>
                     Congratulations!
                 </H2>
                 <Body6 align="center" color={Colors.TEXT_COLOR} style={styles.subtitle}>
@@ -70,7 +64,7 @@ export default function CongratulationsScreen() {
                     <View key={i} style={styles.card}>
                         <View style={styles.iconBox}>{f.icon}</View>
                         <View style={styles.cardText}>
-                            <Body5 color={Colors.PRIMARY_TEXT}>{f.title}</Body5>
+                            <Body5 color={Colors.TEXT_COLOR}>{f.title}</Body5>
                             <Body6 color={Colors.TEXT_COLOR} style={styles.cardDesc}>
                                 {f.desc}
                             </Body6>
@@ -100,6 +94,7 @@ const styles = StyleSheet.create({
     safe: {
         flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
+          paddingHorizontal: wp(20),
     },
     backBtn: {
         marginTop: hp(12),
@@ -107,7 +102,6 @@ const styles = StyleSheet.create({
         width: wp(32),
     },
     scroll: {
-        paddingHorizontal: wp(20),
         paddingBottom: hp(20),
     },
     title: {
@@ -145,7 +139,6 @@ const styles = StyleSheet.create({
         marginTop: hp(2),
     },
     footer: {
-        paddingHorizontal: wp(20),
         paddingBottom: hp(24),
         paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,

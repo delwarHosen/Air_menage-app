@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
         paddingHorizontal: wp(20),
-        paddingTop: hp(20),
+        paddingTop: hp(30),
     },
     topRow: {
         marginBottom: hp(16),
