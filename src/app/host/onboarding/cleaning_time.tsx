@@ -1,6 +1,7 @@
 import { DownArrowIcon } from '@/assets/icons/common_icon/DownArrowIcon';
 import { ClockIcon } from '@/assets/icons/host_icon/ClockIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
+import SectionTitle from '@/components/shared/SectionTitle';
 import { Body5, Body6, H2 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
@@ -97,26 +98,21 @@ export default function CleaningTimeScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <Pressable
-                onPress={() => router.back()}
-                style={styles.backBtn}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            >
-                <Body5 color={Colors.PRIMARY_TEXT}>{'←'}</Body5>
-            </Pressable>
+          
+          <SectionTitle/>
 
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
             >
-                <H2 align="center" color={Colors.PRIMARY_TEXT} style={styles.title}>
+                <H2 align="center" color={Colors.TEXT_COLOR} style={styles.title}>
                     When should the cleaning take place?
                 </H2>
                 <Body6 align="center" color={Colors.TEXT_COLOR} style={styles.subtitle}>
                     Indicate the full time range so that the housekeepers can locate you.
                 </Body6>
 
-                <Body5 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                <Body5 color={Colors.TEXT_COLOR} style={styles.label}>
                     Preferred time slot
                 </Body5>
 
@@ -153,6 +149,7 @@ const styles = StyleSheet.create({
     safe: {
         flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
+          paddingHorizontal: wp(20),
     },
     backBtn: {
         marginTop: hp(12),
@@ -160,7 +157,7 @@ const styles = StyleSheet.create({
         width: wp(32),
     },
     scroll: {
-        paddingHorizontal: wp(20),
+      
         paddingBottom: hp(20),
     },
     title: {
@@ -218,7 +215,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     footer: {
-        paddingHorizontal: wp(20),
+        // paddingHorizontal: wp(20),
         paddingBottom: hp(24),
         paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,

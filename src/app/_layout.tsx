@@ -1,3 +1,6 @@
+import AnimatedSplash from '@/components/AnimatedSplash';
+import Toast from '@/components/shared/Toast'; // ← add
+import { store } from '@/redux/store';
 import {
     Poppins_400Regular,
     Poppins_400Regular_Italic,
@@ -11,15 +14,17 @@ import {
     useFonts,
 } from '@expo-google-fonts/poppins';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useColorScheme, View } from 'react-native'; // ← View add
+import { Provider } from 'react-redux';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function TabLayout() {
+function RootLayoutNav() {
     const colorScheme = useColorScheme();
+    const [showAnimatedSplash, setShowAnimatedSplash] = useState(false);
 
     const [fontsLoaded, fontError] = useFonts({
         Poppins_400Regular,
@@ -35,20 +40,44 @@ export default function TabLayout() {
 
     useEffect(() => {
         if (fontsLoaded || fontError) {
-            SplashScreen.hideAsync();
+            SplashScreen.hideAsync().then(() => {
+                setShowAnimatedSplash(true);
+            });
         }
     }, [fontsLoaded, fontError]);
 
     if (!fontsLoaded && !fontError) return null;
 
+    const handleAnimationComplete = () => {
+        setShowAnimatedSplash(false);
+        router.replace('/(auth)/login');
+    };
+
     return (
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <Stack>
-                <Stack.Screen name="index" options={{ headerShown: false, animation: 'none' }} />
-                <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-                <Stack.Screen name="host" options={{ headerShown: false }} />
-                <Stack.Screen name="cleaner" options={{ headerShown: false }} />
-            </Stack>
+            <View style={{ flex: 1 }}>
+                <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="index" />
+                    <Stack.Screen name="(auth)" />
+                    <Stack.Screen name="host" />
+                    <Stack.Screen name="cleaner" />
+                </Stack>
+
+                {showAnimatedSplash && (
+                    <AnimatedSplash onAnimationComplete={handleAnimationComplete} />
+                )}
+
+              
+                <Toast />
+            </View>
         </ThemeProvider>
+    );
+}
+
+export default function RootLayout() {
+    return (
+        <Provider store={store}>
+            <RootLayoutNav />
+        </Provider>
     );
 }

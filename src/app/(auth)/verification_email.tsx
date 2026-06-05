@@ -77,7 +77,12 @@ export default function VerificationEmailScreen() {
                 </View>
 
                 {/* Step indicator */}
-                <StepIndicator totalSteps={4} currentStep={2} />
+                <StepIndicator 
+                totalSteps={4}
+                 currentStep={2}
+                 activeColor={Colors.BRAND_PRIMARY}
+                 inactiveColor={Colors.BRAND_PRIMARY}
+                 />
 
                 <View style={styles.content}>
                     <Image

@@ -52,7 +52,12 @@ export default function TakeEmailScreen() {
         </View>
 
         {/* Step indicator */}
-        <StepIndicator totalSteps={4} currentStep={1} />
+        <StepIndicator 
+        totalSteps={4}
+         currentStep={1}
+         activeColor={Colors.BRAND_PRIMARY}
+         inactiveColor={Colors.BRAND_PRIMARY}
+         />
 
         <View style={styles.content}>
           {/* Logo */}

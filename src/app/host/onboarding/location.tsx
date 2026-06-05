@@ -2,7 +2,6 @@ import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Pressable,
     ScrollView,
     StyleSheet,
     TextInput,
@@ -12,6 +11,7 @@ import MapView, { Circle, Marker } from 'react-native-maps';
 
 import { SearchIcon } from '@/assets/icons/common_icon/SearchIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
+import SectionTitle from '@/components/shared/SectionTitle';
 import { Body5, Body6, Caption1, H2 } from '@/components/typo/Typography';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../../utils/responsiveDevice';
@@ -40,27 +40,21 @@ export default function LocationScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <Pressable
-                onPress={() => router.back()}
-                style={styles.backBtn}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            >
-                <Body5 color={Colors.PRIMARY_TEXT}>{'←'}</Body5>
-            </Pressable>
+           <SectionTitle/>
 
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
             >
-                <H2 align="center" color={Colors.PRIMARY_TEXT} style={styles.title}>
+                <H2 align="center" color={Colors.TEXT_COLOR} style={styles.title}>
                     Where is your property located?
                 </H2>
                 <Body6 align="center" color={Colors.TEXT_COLOR} style={styles.subtitle}>
                     Enter the full address so that the housekeepers can find you.
                 </Body6>
 
-                <Body5 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                <Body5 color={Colors.TEXT_COLOR} style={styles.label}>
                     Add Address
                 </Body5>
                 <View style={[styles.searchBox, addressError ? styles.inputError : null]}>
@@ -100,7 +94,7 @@ export default function LocationScreen() {
                     </MapView>
                 </View>
 
-                <Body5 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                <Body5 color={Colors.TEXT_COLOR} style={styles.label}>
                     Address line 2 (optional)
                 </Body5>
                 <View style={styles.inputBox}>
@@ -133,6 +127,7 @@ const styles = StyleSheet.create({
     safe: {
         flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
+        paddingHorizontal: wp(20),
     },
     backBtn: {
         marginTop: hp(12),
@@ -140,11 +135,11 @@ const styles = StyleSheet.create({
         width: wp(32),
     },
     scroll: {
-        paddingHorizontal: wp(20),
+        
         paddingBottom: hp(20),
     },
     title: {
-        marginBottom: hp(10),
+        marginVertical: hp(10),
     },
     subtitle: {
         paddingHorizontal: wp(10),
@@ -202,7 +197,7 @@ const styles = StyleSheet.create({
         fontSize: wp(15),
     },
     footer: {
-        paddingHorizontal: wp(20),
+        // paddingHorizontal: wp(20),
         paddingBottom: hp(24),
         paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,
