@@ -1,10 +1,13 @@
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
+import { Accommodation, Housekeeper } from '@/types/dataTypes';
+import { HousingItem, TaskStatusScreenData } from '@/types/taskStatus';
 
 export type TaskStatus =
     | 'refused'
     | 'completed'
     | 'pending_accept'
-    | 'scheduled';
+    | 'scheduled'
+    | 'report_problem';
 
 export type Task = {
     id: string;
@@ -32,6 +35,9 @@ export type RecommendedSchedule = {
     cleanerImage: any;
     apartmentImage: any;
 };
+
+
+
 
 export const RECOMMENDED_SCHEDULE: RecommendedSchedule | null = {
     id: '1',
@@ -113,7 +119,73 @@ export const TODO_TASKS: Task[] = [
         price: 55,
         serviceFee: 3,
     },
+    {
+        id: '5',
+        status: 'report_problem',
+        statusLabel: 'Report a problem',
+        apartmentName: 'Appartement T3 – City Center',
+        timeAgo: '2 Hours ago',
+        cleanerName: 'Sophie',
+        cleanerImage: IMAGE_COMPONENTS.cleanerPP,
+        apartmentImage: IMAGE_COMPONENTS.apartment,
+        address: '12 Rue de Charenton 75012 Paris, France',
+        date: 'Wednesday, may 22, 2026',
+        checkOut: '10:00am',
+        checkIn: '12:30pm',
+        price: 55,
+        serviceFee: 3,
+    },
 ];
+
+
+
+export const TASK_STATUS_DATA: TaskStatusScreenData = {
+    refused: {
+        cleanerName: 'Claire',
+        cleanerImage: IMAGE_COMPONENTS.cleanerPP,
+        cleanerLocation: 'Paris 11e',
+        apartmentName: 'Appartement T3 – City Center',
+        apartmentImage: IMAGE_COMPONENTS.apartment,
+        location: 'Paris 11e',
+        idealSlot: '10:00 AM – 4:00 PM',
+        timeSlot: '10:00 – 16:00',
+        noHousekeeperAvailable: false,
+        nearestHousekeepers: [
+            { id: '1', name: 'Sophie', location: 'Paris 11e', image: IMAGE_COMPONENTS.cleanerPP },
+            { id: '2', name: 'Sophie', location: 'Paris 11e', image: IMAGE_COMPONENTS.cleanerPP },
+            { id: '3', name: 'Sophie', location: 'Paris 11e', image: IMAGE_COMPONENTS.cleanerPP },
+        ],
+    },
+    completed: {
+        apartmentName: 'Appartement T3 – City Center',
+        apartmentImage: IMAGE_COMPONENTS.apartment,
+        date: 'Thursday, June 12',
+        time: '10:00 – 16:00',
+        cleanerName: 'Sophie',
+        cleanerImage: IMAGE_COMPONENTS.cleanerPP,
+        photos: [IMAGE_COMPONENTS.apartment],
+        notes: 'Everything went well, the apartment was clean and tidy.',
+    },
+    report_problem: {
+        cleanerName: 'Sophie',
+        cleanerImage: IMAGE_COMPONENTS.cleanerPP,
+        cleanerLocation: 'Paris 11e',
+        reportedAt: 'June 12 at 10:30 AM',
+        message: 'I found a broken glass in the living room and stains on the sofa. I have taken photos.',
+        photos: [IMAGE_COMPONENTS.apartment, IMAGE_COMPONENTS.apartment],
+        ligament: 'Appartement T3 – City Center',
+        apartmentName: 'Appartement T3 – City Center',
+        dateAndHouse: 'Thursday, June 12 • 10:00 AM – 12:30 PM',
+    },
+    pending_accept: {
+        cleanerName: 'Claire',
+        cleanerImage: IMAGE_COMPONENTS.cleanerPP,
+        apartmentName: 'Appartement T3 – City Center',
+        apartmentImage: IMAGE_COMPONENTS.apartment,
+        apartmentLocation: 'Paris',
+        apartmentCountry: 'France',
+    },
+};
 
 // empty করলে empty state দেখাবে
 // export const TODO_TASKS: Task[] = [];
@@ -135,3 +207,129 @@ export const CLEANING_DETAIL = {
         image: IMAGE_COMPONENTS.cleanerPP,
     },
 };
+
+
+export const ACCOMMODATIONS: Accommodation[] = [
+    {
+        id: '1',
+        name: 'Appartement T3 – City Center',
+        location: 'Paris 12e',
+        price: '52,50 €',
+        image: IMAGE_COMPONENTS.apartment,
+        cleaner: {
+            name: 'Sophie',
+            image: IMAGE_COMPONENTS.cleanerPP,
+            since: 'Since March 2024',
+        },
+    },
+    {
+        id: '2',
+        name: 'Appartement T3 – City Center',
+        location: 'Paris 12e',
+        price: '52,50 €',
+        image: IMAGE_COMPONENTS.apartment,
+    },
+    {
+        id: '3',
+        name: 'Appartement T3 – City Center',
+        location: 'Paris 12e',
+        price: '52,50 €',
+        image: IMAGE_COMPONENTS.apartment,
+    },
+    {
+        id: '4',
+        name: 'Appartement T3 – City Center',
+        location: 'Paris 12e',
+        price: '52,50 €',
+        image: IMAGE_COMPONENTS.apartment,
+    },
+    {
+        id: '5',
+        name: 'Appartement T3 – City Center',
+        location: 'Paris 12e',
+        price: '52,50 €',
+        image: IMAGE_COMPONENTS.apartment,
+    },
+];
+
+export const HOUSEKEEPERS: Housekeeper[] = [
+    {
+        id: '1',
+        name: 'Sophie',
+        role: 'Housekeeper',
+        location: 'Paris 11th and surroundings',
+        interventionZone: 'Paris 11th and surroundings',
+        appExperience: '45 cleanings completed',
+        memberSince: 'March 2024',
+        about: 'Hello! I am Léa, a professional housekeeper with several years of experience. Serious, discreet, and organized, I attach great importance to the quality of work and your satisfaction. I can take care of the complete maintenance of your home: cleaning, ironing, tidying... Do not hesitate to contact me, I will be happy to help you!',
+        services: [
+            'Complete home maintenance',
+            'Ironing of laundry',
+            'Tidying and organization',
+            'Window cleaning',
+            'Complete home maintenance',
+            'Complete home maintenance',
+            'Complete home maintenance',
+        ],
+        languages: ['Français / French'],
+        image: IMAGE_COMPONENTS.cleanerPP,
+        cleaningsCompleted: 45,
+    },
+    {
+        id: '2',
+        name: 'Sophie',
+        role: 'Housekeeper',
+        location: 'Paris 11th and surroundings',
+        interventionZone: 'Paris 11th and surroundings',
+        appExperience: '45 cleanings completed',
+        memberSince: 'March 2024',
+        about: 'Hello! I am Léa, a professional housekeeper with several years of experience. Serious, discreet, and organized, I attach great importance to the quality of work and your satisfaction.',
+        services: ['Complete home maintenance', 'Ironing of laundry', 'Tidying and organization'],
+        languages: ['Français / French'],
+        image: IMAGE_COMPONENTS.cleanerPP,
+        cleaningsCompleted: 45,
+    },
+];
+
+
+
+
+export const HOUSING_LIST: HousingItem[] = [
+    {
+        id: '1',
+        name: 'Appartement T3 – City Center',
+        location: 'Paris 12e',
+        image: IMAGE_COMPONENTS.apartment,
+        cleaners: [
+            { id: '1', name: 'Sophie', image: IMAGE_COMPONENTS.cleanerPP },
+            { id: '2', name: 'Fatou',  image: IMAGE_COMPONENTS.cleanerPP },
+        ],
+    },
+    {
+        id: '2',
+        name: 'Appartement T3 – City Center',
+        location: 'Paris 12e',
+        image: IMAGE_COMPONENTS.apartment,
+        cleaners: [
+            { id: '1', name: 'Sophie', image: IMAGE_COMPONENTS.cleanerPP },
+            { id: '2', name: 'Fatou',  image: IMAGE_COMPONENTS.cleanerPP },
+        ],
+    },
+    {
+        id: '3',
+        name: 'Appartement T3 – City Center',
+        location: 'Paris 12e',
+        image: IMAGE_COMPONENTS.apartment,
+        cleaners: [
+            { id: '1', name: 'Sophie', image: IMAGE_COMPONENTS.cleanerPP },
+            { id: '2', name: 'Fatou',  image: IMAGE_COMPONENTS.cleanerPP },
+        ],
+    },
+    {
+        id: '4',
+        name: 'Appartement T3 – City Center',
+        location: 'Paris 12e',
+        image: IMAGE_COMPONENTS.apartment,
+        cleaners: [], // No Cleaner Assigned
+    },
+];

@@ -1,10 +1,10 @@
 import { CalendarIcon } from '@/assets/icons/cleaner_icon/CalendarIcon';
-import { LocationPinIcon } from '@/assets/icons/cleaner_icon/LocationPinIcon';
+import { LocationIcon } from '@/assets/icons/cleaner_icon/LocationIcon';
 import { UserIcon } from '@/assets/icons/common_icon/UserIcon';
 import { ClockIcon } from '@/assets/icons/host_icon/ClockIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
 import SectionTitle from '@/components/shared/SectionTitle';
-import { Body5, Body6, Body7, Caption2, Caption3 } from '@/components/typo/Typography';
+import { Body6, Body7, Caption2, Caption3 } from '@/components/typo/Typography';
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
 import { CLEANING_DETAIL } from '@/data/hostFakeData';
@@ -64,14 +64,16 @@ export default function PaymentScreen() {
 
                 {/* Accommodation card */}
                 <View style={payStyles.section}>
-                    <Caption2 color={Colors.TEXT_COLOR} style={payStyles.label}>ACCOMMODATION</Caption2>
                     <View style={payStyles.accomRow}>
                         <Image source={data.apartmentImage} style={payStyles.thumb} contentFit="cover" />
                         <View style={{ flex: 1 }}>
-                            <Body5 color={Colors.PRIMARY_TEXT}>{data.apartmentName}</Body5>
+                            <Caption2 color="#8E8E93" style={payStyles.label}>ACCOMMODATION</Caption2>
+                            <Caption2 color={Colors.PRIMARY_TEXT}>{data.apartmentName}</Caption2>
                             <View style={payStyles.addressRow}>
-                                <LocationPinIcon size={12} color={Colors.TEXT_COLOR} />
-                                <Caption3 color={Colors.TEXT_COLOR}>{data.address}</Caption3>
+                                <View style={{ marginTop: hp(5) }}>
+                                    <LocationIcon size={20} color={"#727272"} />
+                                </View>
+                                <Caption3 color={"#727272"}>{data.address}</Caption3>
                             </View>
                         </View>
                     </View>
@@ -80,19 +82,19 @@ export default function PaymentScreen() {
                 {/* Booking info */}
                 <View style={payStyles.section}>
                     {[
-                        { icon: <CalendarIcon size={14} color={Colors.TEXT_COLOR} />, label: 'Date', value: data.date },
-                        { icon: <ClockIcon size={14} color={Colors.TEXT_COLOR} />, label: 'Check-out / Check-in', value: `${data.checkOut}  →  ${data.checkIn}` },
-                        { icon: <UserIcon size={14} color={Colors.TEXT_COLOR} />, label: 'Housekeeper', value: data.housekeeper },
+                        { icon: <CalendarIcon size={18} color={"#8E8E93"} />, label: 'Date', value: data.date },
+                        { icon: <ClockIcon size={14} color={"#8E8E93"} />, label: 'Check-out / Check-in', value: `${data.checkOut} ➔ ${data.checkIn}` },
+                        { icon: <UserIcon size={14} color={"#8E8E93"} />, label: 'Housekeeper', value: data.housekeeper },
                     ].map((row, idx, arr) => (
                         <React.Fragment key={row.label}>
                             <View style={payStyles.infoRow}>
                                 <View style={payStyles.infoLeft}>
                                     {row.icon}
-                                    <Caption3 color={Colors.TEXT_COLOR}>{row.label}</Caption3>
+                                    <Caption3 color={"#8E8E93"}>{row.label}</Caption3>
                                 </View>
-                                <Body6 color={Colors.PRIMARY_TEXT}>{row.value}</Body6>
+                                <Caption3 color={Colors.PRIMARY_TEXT}>{row.value}</Caption3>
                             </View>
-                            {idx < arr.length - 1 && <View style={payStyles.divider} />}
+                            {/* {idx < arr.length - 1 && <View style={payStyles.divider} />} */}
                         </React.Fragment>
                     ))}
                 </View>
@@ -104,12 +106,12 @@ export default function PaymentScreen() {
                         <Caption3 color={Colors.TEXT_COLOR}>Cleaning Service</Caption3>
                         <Caption3 color={Colors.TEXT_COLOR}>{data.cleaningService},00 €</Caption3>
                     </View>
-                    <View style={payStyles.divider} />
+                    {/* <View style={payStyles.divider} /> */}
                     <View style={payStyles.infoRow}>
                         <Caption3 color={Colors.TEXT_COLOR}>Service Fee</Caption3>
                         <Caption3 color={Colors.TEXT_COLOR}>{data.serviceFee},00 €</Caption3>
                     </View>
-                    <View style={payStyles.divider} />
+                    {/* <View style={payStyles.divider} /> */}
                     <View style={payStyles.infoRow}>
                         <Body7 color={Colors.PRIMARY_TEXT}>Total to Pay</Body7>
                         <Body7 color={Colors.PRIMARY_TEXT}>{total},00 €</Body7>
@@ -133,7 +135,7 @@ export default function PaymentScreen() {
                             </View>
                         }
                     />
-                    <View style={payStyles.divider} />
+                    {/* <View style={payStyles.divider} /> */}
                     <PaymentOption
                         method="apple_pay"
                         label="Apple Pay"
@@ -141,7 +143,7 @@ export default function PaymentScreen() {
                         onPress={() => setSelected('apple_pay')}
                         icon={<Image source={IMAGE_COMPONENTS.applePay} style={payStyles.payMethodIcon} contentFit="contain" />}
                     />
-                    <View style={payStyles.divider} />
+                    {/* <View style={payStyles.divider} /> */}
                     <PaymentOption
                         method="google_pay"
                         label="Google Pay"
@@ -156,9 +158,9 @@ export default function PaymentScreen() {
             <View style={payStyles.footer}>
                 <CustomButton
                     title="Confirm & Pay"
-                    onPress={() => router.push('/host/payment-success' as any)}
+                    onPress={() => router.push('/host/payment/payment_success' as any)}
                     width="100%"
-                    backgroundColor={Colors.COLOR_ACTIVE}
+                    backgroundColor={"#0088FF"}
                     color="#fff"
                     borderRadius={wp(14)}
                 />
@@ -168,19 +170,29 @@ export default function PaymentScreen() {
 }
 
 const payStyles = StyleSheet.create({
-    safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND },
-    scroll: { paddingHorizontal: wp(20), paddingBottom: hp(100) },
+    safe: {
+        flex: 1,
+        backgroundColor: Colors.APP_BACKGROUND,
+        paddingHorizontal: wp(20),
+    },
+    scroll: { paddingBottom: hp(100) },
     section: {
         backgroundColor: Colors.INPUT_BACKGROUND,
         borderRadius: wp(14),
-        borderWidth: 1,
-        borderColor: Colors.BORDER_COLOR,
+        // borderWidth: 1,
+        // borderColor: Colors.BORDER_COLOR,
         padding: wp(16),
         marginBottom: hp(12),
     },
-    label: { marginBottom: hp(10), letterSpacing: 0.6 },
+    label: {
+        letterSpacing: 0.8
+    },
     accomRow: { flexDirection: 'row', alignItems: 'center', gap: wp(12) },
-    thumb: { width: wp(90), height: wp(90), borderRadius: wp(10) },
+    thumb: {
+        width: wp(100),
+        height: wp(100),
+        borderRadius: wp(10)
+    },
     addressRow: { flexDirection: 'row', alignItems: 'flex-start', gap: wp(4), marginTop: hp(4) },
     infoRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: hp(8) },
     infoLeft: { flexDirection: 'row', alignItems: 'center', gap: wp(8) },
@@ -202,6 +214,7 @@ const payStyles = StyleSheet.create({
         position: 'absolute', bottom: 0, left: 0, right: 0,
         padding: wp(20),
         backgroundColor: Colors.APP_BACKGROUND,
-        borderTopWidth: 1, borderColor: Colors.BORDER_COLOR,
+        // borderTopWidth: 1,
+        //  borderColor: Colors.BORDER_COLOR,
     },
 });

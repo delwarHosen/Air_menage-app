@@ -95,7 +95,7 @@ export default function RecommendedCleaningScreen() {
                                 <Caption3 color={Colors.TEXT_COLOR}>{data.address}</Caption3>
                             </View>
                         </View>
-                        <RightAngleIcon size={16} color={Colors.TEXT_COLOR} />
+                        <RightAngleIcon size={22} color={Colors.TEXT_COLOR} />
                     </Pressable>
                 </View>
 
@@ -176,19 +176,19 @@ export default function RecommendedCleaningScreen() {
                         label="Accommodation"
                         value={data.addressOneLine}
                     />
-                    <View style={cleanStyles.divider} />
+                    {/* <View style={cleanStyles.divider} /> */}
                     <SummaryRow
                         icon={<CalendarIcon size={18} color={Colors.TEXT_COLOR} />}
                         label="Date"
                         value={data.date}
                     />
-                    <View style={cleanStyles.divider} />
+                    {/* <View style={cleanStyles.divider} /> */}
                     <SummaryRow
                         icon={<ClockIcon size={14} color={Colors.TEXT_COLOR} />}
                         label="Check-out / Check-in"
                         value={`${data.checkOut}  →  ${data.checkIn}`}
                     />
-                    <View style={cleanStyles.divider} />
+                    {/* <View style={cleanStyles.divider} /> */}
                     <SummaryRow
                         icon={<UserIcon size={14} color={Colors.TEXT_COLOR} />}
                         label="Housekeeper"
@@ -202,9 +202,9 @@ export default function RecommendedCleaningScreen() {
                         PRICE DETAILS
                     </Caption2>
                     <PriceRow label="Cleaning Service" value={`${data.cleaningService},00 €`} />
-                    <View style={cleanStyles.divider} />
+                    {/* <View style={cleanStyles.divider} /> */}
                     <PriceRow label="Service Fee" value={`${data.serviceFee},00 €`} />
-                    <View style={cleanStyles.divider} />
+                    {/* <View style={cleanStyles.divider} /> */}
                     <PriceRow
                         label="Total"
                         value={`${data.cleaningService + data.serviceFee},00 €`}
@@ -222,6 +222,7 @@ export default function RecommendedCleaningScreen() {
                     backgroundColor={cleanerAssigned ? Colors.PRIMARY_TEXT : Colors.BORDER_COLOR}
                     color="#fff"
                     borderRadius={wp(14)}
+                    height={hp(52)}
                 />
             </View>
         </SafeAreaView>
@@ -241,8 +242,8 @@ const cleanStyles = StyleSheet.create({
     section: {
         backgroundColor: Colors.INPUT_BACKGROUND,
         borderRadius: wp(14),
-        borderWidth: 1,
-        borderColor: Colors.BORDER_COLOR,
+        // borderWidth: 1,
+        // borderColor: Colors.BORDER_COLOR,
         padding: wp(16),
         marginBottom: hp(12),
     },
@@ -294,6 +295,7 @@ const cleanStyles = StyleSheet.create({
         position: 'absolute', bottom: 0, left: 0, right: 0,
         padding: wp(20),
         backgroundColor: Colors.APP_BACKGROUND,
-        borderTopWidth: 1, borderColor: Colors.BORDER_COLOR,
+        // borderTopWidth: 1, borderColor: Colors.BORDER_COLOR,
+        marginBottom:hp(10)
     },
 });

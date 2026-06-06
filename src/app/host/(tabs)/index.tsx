@@ -54,21 +54,22 @@ export default function HostHomeScreen() {
 
     const handleTaskPress = (item: Task) => {
         router.push({
-            pathname: '/host/home/recommended_cleaning',
+            pathname: '/host/home/task_status',
             params: { taskId: item.id },
         } as any);
     };
 
-   
+
 
     return (
         <SafeAreaView style={styles.safe}>
+            <H2 color={Colors.TEXT_COLOR} style={styles.pageTitle}>Home</H2>
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
             >
                 {/* Page title */}
-                <H2 color={Colors.TEXT_COLOR} style={styles.pageTitle}>Home</H2>
+
 
                 {/* ── Recommended Schedule ── */}
                 <Body2 color={Colors.PRIMARY_TEXT}>Recommended Schedule</Body2>
@@ -115,7 +116,7 @@ export default function HostHomeScreen() {
                 </Body2>
                 <QuickAccess
                     onSchedule={() => router.push('/host/home/accommodation' as any)}
-                    onAddHousekeeper={() => {}}
+                    onAddHousekeeper={() => router.push('/host/home/add_houskeeper')}
                 />
             </ScrollView>
         </SafeAreaView>
@@ -123,13 +124,18 @@ export default function HostHomeScreen() {
 }
 
 const styles = StyleSheet.create({
-    safe: { flex: 1, 
-        backgroundColor: Colors.APP_BACKGROUND
-     },
-    scroll: { 
-        paddingHorizontal: wp(20),
-         paddingBottom: hp(80) },
-    pageTitle: { marginTop: hp(8), marginBottom: hp(16) },
+    safe: {
+        flex: 1,
+        backgroundColor: Colors.APP_BACKGROUND,
+        paddingHorizontal: wp(20)
+    },
+    scroll: {
+        paddingBottom: hp(80)
+    },
+    pageTitle: {
+        //  marginTop: hp(8),
+        marginBottom: hp(16)
+    },
     sectionTitle: { marginTop: hp(24), marginBottom: hp(4) },
     sectionSub: { marginBottom: hp(12) },
     todoList: { gap: hp(12) },
