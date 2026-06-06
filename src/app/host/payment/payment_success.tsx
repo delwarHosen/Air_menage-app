@@ -1,9 +1,10 @@
 import { CalendarIcon } from '@/assets/icons/cleaner_icon/CalendarIcon';
+import { HousingIcon } from '@/assets/icons/cleaner_icon/HousingIcon';
 import { UserIcon } from '@/assets/icons/common_icon/UserIcon';
 import { ClockIcon } from '@/assets/icons/host_icon/ClockIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
 import SectionTitle from '@/components/shared/SectionTitle';
-import { Body5, Body6, Body7, Caption2, Caption3, H3 } from '@/components/typo/Typography';
+import { Body4, Body7, Caption2, Caption3 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { CLEANING_DETAIL } from '@/data/hostFakeData';
 import { useRouter } from 'expo-router';
@@ -24,62 +25,62 @@ export default function PaymentSuccessScreen() {
 
                 {/* Success icon */}
                 <View style={successStyles.iconCircle}>
-                    <Body5 color="#fff" style={{ fontSize: 28 }}>✓</Body5>
+                    <Body7 color="#fff" style={{ fontSize: 28 }}>✓</Body7>
                 </View>
-                <H3 color={Colors.PRIMARY_TEXT} align="center" style={{ marginTop: hp(12) }}>
+                <Body4 color={Colors.PRIMARY_TEXT} align="center" style={{ marginTop: hp(12) }}>
                     Payment successful
-                </H3>
-                <Body6 color={Colors.TEXT_COLOR} align="center" style={successStyles.successDesc}>
+                </Body4>
+                <Caption3 color={"#727272"} align="center" style={successStyles.successDesc}>
                     Your payment is then held in escrow,{'\n'}
                     once the cleaner completes the task, the{'\n'}
                     payment is released to the cleaner?
-                </Body6>
+                </Caption3>
 
                 {/* Pending acceptance */}
-                <Body7 color={Colors.PRIMARY_TEXT} style={{ marginBottom: hp(6) }}>
+                <Body4 color={Colors.PRIMARY_TEXT} style={{ marginBottom: hp(6) }}>
                     Pending acceptance
-                </Body7>
-                <Body6 color={Colors.TEXT_COLOR} style={{ marginBottom: hp(16) }}>
+                </Body4>
+                <Caption3 color={"#727272"} style={{ marginBottom: hp(16) }}>
                     Your cleaning is scheduled and awaiting confirmation from {data.housekeeper}.
-                </Body6>
+                </Caption3>
 
                 {/* Summary */}
                 <View style={successStyles.section}>
-                    <Caption2 color={Colors.TEXT_COLOR} style={successStyles.label}>SUMMARY</Caption2>
+                    <Caption2 color={"#8E8E93"} style={successStyles.label}>SUMMARY</Caption2>
                     {[
-                        { icon: <UserIcon size={14} color={Colors.TEXT_COLOR} />, label: 'Accommodation', value: data.addressOneLine },
-                        { icon: <CalendarIcon size={14} color={Colors.TEXT_COLOR} />, label: 'Date', value: data.date },
-                        { icon: <ClockIcon size={14} color={Colors.TEXT_COLOR} />, label: 'Check-out / Check-in', value: `${data.checkOut}  →  ${data.checkIn}` },
-                        { icon: <UserIcon size={14} color={Colors.TEXT_COLOR} />, label: 'Housekeeper', value: data.housekeeper },
+                        { icon: <HousingIcon size={16} color={"#8E8E93"} />, label: 'Accommodation', value: data.addressOneLine },
+                        { icon: <CalendarIcon size={18} color={"#8E8E93"} />, label: 'Date', value: data.date },
+                        { icon: <ClockIcon size={14} color={"#8E8E93"} />, label: 'Check-out / Check-in', value: `${data.checkOut}  →  ${data.checkIn}` },
+                        { icon: <UserIcon size={14} color={"#8E8E93"} />, label: 'Housekeeper', value: data.housekeeper },
                     ].map((row, idx, arr) => (
                         <React.Fragment key={row.label}>
                             <View style={successStyles.infoRow}>
                                 <View style={successStyles.infoLeft}>
                                     {row.icon}
-                                    <Caption3 color={Colors.TEXT_COLOR}>{row.label}</Caption3>
+                                    <Caption2 color={"#8E8E93"}>{row.label}</Caption2>
                                 </View>
-                                <Body6 color={Colors.PRIMARY_TEXT} style={{ flex: 1, textAlign: 'right' }}>
+                                <Caption3 color={Colors.PRIMARY_TEXT} style={{ flex: 1, textAlign: 'right' }}>
                                     {row.value}
-                                </Body6>
+                                </Caption3>
                             </View>
-                            {idx < arr.length - 1 && <View style={successStyles.divider} />}
+                            {/* {idx < arr.length - 1 && <View style={successStyles.divider} />} */}
                         </React.Fragment>
                     ))}
                 </View>
 
                 {/* Price */}
                 <View style={successStyles.section}>
-                    <Caption2 color={Colors.TEXT_COLOR} style={successStyles.label}>PRICE DETAILS</Caption2>
+                    <Caption2 color={"#8E8E93"} style={successStyles.label}>PRICE DETAILS</Caption2>
                     <View style={successStyles.infoRow}>
-                        <Caption3 color={Colors.TEXT_COLOR}>Cleaning Service</Caption3>
+                        <Caption2 color={"#8E8E93"}>Cleaning Service</Caption2>
                         <Caption3 color={Colors.TEXT_COLOR}>{data.cleaningService},00 €</Caption3>
                     </View>
-                    <View style={successStyles.divider} />
+                    {/* <View style={successStyles.divider} /> */}
                     <View style={successStyles.infoRow}>
-                        <Caption3 color={Colors.TEXT_COLOR}>Service Fee</Caption3>
+                        <Caption2 color={"#8E8E93"}>Service Fee</Caption2>
                         <Caption3 color={Colors.TEXT_COLOR}>{data.serviceFee},00 €</Caption3>
                     </View>
-                    <View style={successStyles.divider} />
+                    {/* <View style={successStyles.divider} /> */}
                     <View style={successStyles.infoRow}>
                         <Body7 color={Colors.PRIMARY_TEXT}>Total</Body7>
                         <Body7 color={Colors.PRIMARY_TEXT}>{total},00 €</Body7>
@@ -87,12 +88,12 @@ export default function PaymentSuccessScreen() {
                 </View>
 
                 {/* Secure payment note */}
-                <Body7 color={Colors.PRIMARY_TEXT} style={{ marginBottom: hp(6) }}>
+                <Body7 color={Colors.TEXT_COLOR} style={{ marginBottom: hp(6) }}>
                     Secure payment
                 </Body7>
-                <Body6 color={Colors.TEXT_COLOR}>
+                <Caption3 color={"#4B4B4B"}>
                     Payment has been successfully processed. You will only be charged once the cleaning has been accepted and completed.
-                </Body6>
+                </Caption3>
             </ScrollView>
 
             {/* Footer */}
@@ -104,6 +105,7 @@ export default function PaymentSuccessScreen() {
                     backgroundColor={Colors.PRIMARY_TEXT}
                     color="#fff"
                     borderRadius={wp(14)}
+                    height={hp(52)}
                 />
             </View>
         </SafeAreaView>
@@ -111,8 +113,14 @@ export default function PaymentSuccessScreen() {
 }
 
 const successStyles = StyleSheet.create({
-    safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND },
-    scroll: { paddingHorizontal: wp(20), paddingBottom: hp(100) },
+    safe: {
+        flex: 1,
+        backgroundColor: Colors.APP_BACKGROUND,
+        paddingHorizontal: wp(20)
+    },
+    scroll: {
+        paddingBottom: hp(100)
+    },
     iconCircle: {
         alignSelf: 'center',
         width: wp(72), height: wp(72),
@@ -125,8 +133,8 @@ const successStyles = StyleSheet.create({
     section: {
         backgroundColor: Colors.INPUT_BACKGROUND,
         borderRadius: wp(14),
-        borderWidth: 1,
-        borderColor: Colors.BORDER_COLOR,
+        // borderWidth: 1,
+        // borderColor: Colors.BORDER_COLOR,
         padding: wp(16),
         marginBottom: hp(12),
     },
@@ -138,6 +146,6 @@ const successStyles = StyleSheet.create({
         position: 'absolute', bottom: 0, left: 0, right: 0,
         padding: wp(20),
         backgroundColor: Colors.APP_BACKGROUND,
-        borderTopWidth: 1, borderColor: Colors.BORDER_COLOR,
+        // borderTopWidth: 1, borderColor: Colors.BORDER_COLOR,
     },
 });

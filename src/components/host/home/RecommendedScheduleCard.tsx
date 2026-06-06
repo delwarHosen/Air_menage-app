@@ -39,7 +39,7 @@ export function RecommendedScheduleCard({ data, onPress }: Props) {
 
                     <View style={styles.infoRow}>
                         <View style={styles.infoChip}>
-                            <CalendarIcon size={13} color={Colors.TEXT_COLOR} />
+                            <CalendarIcon size={18} color={Colors.TEXT_COLOR} />
                             <View>
                                 <Caption5 color={Colors.TEXT_COLOR}>Ideal Date:</Caption5>
                                 <Caption4 color={Colors.PRIMARY_TEXT}>{data.idealDate}</Caption4>
@@ -49,7 +49,7 @@ export function RecommendedScheduleCard({ data, onPress }: Props) {
                             <ClockIcon size={13} color={Colors.TEXT_COLOR} />
                             <View>
                                 <Caption5 color={Colors.TEXT_COLOR}>Time slot:</Caption5>
-                                <Caption4 color={Colors.PRIMARY_TEXT}>{data.timeSlot}</Caption4>
+                                <Caption4 color={Colors.PRIMARY_TEXT} numberOfLines={1}>{data.timeSlot}</Caption4>
                             </View>
                         </View>
                     </View>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     // ── Chips ─────────────────────────────────────────────────────────────────
     infoRow: {
         flexDirection: 'row',
-        gap: wp(6),
+        gap: wp(0),
         marginTop: hp(2),
     },
     infoChip: {
