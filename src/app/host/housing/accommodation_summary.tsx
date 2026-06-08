@@ -1,7 +1,7 @@
 import { CustomButton } from '@/components/shared/CustomButton';
 import SectionTitle from '@/components/shared/SectionTitle';
 import { StepIndicator } from '@/components/shared/StepIndicator';
-import { Body5, Caption3 } from '@/components/typo/Typography';
+import { Body2, Body5, Caption2, Caption3 } from '@/components/typo/Typography';
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
 import { Image } from 'expo-image';
@@ -35,10 +35,10 @@ const SUMMARY = {
 function SummaryCard({ title, children }: { title: string; children: React.ReactNode }) {
     return (
         <View style={styles.summaryCard}>
-            <Body5 color={Colors.PRIMARY_TEXT} style={styles.cardTitle}>
+            <Body2 color={Colors.TEXT_COLOR} style={styles.cardTitle}>
                 {title}
-            </Body5>
-            <View style={styles.divider} />
+            </Body2>
+            {/* <View style={styles.divider} /> */}
             {children}
         </View>
     );
@@ -49,9 +49,13 @@ export default function AccommodationSummaryScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <SectionTitle title="Practical information" />
-            <StepIndicator totalSteps={5} currentStep={5} />
-
+            
+            <View style={{ paddingHorizontal: wp(20), }}>
+                <SectionTitle title="Practical information" />
+            </View>
+            <View style={{ marginVertical: hp(20) }}>
+                <StepIndicator totalSteps={5} currentStep={5} activeColor='#0088FF' inactiveColor='#0088FF' />
+            </View>
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
@@ -95,8 +99,8 @@ export default function AccommodationSummaryScreen() {
                     <Caption3 color={Colors.TEXT_COLOR} style={styles.infoText}>
                         {SUMMARY.details.elevator}
                     </Caption3>
-                    <Caption3 color={Colors.COLOR_ACTIVE} style={styles.infoText}>
-                        Cleaning rate: {SUMMARY.details.cleaningRate}
+                    <Caption3 color={"#1070B7"}>
+                        Cleaning rate : {SUMMARY.details.cleaningRate}
                     </Caption3>
                 </SummaryCard>
 
@@ -130,17 +134,17 @@ export default function AccommodationSummaryScreen() {
             <View style={styles.footer}>
                 <CustomButton
                     title="Create the accommodation"
-                    onPress={() => router.replace('/host/(tabs)' as any)}
+                    onPress={() => router.replace('/host/(tabs)/housing' as any)}
                     width="100%"
                     backgroundColor={Colors.PRIMARY_TEXT}
                     color="#fff"
-                    borderRadius={wp(14)}
-                    height={hp(56)}
+                    borderRadius={wp(8)}
+                    height={hp(52)}
                 />
                 <Pressable
-                    onPress={() => router.push('/host/housing/general_information' as any)}
+                    onPress={() => router.push('/host/housing/edit_accommodation' as any)}
                 >
-                    <Caption3 color={Colors.COLOR_ACTIVE}>Edit</Caption3>
+                    <Caption2 color={"#1070B7"}>Edit</Caption2>
                 </Pressable>
             </View>
         </SafeAreaView>
@@ -174,14 +178,14 @@ const styles = StyleSheet.create({
         color: '#888',
     },
     photo: {
-        width: wp(160),
-        height: hp(110),
+        width: "100%",
+        height: hp(150),
         borderRadius: wp(8),
         marginTop: hp(4),
     },
     footer: {
         paddingHorizontal: wp(20),
-        paddingVertical: hp(16),
+        paddingVertical: hp(24),
         backgroundColor: Colors.APP_BACKGROUND,
         alignItems: 'center',
         gap: hp(12),

@@ -1,3 +1,4 @@
+// ── Task Status ───────────────────────────────────────────────────────────────
 export type TaskStatusScreenData = {
     refused: {
         cleanerName: string;
@@ -59,4 +60,79 @@ export type HousingItem = {
     location: string;
     image: any;
     cleaners: Cleaner[];
+};
+
+// ── Accommodation ─────────────────────────────────────────────────────────────
+export type AccommodationCleaner = {
+    name: string;
+    image: any;
+    cleaningsCompleted: number;
+} | null;
+
+export type AccommodationDetail = {
+    id: string;
+    name: string;
+    address: string;
+    image: any;
+    accommodationType: string;
+    bedrooms: string;
+    surface: string;
+    floor: string;
+    elevator: string;
+    cleaner: AccommodationCleaner;
+    cleaningRate: string;
+    practical: {
+        keyBox: string;
+        keyBoxCode: string;
+        specificInstruction: string;
+    };
+};
+
+// ── Housekeeper ───────────────────────────────────────────────────────────────
+export type Housekeeper = {
+    id: string;
+    name: string;
+    role: string;
+    location: string;
+    interventionZone: string;
+    appExperience: string;
+    memberSince: string;
+    about: string;
+    services: string[];
+    languages: string[];
+    image: any;
+    cleaningsCompleted: number;
+};
+
+// ── Accommodation (for selection list) ────────────────────────────────────────
+export type Accommodation = {
+    id: string;
+    name: string;
+    location: string;
+    price: string;
+    image: any;
+    cleaner?: {
+        name: string;
+        image: any;
+        since: string;
+    };
+};
+
+// ── Manage Cleaners ───────────────────────────────────────────────────────────
+export type ManageCleanerItem = {
+    id: string;
+    name: string;
+    image: any;
+    cleaningsCompleted: number;
+    isPrimary?: boolean;
+};
+
+export type ManageCleanersData = {
+    accommodation: {
+        name: string;
+        address: string;
+        image: any;
+    };
+    primaryCleaner: ManageCleanerItem;
+    substitutes: ManageCleanerItem[];
 };

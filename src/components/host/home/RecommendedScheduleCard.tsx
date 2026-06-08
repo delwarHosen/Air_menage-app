@@ -1,7 +1,7 @@
 import { CalendarIcon } from '@/assets/icons/cleaner_icon/CalendarIcon';
 import { RightAngleIcon } from '@/assets/icons/common_icon/RightAngleIcon';
 import { ClockIcon } from '@/assets/icons/host_icon/ClockIcon';
-import { Body5, Caption1, Caption3, Caption4, Caption5 } from '@/components/typo/Typography';
+import { Body5, Caption1, Caption3, Caption5 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { RecommendedSchedule } from '@/data/hostFakeData';
 import { Image } from 'expo-image';
@@ -17,7 +17,6 @@ type Props = {
 export function RecommendedScheduleCard({ data, onPress }: Props) {
     return (
         <View style={styles.card}>
-
             <View style={styles.topRow}>
                 {/* Thumbnail */}
                 <Image
@@ -38,23 +37,31 @@ export function RecommendedScheduleCard({ data, onPress }: Props) {
                     </Pressable>
 
                     <View style={styles.infoRow}>
+                        {/* Ideal Date chip */}
                         <View style={styles.infoChip}>
                             <CalendarIcon size={18} color={Colors.TEXT_COLOR} />
-                            <View>
+                            <View style={styles.chipText}>
                                 <Caption5 color={Colors.TEXT_COLOR}>Ideal Date:</Caption5>
-                                <Caption4 color={Colors.PRIMARY_TEXT}>{data.idealDate}</Caption4>
+                                <Caption5 color={Colors.PRIMARY_TEXT}>{data.idealDate}</Caption5>
                             </View>
                         </View>
+
+                        {/* Time slot chip */}
                         <View style={styles.infoChip}>
-                            <ClockIcon size={13} color={Colors.TEXT_COLOR} />
-                            <View>
+                            <ClockIcon size={11} color={Colors.TEXT_COLOR} />
+                            <View style={styles.chipText}>
                                 <Caption5 color={Colors.TEXT_COLOR}>Time slot:</Caption5>
-                                <Caption4 color={Colors.PRIMARY_TEXT} numberOfLines={1}>{data.timeSlot}</Caption4>
+                                <Caption5
+                                    color={Colors.PRIMARY_TEXT}
+                                    numberOfLines={2}
+                                    style={{ flexShrink: 1 }} 
+                                >
+                                    {data.timeSlot}
+                                </Caption5>
                             </View>
                         </View>
                     </View>
 
-                   
                     <View style={styles.cleanerRow}>
                         <Image
                             source={data.cleanerImage}
@@ -76,12 +83,7 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: Colors.INPUT_BACKGROUND,
         borderRadius: wp(14),
-        // borderWidth: 1,
-        // borderColor: Colors.BORDER_COLOR,
-        // overflow: 'hidden',
     },
-
-    // ── Top row ───────────────────────────────────────────────────────────────
     topRow: {
         flexDirection: 'row',
     },
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
     rightContent: {
         flex: 1,
         paddingHorizontal: wp(8),
+        paddingVertical: hp(5),
         gap: hp(10),
     },
     titleRow: {
@@ -99,35 +102,30 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: wp(20),
     },
-
-    // ── Chips ─────────────────────────────────────────────────────────────────
     infoRow: {
         flexDirection: 'row',
         gap: wp(0),
         marginTop: hp(2),
     },
     infoChip: {
-        flex: 1,
+        flex: 1,                  
         flexDirection: 'row',
         alignItems: 'center',
         gap: wp(5),
-        backgroundColor: Colors.APP_BACKGROUND,
-        // borderRadius: wp(8),
-        // borderWidth: 1,
-        // borderColor: Colors.BORDER_COLOR,
-        // padding: wp(7),
+        backgroundColor: "#EEEDF2",
+        marginRight: wp(5),
+        borderRadius: wp(5),
+        overflow: 'hidden', 
     },
-
-    // ── Cleaner row ───────────────────────────────────────────────────────────
+    chipText: {
+        flex: 1,     
+        flexShrink: 1,        
+    minWidth: 0,               
+    },
     cleanerRow: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: wp(10),
-        // paddingHorizontal: wp(14),
-        // paddingVertical: hp(12),
-        // marginTop: hp(2), 
-        // borderTopWidth: 1,
-        // borderTopColor: Colors.BORDER_COLOR,
     },
     cleanerAvatar: {
         width: wp(36),

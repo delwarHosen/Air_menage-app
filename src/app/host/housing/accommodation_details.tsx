@@ -2,7 +2,7 @@ import { FormDropdown } from '@/components/host/housing/FormDropdown';
 import { CustomButton } from '@/components/shared/CustomButton';
 import SectionTitle from '@/components/shared/SectionTitle';
 import { StepIndicator } from '@/components/shared/StepIndicator';
-import { Body5, Caption3 } from '@/components/typo/Typography';
+import { Body2, Caption3 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -29,17 +29,21 @@ export default function AccommodationDetailsScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <SectionTitle title="Accommodation details" />
-            <StepIndicator totalSteps={5} currentStep={2} />
+            <View style={{ paddingHorizontal: wp(20), }}>
+                <SectionTitle title="Accommodation details" />
+            </View>
+            <View style={{ marginVertical: hp(20) }}>
+                <StepIndicator totalSteps={5} currentStep={2} activeColor='#0088FF' inactiveColor='#0088FF' />
+            </View>
 
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
             >
-                <Body5 color={Colors.PRIMARY_TEXT} style={styles.title}>
+                <Body2 color={Colors.PRIMARY_TEXT} style={styles.title}>
                     Accommodation details
-                </Body5>
+                </Body2>
                 <Caption3 color={Colors.TEXT_COLOR} style={styles.subtitle}>
                     Describe your accommodation to help organize it better.
                 </Caption3>
@@ -180,8 +184,8 @@ export default function AccommodationDetailsScreen() {
                     width="100%"
                     backgroundColor={Colors.PRIMARY_TEXT}
                     color="#fff"
-                    borderRadius={wp(14)}
-                    height={hp(56)}
+                    borderRadius={wp(8)}
+                    height={hp(52)}
                 />
             </View>
         </SafeAreaView>
@@ -221,18 +225,19 @@ const styles = StyleSheet.create({
     },
     toggleRow: {
         flexDirection: 'row',
-        gap: wp(0),
-        backgroundColor: Colors.INPUT_BACKGROUND,
-        borderRadius: wp(10),
-        overflow: 'hidden',
+        gap: wp(12),  // ← gap add
+       
+        
     },
     toggleBtn: {
         flex: 1,
         paddingVertical: hp(14),
         alignItems: 'center',
+        backgroundColor: Colors.INPUT_BACKGROUND,  
+        borderRadius: wp(10),
     },
     toggleActive: {
-        backgroundColor: '#E8E8E8',
+        backgroundColor:'#E8E8E8',
     },
     footer: {
         paddingHorizontal: wp(20),

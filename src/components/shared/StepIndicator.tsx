@@ -30,9 +30,9 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
                 return (
                     <React.Fragment key={index}>
                         {isDone ? (
-                            <StepIndecatorFillIcon size={hp(24)} color={activeColor} />
+                            <StepIndecatorFillIcon size={24} color={activeColor} />
                         ) : (
-                            <StepIndecatorIcon size={hp(24)} color={inactiveColor} />
+                            <StepIndecatorIcon size={20} color={inactiveColor} />
                         )}
                         
                       
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     },
     line: {
         flex: 1,
-        height: hp(0.1), 
+        height: hp(0.2), 
         // marginHorizontal: hp(4), 
     },
 });
