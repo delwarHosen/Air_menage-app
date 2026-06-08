@@ -1,6 +1,6 @@
 import { CalendarIcon } from '@/assets/icons/cleaner_icon/CalendarIcon';
 import { AddUserIcon } from '@/assets/icons/host_icon/AddUserIcon';
-import { Caption3 } from '@/components/typo/Typography';
+import { Caption4 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -15,13 +15,13 @@ export function QuickAccess({ onSchedule, onAddHousekeeper }: Props) {
     return (
         <View style={styles.row}>
             <Pressable style={styles.btn} onPress={onSchedule}>
-                <CalendarIcon size={22} color={"#0088FF"} />
-                <Caption3 numberOfLines={1} color={Colors.PRIMARY_TEXT}>Schedule a cleaning</Caption3>
+                <CalendarIcon size={18} color={"#0088FF"} />
+                <Caption4 numberOfLines={1} color={Colors.PRIMARY_TEXT}>Schedule a cleaning</Caption4>
             </Pressable>
             <Pressable style={styles.btn} onPress={onAddHousekeeper}>
-                <AddUserIcon size={22} color={Colors.COLOR_ACTIVE} />
+                <AddUserIcon size={18} color={Colors.COLOR_ACTIVE} />
                 
-                <Caption3 numberOfLines={1} color={Colors.PRIMARY_TEXT}>Add a housekeeper</Caption3>
+                <Caption4 numberOfLines={1} color={Colors.PRIMARY_TEXT}>Add a housekeeper</Caption4>
             </Pressable>
         </View>
     );
@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        gap: wp(4),
+        justifyContent:"center",
+        gap: wp(8),
         paddingVertical: wp(14),
         paddingHorizontal:wp(5),
         backgroundColor: Colors.INPUT_BACKGROUND,

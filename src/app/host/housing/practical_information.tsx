@@ -2,7 +2,7 @@ import { FormDropdown } from '@/components/host/housing/FormDropdown';
 import { CustomButton } from '@/components/shared/CustomButton';
 import SectionTitle from '@/components/shared/SectionTitle';
 import { StepIndicator } from '@/components/shared/StepIndicator';
-import { Body5, Caption3 } from '@/components/typo/Typography';
+import { Body2, Caption3 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -26,17 +26,20 @@ export default function PracticalInformationScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <SectionTitle title="Practical information" />
-            <StepIndicator totalSteps={5} currentStep={4} />
-
+            <View style={{ paddingHorizontal: wp(20), }}>
+                <SectionTitle title="Practical information" />
+            </View>
+            <View style={{ marginVertical: hp(20) }}>
+                <StepIndicator totalSteps={5} currentStep={4} activeColor='#0088FF' inactiveColor='#0088FF' />
+            </View>
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
             >
-                <Body5 color={Colors.PRIMARY_TEXT} style={styles.title}>
+                <Body2 color={Colors.PRIMARY_TEXT} style={styles.title}>
                     Practical information
-                </Body5>
+                </Body2>
                 <Caption3 color={Colors.TEXT_COLOR} style={styles.subtitle}>
                     Add useful information for the service visits.
                 </Caption3>
@@ -113,8 +116,8 @@ export default function PracticalInformationScreen() {
                     width="100%"
                     backgroundColor={Colors.PRIMARY_TEXT}
                     color="#fff"
-                    borderRadius={wp(14)}
-                    height={hp(56)}
+                    borderRadius={wp(8)}
+                    height={hp(52)}
                 />
             </View>
         </SafeAreaView>
@@ -124,8 +127,15 @@ export default function PracticalInformationScreen() {
 const styles = StyleSheet.create({
     safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND },
     scroll: { paddingHorizontal: wp(20), paddingBottom: hp(20) },
-    title: { marginBottom: hp(6), fontFamily: 'Poppins_600SemiBold' },
-    subtitle: { marginBottom: hp(24) },
+    title: {
+        marginBottom: hp(6),
+        fontFamily: 'Poppins_600SemiBold',
+        textAlign: "center"
+    },
+    subtitle: {
+        marginBottom: hp(24),
+        textAlign: "center"
+    },
     fieldGroup: { marginBottom: hp(20) },
     label: { marginBottom: hp(8), fontFamily: 'Poppins_500Medium' },
     inputBox: {

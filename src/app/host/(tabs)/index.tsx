@@ -9,7 +9,7 @@ import { RECOMMENDED_SCHEDULE, Task, TODO_TASKS } from '@/data/hostFakeData';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import { FlatList, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../../utils/responsiveDevice';
 
@@ -47,6 +47,15 @@ function EmptyToDo() {
         </View>
     );
 }
+
+function ViewAllButton({ onPress }: { onPress: () => void }) {
+    return (
+        <Pressable style={styles.viewAllBtn} onPress={onPress}>
+            <Caption3 style={{textAlign:"center"}} color={Colors.TEXT_COLOR}>View All</Caption3>
+        </Pressable>
+    );
+}
+
 
 // ── Main screen ───────────────────────────────────────────────────────────────
 export default function HostHomeScreen() {
@@ -88,6 +97,13 @@ export default function HostHomeScreen() {
                     <EmptySchedule />
                 )}
 
+                <ViewAllButton
+                    onPress={() =>
+                        // router.push('/host/home/all_tasks' as any)
+                        console.log("")
+                    }
+                />
+
                 {/* ── To do ── */}
                 <Body2 color={Colors.TEXT_COLOR} style={styles.sectionTitle}>
                     To do
@@ -109,6 +125,14 @@ export default function HostHomeScreen() {
                         contentContainerStyle={styles.todoList}
                     />
                 )}
+
+
+                <ViewAllButton
+                    onPress={() =>
+                        // router.push('/host/home/all_tasks' as any)
+                        console.log("")
+                    }
+                />
 
                 {/* ── Quick access ── */}
                 <Body2 color={Colors.TEXT_COLOR} style={styles.sectionTitle}>
@@ -144,6 +168,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: wp(16),
         paddingVertical: hp(20),
+    },
+    viewAllBtn: {
+        backgroundColor: Colors.INPUT_BACKGROUND,
+        marginTop:hp(10),
+        borderRadius:wp(8),
+        padding:hp(12)
     },
     emptyImage: { width: wp(80), height: wp(80) },
 });

@@ -1,4 +1,4 @@
-import { Caption3 } from '@/components/typo/Typography';
+import { Body6 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import React from 'react';
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
@@ -11,7 +11,7 @@ interface Props extends TextInputProps {
 export function FormField({ label, ...rest }: Props) {
     return (
         <View style={styles.wrapper}>
-            <Caption3 color={Colors.PRIMARY_TEXT} style={styles.label}>{label}</Caption3>
+            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>{label}</Body6>
             <View style={styles.inputBox}>
                 <TextInput
                     style={styles.input}

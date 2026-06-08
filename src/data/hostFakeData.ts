@@ -1,7 +1,12 @@
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
-import { Accommodation, Housekeeper } from '@/types/dataTypes';
-import { HousingItem, TaskStatusScreenData } from '@/types/taskStatus';
+import {
+    Accommodation,
 
+    Housekeeper,
+} from '@/types/dataTypes';
+import { AccommodationDetail, HousingItem, ManageCleanersData, TaskStatusScreenData } from '@/types/taskStatus';
+
+// ── Task Status ───────────────────────────────────────────────────────────────
 export type TaskStatus =
     | 'refused'
     | 'completed'
@@ -26,6 +31,7 @@ export type Task = {
     serviceFee: number;
 };
 
+// ── Recommended Schedule ──────────────────────────────────────────────────────
 export type RecommendedSchedule = {
     id: string;
     apartmentName: string;
@@ -36,8 +42,9 @@ export type RecommendedSchedule = {
     apartmentImage: any;
 };
 
-
-
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────────────────────────
 
 export const RECOMMENDED_SCHEDULE: RecommendedSchedule | null = {
     id: '1',
@@ -48,10 +55,7 @@ export const RECOMMENDED_SCHEDULE: RecommendedSchedule | null = {
     cleanerImage: IMAGE_COMPONENTS.cleanerPP,
     apartmentImage: IMAGE_COMPONENTS.apartment,
 };
-
-
-
-// null করলে empty state দেখাবে
+// null করলে empty state দেখাবে:
 // export const RECOMMENDED_SCHEDULE: RecommendedSchedule | null = null;
 
 export const TODO_TASKS: Task[] = [
@@ -136,8 +140,8 @@ export const TODO_TASKS: Task[] = [
         serviceFee: 3,
     },
 ];
-
-
+// empty করলে empty state দেখাবে:
+// export const TODO_TASKS: Task[] = [];
 
 export const TASK_STATUS_DATA: TaskStatusScreenData = {
     refused: {
@@ -187,9 +191,6 @@ export const TASK_STATUS_DATA: TaskStatusScreenData = {
     },
 };
 
-// empty করলে empty state দেখাবে
-// export const TODO_TASKS: Task[] = [];
-
 export const CLEANING_DETAIL = {
     apartmentName: 'Apartment T3 – City Center',
     address: '12 Rue de Charenton\n75012 Paris, France',
@@ -207,7 +208,6 @@ export const CLEANING_DETAIL = {
         image: IMAGE_COMPONENTS.cleanerPP,
     },
 };
-
 
 export const ACCOMMODATIONS: Accommodation[] = [
     {
@@ -284,15 +284,16 @@ export const HOUSEKEEPERS: Housekeeper[] = [
         appExperience: '45 cleanings completed',
         memberSince: 'March 2024',
         about: 'Hello! I am Léa, a professional housekeeper with several years of experience. Serious, discreet, and organized, I attach great importance to the quality of work and your satisfaction.',
-        services: ['Complete home maintenance', 'Ironing of laundry', 'Tidying and organization'],
+        services: [
+            'Complete home maintenance',
+            'Ironing of laundry',
+            'Tidying and organization',
+        ],
         languages: ['Français / French'],
         image: IMAGE_COMPONENTS.cleanerPP,
         cleaningsCompleted: 45,
     },
 ];
-
-
-
 
 export const HOUSING_LIST: HousingItem[] = [
     {
@@ -302,7 +303,7 @@ export const HOUSING_LIST: HousingItem[] = [
         image: IMAGE_COMPONENTS.apartment,
         cleaners: [
             { id: '1', name: 'Sophie', image: IMAGE_COMPONENTS.cleanerPP },
-            { id: '2', name: 'Fatou',  image: IMAGE_COMPONENTS.cleanerPP },
+            { id: '2', name: 'Fatou', image: IMAGE_COMPONENTS.cleanerPP },
         ],
     },
     {
@@ -312,7 +313,7 @@ export const HOUSING_LIST: HousingItem[] = [
         image: IMAGE_COMPONENTS.apartment,
         cleaners: [
             { id: '1', name: 'Sophie', image: IMAGE_COMPONENTS.cleanerPP },
-            { id: '2', name: 'Fatou',  image: IMAGE_COMPONENTS.cleanerPP },
+            { id: '2', name: 'Fatou', image: IMAGE_COMPONENTS.cleanerPP },
         ],
     },
     {
@@ -322,7 +323,7 @@ export const HOUSING_LIST: HousingItem[] = [
         image: IMAGE_COMPONENTS.apartment,
         cleaners: [
             { id: '1', name: 'Sophie', image: IMAGE_COMPONENTS.cleanerPP },
-            { id: '2', name: 'Fatou',  image: IMAGE_COMPONENTS.cleanerPP },
+            { id: '2', name: 'Fatou', image: IMAGE_COMPONENTS.cleanerPP },
         ],
     },
     {
@@ -333,3 +334,47 @@ export const HOUSING_LIST: HousingItem[] = [
         cleaners: [], // No Cleaner Assigned
     },
 ];
+
+export const ACCOMMODATION_DETAIL: AccommodationDetail = {
+    id: '1',
+    name: 'Apartment T3 – City Center',
+    address: '12 Rue de Charenton 75012 Paris, France',
+    image: IMAGE_COMPONENTS.apartment,
+    accommodationType: 'Apartment',
+    bedrooms: '2 Bedrooms',
+    surface: '65m²',
+    floor: '3rd Floor',
+    elevator: 'Yes',
+    cleaner: {
+        name: 'Sophie',
+        image: IMAGE_COMPONENTS.cleanerPP,
+        cleaningsCompleted: 32,
+    },
+    // cleaner নেই হলে: cleaner: null,
+    cleaningRate: '55,00 €',
+    practical: {
+        keyBox: 'Yes',
+        keyBoxCode: '2154',
+        specificInstruction:
+            'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here,',
+    },
+};
+
+export const MANAGE_CLEANERS_DATA: ManageCleanersData = {
+    accommodation: {
+        name: 'Apartment T3 – City Center',
+        address: '12 Rue de Charenton\n75012 Paris, France',
+        image: IMAGE_COMPONENTS.apartment,
+    },
+    primaryCleaner: {
+        id: '1',
+        name: 'Sophie',
+        image: IMAGE_COMPONENTS.cleanerPP,
+        cleaningsCompleted: 32,
+        isPrimary: true,
+    },
+    substitutes: [
+        { id: '2', name: 'Sophie', image: IMAGE_COMPONENTS.cleanerPP, cleaningsCompleted: 32 },
+        { id: '3', name: 'Sophie', image: IMAGE_COMPONENTS.cleanerPP, cleaningsCompleted: 32 },
+    ],
+};

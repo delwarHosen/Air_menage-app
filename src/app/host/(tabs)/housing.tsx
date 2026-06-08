@@ -1,29 +1,28 @@
-import { LocationPinIcon } from '@/assets/icons/cleaner_icon/LocationPinIcon';
+import { LocationIcon } from '@/assets/icons/cleaner_icon/LocationIcon';
 import { RightAngleIcon } from '@/assets/icons/common_icon/RightAngleIcon';
-import { Body4, Body5, Caption3, Caption4 } from '@/components/typo/Typography';
+import { Body2, Body4, Caption1, Caption3, Caption4 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { HOUSING_LIST } from '@/data/hostFakeData';
 import { HousingItem } from '@/types/taskStatus';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import {
-  FlatList,
-  Pressable,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../../utils/responsiveDevice';
 
 function HousingCard({ item }: { item: HousingItem }) {
     const router = useRouter();
 
+    const handlePress = () => {
+        router.push({
+            pathname: '/host/housing/accommodation_details_view' as any,
+            params: { hasCleaner: item.cleaners.length > 0 ? '1' : '0' },
+        });
+    };
+
     return (
-        <Pressable
-            style={styles.card}
-            onPress={() => router.push('/host/housing/general_information' as any)}
-        >
+        <Pressable style={styles.card} onPress={handlePress}>
             {/* Thumbnail */}
             <Image source={item.image} style={styles.thumb} contentFit="cover" />
 
@@ -31,15 +30,19 @@ function HousingCard({ item }: { item: HousingItem }) {
             <View style={styles.info}>
                 {/* Title row */}
                 <View style={styles.titleRow}>
-                    <Body5 color={Colors.PRIMARY_TEXT} style={{ flex: 1 }} numberOfLines={2}>
+                    <Caption1
+                        color={Colors.PRIMARY_TEXT}
+                        style={{ flex: 1 }}
+                        numberOfLines={1}
+                    >
                         {item.name}
-                    </Body5>
-                    <RightAngleIcon size={16} color={Colors.TEXT_COLOR} />
+                    </Caption1>
+                    <RightAngleIcon size={22} color={Colors.TEXT_COLOR} />
                 </View>
 
                 {/* Location */}
                 <View style={styles.locationRow}>
-                    <LocationPinIcon size={13} color={Colors.TEXT_COLOR} />
+                    <LocationIcon size={17} color={Colors.TEXT_COLOR} />
                     <Caption4 color={Colors.TEXT_COLOR}>{item.location}</Caption4>
                 </View>
 
@@ -86,16 +89,25 @@ export default function HousingScreen() {
             </View>
 
             <View style={styles.content}>
-                <Body5 color={Colors.PRIMARY_TEXT} style={{ marginBottom: hp(4) }}>
-                    My Accommodations
-                </Body5>
-                <Caption3 color={Colors.TEXT_COLOR} style={{ marginBottom: hp(20) }}>
-                    Manage your accommodations and the assigned cleaning staff.
-                </Caption3>
-
                 <FlatList
                     data={HOUSING_LIST}
                     keyExtractor={(item) => item.id}
+                    ListHeaderComponent={
+                        <>
+                            <Body2
+                                color={Colors.PRIMARY_TEXT}
+                                style={{ marginBottom: hp(4) }}
+                            >
+                                My Accommodations
+                            </Body2>
+                            <Caption3
+                                color={Colors.TEXT_COLOR}
+                                style={{ marginBottom: hp(20) }}
+                            >
+                                Manage your accommodations and the assigned cleaning staff.
+                            </Caption3>
+                        </>
+                    }
                     renderItem={({ item }) => <HousingCard item={item} />}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.list}
@@ -112,7 +124,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: wp(20),
-        paddingVertical: hp(14),
+        paddingBottom: hp(14),
     },
     plusBtn: {
         width: wp(40),
@@ -127,19 +139,18 @@ const styles = StyleSheet.create({
     plusText: { fontSize: 24, lineHeight: 28 },
     content: { flex: 1, paddingHorizontal: wp(20) },
     list: { paddingBottom: hp(120) },
-
-    // Card — image এর মতো full width, divider দিয়ে আলাদা
     card: {
         flexDirection: 'row',
         alignItems: 'flex-start',
         paddingVertical: hp(16),
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.BORDER_COLOR,
+        backgroundColor: Colors.INPUT_BACKGROUND,
+        borderRadius: wp(10),
+        marginBottom: hp(8),
         gap: wp(14),
     },
     thumb: {
-        width: wp(100),
-        height: hp(110),
+        width: wp(120),
+        height: hp(160),
         borderRadius: wp(10),
         flexShrink: 0,
     },

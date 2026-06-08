@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
         borderRadius: wp(14),
         gap: wp(10),
         paddingRight: wp(12),
+        // marginBottom:hp(20)
     },
     image: {
         width: wp(90),

@@ -1,4 +1,5 @@
-import { Caption3 } from '@/components/typo/Typography';
+import { DownArrowIcon } from '@/assets/icons/common_icon/DownArrowIcon';
+import { Body6, Caption3 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import React, { useState } from 'react';
 import {
@@ -22,9 +23,9 @@ export function FormDropdown({ label, value, options, onChange }: Props) {
 
     return (
         <View style={styles.wrapper}>
-            <Caption3 color={Colors.PRIMARY_TEXT} style={styles.label}>
+            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
                 {label}
-            </Caption3>
+            </Body6>
 
             {/* Trigger */}
             <Pressable style={styles.box} onPress={() => setOpen(true)}>
@@ -34,7 +35,7 @@ export function FormDropdown({ label, value, options, onChange }: Props) {
                 >
                     {value || label}
                 </Caption3>
-                <Caption3 color={Colors.TEXT_COLOR}>▾</Caption3>
+                <Caption3 color={Colors.TEXT_COLOR}><DownArrowIcon color={Colors.TEXT_COLOR}/></Caption3>
             </Pressable>
 
             {/* Modal dropdown */}

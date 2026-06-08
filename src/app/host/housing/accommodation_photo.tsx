@@ -1,7 +1,8 @@
+import { CameraIcon } from '@/assets/icons/host_icon/CameraIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
 import SectionTitle from '@/components/shared/SectionTitle';
 import { StepIndicator } from '@/components/shared/StepIndicator';
-import { Body5, Caption3 } from '@/components/typo/Typography';
+import { Body2, Caption3 } from '@/components/typo/Typography';
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
 import { Image } from 'expo-image';
@@ -17,13 +18,18 @@ export default function AccommodationPhotoScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <SectionTitle title="Accommodation photo" />
-            <StepIndicator totalSteps={5} currentStep={3} />
+
+            <View style={{paddingHorizontal: wp(20),}}>
+              <SectionTitle title="Accommodation photo" />
+          </View>
+            <View style={{ marginVertical: hp(20) }}>
+                <StepIndicator totalSteps={5} currentStep={3} activeColor='#0088FF' inactiveColor='#0088FF' />
+            </View>
 
             <View style={styles.content}>
-                <Body5 color={Colors.PRIMARY_TEXT} style={styles.title}>
+                <Body2 color={Colors.PRIMARY_TEXT} style={styles.title}>
                     Accommodation photo
-                </Body5>
+                </Body2>
                 <Caption3 color={Colors.TEXT_COLOR} style={styles.subtitle}>
                     Add a main photo of your accommodation.
                 </Caption3>
@@ -43,7 +49,7 @@ export default function AccommodationPhotoScreen() {
                             />
                             {/* Overlay with camera icon */}
                             <View style={styles.overlay}>
-                                <Caption3 color="#fff" style={{ fontSize: 24 }}>📷</Caption3>
+                                <Caption3 color="#fff" style={{ fontSize: 24 }}><CameraIcon/></Caption3>
                                 <Caption3 color="#fff" style={styles.uploadText}>
                                     Upload here
                                 </Caption3>
@@ -73,8 +79,8 @@ export default function AccommodationPhotoScreen() {
                     width="100%"
                     backgroundColor={Colors.PRIMARY_TEXT}
                     color="#fff"
-                    borderRadius={wp(14)}
-                    height={hp(56)}
+                    borderRadius={wp(8)}
+                    height={hp(52)}
                 />
             </View>
         </SafeAreaView>
