@@ -30,7 +30,7 @@ export default function PatientTabsLayout() {
             screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: true,
-                tabBarActiveTintColor: "#A5D4A9",
+                tabBarActiveTintColor: "#00C853",
                 tabBarInactiveTintColor: "#8E8E93",
                 tabBarLabelStyle: {
                     fontSize: 12,

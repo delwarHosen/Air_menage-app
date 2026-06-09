@@ -10,7 +10,7 @@ import { LanguageIcon } from '@/assets/icons/host_icon/LanguageIcon';
 import { LegalNoticeIcon } from '@/assets/icons/host_icon/LegalNoticeIcon';
 import { PrivacyPolicyIcon } from '@/assets/icons/host_icon/PrivecyPolicyIcon';
 import { TermsUsesIcon } from '@/assets/icons/host_icon/TermsUsesIcon';
-import { Body5, Body6, Caption1, Caption5 } from '@/components/typo/Typography';
+import { Body5, Body6, Caption1, Caption3, Caption5 } from '@/components/typo/Typography';
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
 import { Image } from 'expo-image';
@@ -104,7 +104,7 @@ export default function CleanerMenuScreen() {
                                             {item.icon}
                                         </View>
                                         <View style={{ flex: 1 }}>
-                                            <Body5 color={Colors.PRIMARY_TEXT}>{item.label}</Body5>
+                                            <Caption3 color={Colors.PRIMARY_TEXT}>{item.label}</Caption3>
                                         </View>
                                         <RightAngleIcon />
                                     </Pressable>
@@ -172,8 +172,8 @@ const styles = StyleSheet.create({
         paddingVertical: hp(14),
         backgroundColor: Colors.INPUT_BACKGROUND,
         borderRadius: wp(14),
-        borderWidth: 1,
-        borderColor: Colors.BORDER_COLOR,
+        // borderWidth: 1,
+        // borderColor: Colors.BORDER_COLOR,
         marginBottom: hp(16),
     },
 
@@ -185,9 +185,9 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: Colors.INPUT_BACKGROUND,
         borderRadius: wp(14),
-        borderWidth: 1,
-        borderColor: Colors.BORDER_COLOR,
-        overflow: 'hidden',
+        // borderWidth: 1,
+        // borderColor: Colors.BORDER_COLOR,
+        // overflow: 'hidden',
     },
 
     // ── Menu row ──────────────────────────────────────────────────────────────

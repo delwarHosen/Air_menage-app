@@ -63,7 +63,7 @@ function CleanerRow({
                 </Caption4>
             </View>
 
-            {/* Message → সরাসরি chat page এ যাবে cleaner id দিয়ে */}
+            
             <Pressable style={mcStyles.messageBtn} onPress={onMessage}>
                 <Caption5 color={Colors.TEXT_COLOR}>Message</Caption5>
             </Pressable>
