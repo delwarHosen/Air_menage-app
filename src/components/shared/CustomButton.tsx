@@ -52,12 +52,13 @@ export const CustomButton = ({
                 style
             ]}
         >
+            {icon && icon}
             {title ? (
                 <Text style={{ fontFamily: "Poppins_600SemiBold", color, fontSize: fp(14) }}>
                     {isLoading && <CustomLoader size={16} />} {title}
                 </Text>
             ) : null}
-            {icon && icon}
+            
         </TouchableOpacity>
     );
 };
@@ -68,5 +69,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 10,
+        marginTop:hp(10)
     },
 });

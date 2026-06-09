@@ -136,3 +136,88 @@ export type ManageCleanersData = {
     primaryCleaner: ManageCleanerItem;
     substitutes: ManageCleanerItem[];
 };
+
+
+export type CleanerTask = {
+    id: string;
+    apartmentName: string;
+    address: string;
+    date: string;
+    time: string;
+    image: any;
+    isPrincipal: boolean;
+    isUpcoming: boolean;
+    // Details page data
+    type: string;
+    surface: string;
+    floor: string;
+    rooms: string;
+    bathrooms: string;
+    access: string;
+    cleaningRate: string;
+    keyBox: string;
+    keyBoxCode: string;
+    specificInstruction: string;
+    client: {
+        name: string;
+        phone: string;
+        image: any;
+    };
+};
+
+
+
+export type CleaningRequest = {
+    id: string;
+    apartmentName: string;
+    address: string;
+    pricePerCleaning: string;
+    description: string;
+    image: any;
+    // Team page data
+    status: 'active' | 'inactive';
+    location: string;
+    cleaningsCompleted: number;
+    type: string;
+    surface: string;
+    floor: string;
+    rooms: string;
+    bathrooms: string;
+    access: string;
+    cleaningRate: string;
+    keyBox: string;
+    keyBoxCode: string;
+    specificInstruction: string;
+    client: {
+        name: string;
+        phone: string;
+        image: any;
+    };
+};
+
+
+
+export type ConnectionRequest = {
+    id: string;
+    name: string;
+    role: string;
+    location: string;
+    image: any;
+    propertiesCount: number;
+    city: string;
+    memberSince: string;
+    properties: {
+        id: string;
+        name: string;
+        location: string;
+        image: any;
+        accommodationType: string;
+        bedrooms: string;
+        surface: string;
+        floor: string;
+        elevator: string;
+        cleaningRate: string;
+    }[];
+};
+
+

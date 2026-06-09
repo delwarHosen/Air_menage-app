@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 import { hp, wp } from "../../../utils/responsiveDevice";
-import { Body1 } from "../typo/Typography";
+import { Body2 } from "../typo/Typography";
 
 interface SectionTitleProps {
     title?: string;
@@ -36,9 +36,9 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
             </View>
 
             {/* Center title */}
-            <Body1 color={Colors.PRIMARY_TEXT} style={styles.headerTitle}>
+            <Body2 color={Colors.PRIMARY_TEXT} style={styles.headerTitle}>
                 {title}
-            </Body1>
+            </Body2>
 
             {/* Right spacer — keeps title centered */}
             <View style={styles.sideSlot} />

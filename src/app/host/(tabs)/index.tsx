@@ -51,11 +51,10 @@ function EmptyToDo() {
 function ViewAllButton({ onPress }: { onPress: () => void }) {
     return (
         <Pressable style={styles.viewAllBtn} onPress={onPress}>
-            <Caption3 style={{textAlign:"center"}} color={Colors.TEXT_COLOR}>View All</Caption3>
+            <Caption3 style={{ textAlign: "center" }} color={Colors.TEXT_COLOR}>View All</Caption3>
         </Pressable>
     );
 }
-
 
 // ── Main screen ───────────────────────────────────────────────────────────────
 export default function HostHomeScreen() {
@@ -68,7 +67,9 @@ export default function HostHomeScreen() {
         } as any);
     };
 
-
+    // শুধু ২টা দেখাবে
+    const visibleSchedule = RECOMMENDED_SCHEDULE ? [RECOMMENDED_SCHEDULE].slice(0, 2) : [];
+    const visibleTasks = TODO_TASKS.slice(0, 2);
 
     return (
         <SafeAreaView style={styles.safe}>
@@ -77,9 +78,6 @@ export default function HostHomeScreen() {
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
             >
-                {/* Page title */}
-
-
                 {/* ── Recommended Schedule ── */}
                 <Body2 color={Colors.PRIMARY_TEXT}>Recommended Schedule</Body2>
                 <Caption3 color={Colors.TEXT_COLOR} style={styles.sectionSub}>
@@ -97,12 +95,14 @@ export default function HostHomeScreen() {
                     <EmptySchedule />
                 )}
 
-                <ViewAllButton
-                    onPress={() =>
-                        // router.push('/host/home/all_tasks' as any)
-                        console.log("")
-                    }
-                />
+                {/* View All — শুধু data > 2 হলে দেখাবে */}
+                {RECOMMENDED_SCHEDULE && (
+                    <ViewAllButton
+                        onPress={() =>
+                            router.push('/host/home/all_recommended_schedules' as any)
+                        }
+                    />
+                )}
 
                 {/* ── To do ── */}
                 <Body2 color={Colors.TEXT_COLOR} style={styles.sectionTitle}>
@@ -116,7 +116,7 @@ export default function HostHomeScreen() {
                     <EmptyToDo />
                 ) : (
                     <FlatList
-                        data={TODO_TASKS}
+                        data={visibleTasks}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
                             <ToDoCard item={item} onPress={handleTaskPress} />
@@ -126,13 +126,14 @@ export default function HostHomeScreen() {
                     />
                 )}
 
-
-                <ViewAllButton
-                    onPress={() =>
-                        // router.push('/host/home/all_tasks' as any)
-                        console.log("")
-                    }
-                />
+                {/* View All — শুধু data > 2 হলে দেখাবে */}
+                {TODO_TASKS.length > 2 && (
+                    <ViewAllButton
+                        onPress={() =>
+                            router.push('/host/home/all_todo_tasks' as any)
+                        }
+                    />
+                )}
 
                 {/* ── Quick access ── */}
                 <Body2 color={Colors.TEXT_COLOR} style={styles.sectionTitle}>
@@ -157,7 +158,6 @@ const styles = StyleSheet.create({
         paddingBottom: hp(80)
     },
     pageTitle: {
-        //  marginTop: hp(8),
         marginBottom: hp(16)
     },
     sectionTitle: { marginTop: hp(24), marginBottom: hp(4) },
@@ -171,9 +171,9 @@ const styles = StyleSheet.create({
     },
     viewAllBtn: {
         backgroundColor: Colors.INPUT_BACKGROUND,
-        marginTop:hp(10),
-        borderRadius:wp(8),
-        padding:hp(12)
+        marginTop: hp(10),
+        borderRadius: wp(8),
+        padding: hp(12)
     },
     emptyImage: { width: wp(80), height: wp(80) },
 });

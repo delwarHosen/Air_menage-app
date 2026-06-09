@@ -78,7 +78,7 @@ export default function CleanerMessageScreen() {
         )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.list}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={() => <View />}
       />
     </SafeAreaView>
   );
