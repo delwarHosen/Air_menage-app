@@ -73,9 +73,7 @@ export default function NewPasswordScreen() {
                             touched={touched[FORM_FIELDS.CONFIRM_NEW_PASSWORD]}
                         />
                     </View>
-                </View>
-
-                {/* Bottom button */}
+                     {/* Bottom button */}
                 <View style={styles.footer}>
                     <CustomButton
                         title="Save"
@@ -87,6 +85,9 @@ export default function NewPasswordScreen() {
                         backgroundColor={Colors.BG_BLACK}
                     />
                 </View>
+                </View>
+
+               
             </KeyboardAvoidingView>
         </>
     );
@@ -114,6 +115,6 @@ const styles = StyleSheet.create({
         marginLeft: wp(2),
     },
     footer: {
-        paddingBottom: hp(32),
+        // paddingBottom: hp(32),
     },
 });

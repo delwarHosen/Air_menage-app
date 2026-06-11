@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     footer: {
         flexDirection: 'row',
         // paddingHorizontal: wp(20),
-        paddingVertical: hp(16),
+        // paddingVertical: hp(16),
         gap: wp(10),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1,

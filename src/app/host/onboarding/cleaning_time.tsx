@@ -216,8 +216,8 @@ const styles = StyleSheet.create({
     },
     footer: {
         // paddingHorizontal: wp(20),
-        paddingBottom: hp(24),
-        paddingTop: hp(10),
+        // paddingBottom: hp(24),
+        // paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,
     },
 });

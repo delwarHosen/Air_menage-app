@@ -10,7 +10,8 @@ import { Colors } from '@/constants/theme';
 import { useForm } from '@/hooks/useForm';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../utils/responsiveDevice';
 import { validatePassword } from '../../../utils/validation';
 
@@ -29,11 +30,9 @@ export default function CompleteInformationScreen() {
     const [selectedRules, setSelectedRules] = useState<number[]>([]);
     const router = useRouter();
 
-
     const { values, errors, touched, handleChange, handleSubmit } = useForm({
         initialValues: {
             [FORM_FIELDS.FULL_NAME]: '',
-            // Using FULL_NAME for firstName & lastName combined; split if needed
             lastName: '',
             [FORM_FIELDS.PASSWORD]: '',
         },
@@ -44,7 +43,6 @@ export default function CompleteInformationScreen() {
         },
         onSubmit: async (values) => {
             console.log('Complete info submitted:', JSON.stringify(values, null, 2));
-            // router.push('/(auth)/verification_email' as any);
         },
     });
 
@@ -52,7 +50,6 @@ export default function CompleteInformationScreen() {
         () => SECURITY_RULES.map((rule) => ({ ...rule, passed: rule.test(values[FORM_FIELDS.PASSWORD] ?? '') })),
         [values[FORM_FIELDS.PASSWORD]]
     );
-    
 
     const toggleRule = (index: number) => {
         setSelectedRules(prev =>
@@ -63,7 +60,7 @@ export default function CompleteInformationScreen() {
     };
 
     return (
-        <>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.APP_BACKGROUND }}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.root}
@@ -83,106 +80,112 @@ export default function CompleteInformationScreen() {
                 </View>
 
                 {/* Step indicator */}
-                <StepIndicator 
-                totalSteps={4} 
-                currentStep={3} 
-                activeColor={Colors.BRAND_PRIMARY}
-                inactiveColor={Colors.BRAND_PRIMARY}
+                <StepIndicator
+                    totalSteps={4}
+                    currentStep={3}
+                    activeColor={Colors.BRAND_PRIMARY}
+                    inactiveColor={Colors.BRAND_PRIMARY}
                 />
 
-                <View style={styles.content}>
-                    <H1 color={Colors.PRIMARY_TEXT} style={styles.title}>
-                        Complete your information
-                    </H1>
-                    <Body6 color={Colors.TEXT_COLOR} style={styles.description}>
-                        Tell us a bit about yourself to personalize your Gestlio experience.
-                    </Body6>
-
-                    {/* First Name */}
-                    <View style={styles.fieldGroup}>
-                        <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                            First Name
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
+                >
+                    <View style={styles.content}>
+                        <H1 color={Colors.PRIMARY_TEXT} style={styles.title}>
+                            Complete your information
+                        </H1>
+                        <Body6 color={Colors.TEXT_COLOR} style={styles.description}>
+                            Tell us a bit about yourself to personalize your Gestlio experience.
                         </Body6>
-                        <FormInput
-                            value={values[FORM_FIELDS.FULL_NAME]}
-                            onChangeText={(text) => handleChange(FORM_FIELDS.FULL_NAME, text)}
-                            type="text"
-                            placeholder="e.g. John"
-                            leftIcon={<UserIcon size={16} color="#8C88A3" />}
-                            error={errors[FORM_FIELDS.FULL_NAME]}
-                            touched={touched[FORM_FIELDS.FULL_NAME]}
-                        />
-                    </View>
 
-                    {/* Last Name */}
-                    <View style={styles.fieldGroup}>
-                        <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                            Last Name
-                        </Body6>
-                        <FormInput
-                            value={(values as any).lastName ?? ''}
-                            onChangeText={(text) => handleChange('lastName' as any, text)}
-                            type="text"
-                            placeholder="e.g. John"
-                            leftIcon={<UserIcon size={16} color="#8C88A3" />}
-                            error={(errors as any).lastName}
-                            touched={(touched as any).lastName}
-                        />
-                    </View>
+                        {/* First Name */}
+                        <View style={styles.fieldGroup}>
+                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                First Name
+                            </Body6>
+                            <FormInput
+                                value={values[FORM_FIELDS.FULL_NAME]}
+                                onChangeText={(text) => handleChange(FORM_FIELDS.FULL_NAME, text)}
+                                type="text"
+                                placeholder="e.g. John"
+                                leftIcon={<UserIcon size={16} color="#8C88A3" />}
+                                error={errors[FORM_FIELDS.FULL_NAME]}
+                                touched={touched[FORM_FIELDS.FULL_NAME]}
+                            />
+                        </View>
 
-                    {/* Password */}
-                    <View style={styles.fieldGroup}>
-                        <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                            Password
-                        </Body6>
-                        <FormInput
-                            value={values[FORM_FIELDS.PASSWORD]}
-                            onChangeText={(text) => handleChange(FORM_FIELDS.PASSWORD, text)}
-                            type="password"
-                            placeholder="Your Password"
-                            leftIcon={<LockIcon size={16} color="#8C88A3" />}
-                            error={errors[FORM_FIELDS.PASSWORD]}
-                            touched={touched[FORM_FIELDS.PASSWORD]}
-                        />
-                    </View>
+                        {/* Last Name */}
+                        <View style={styles.fieldGroup}>
+                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                Last Name
+                            </Body6>
+                            <FormInput
+                                value={(values as any).lastName ?? ''}
+                                onChangeText={(text) => handleChange('lastName' as any, text)}
+                                type="text"
+                                placeholder="e.g. John"
+                                leftIcon={<UserIcon size={16} color="#8C88A3" />}
+                                error={(errors as any).lastName}
+                                touched={(touched as any).lastName}
+                            />
+                        </View>
 
-                    {/* Password Security */}
-                    <Caption2 color={Colors.PRIMARY_TEXT} style={styles.securityTitle}>
-                        Password Security
-                    </Caption2>
-                    {passwordRules.map((rule, index) => {
-                        const isSelected = selectedRules.includes(index);
-                        return (
-                            <Pressable
-                                key={index}
-                                onPress={() => toggleRule(index)}
-                                style={({ pressed }) => [
-                                    styles.ruleRow,
-                                    { opacity: pressed ? 0.7 : 1 }
-                                ]}
-                                hitSlop={6}
-                            >
-                                <View style={[
-                                    styles.ruleCircle,
-                                    rule.passed && styles.ruleCirclePassed,
-                                    isSelected && styles.ruleCircleSelected,
-                                ]}>
-                                    {(rule.passed || isSelected) && (
-                                        <View style={styles.ruleDot} />
-                                    )}
-                                </View>
-                                <Caption3
-                                    color={(rule.passed || isSelected)
-                                        ? Colors.PRIMARY_TEXT
-                                        : Colors.TEXT_COLOR}
-                                    style={styles.ruleLabel}
+                        {/* Password */}
+                        <View style={styles.fieldGroup}>
+                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                Password
+                            </Body6>
+                            <FormInput
+                                value={values[FORM_FIELDS.PASSWORD]}
+                                onChangeText={(text) => handleChange(FORM_FIELDS.PASSWORD, text)}
+                                type="password"
+                                placeholder="Your Password"
+                                leftIcon={<LockIcon size={16} color="#8C88A3" />}
+                                error={errors[FORM_FIELDS.PASSWORD]}
+                                touched={touched[FORM_FIELDS.PASSWORD]}
+                            />
+                        </View>
+
+                        {/* Password Security */}
+                        <Caption2 color={Colors.PRIMARY_TEXT} style={styles.securityTitle}>
+                            Password Security
+                        </Caption2>
+                        {passwordRules.map((rule, index) => {
+                            const isSelected = selectedRules.includes(index);
+                            return (
+                                <Pressable
+                                    key={index}
+                                    onPress={() => toggleRule(index)}
+                                    style={({ pressed }) => [
+                                        styles.ruleRow,
+                                        { opacity: pressed ? 0.7 : 1 }
+                                    ]}
+                                    hitSlop={6}
                                 >
-                                    {rule.label}
-                                </Caption3>
-                            </Pressable>
-                        );
-                    })}
-                </View>
+                                    <View style={[
+                                        styles.ruleCircle,
+                                        rule.passed && styles.ruleCirclePassed,
+                                        isSelected && styles.ruleCircleSelected,
+                                    ]}>
+                                        {(rule.passed || isSelected) && (
+                                            <View style={styles.ruleDot} />
+                                        )}
+                                    </View>
+                                    <Caption3
+                                        color={(rule.passed || isSelected)
+                                            ? Colors.PRIMARY_TEXT
+                                            : Colors.TEXT_COLOR}
+                                        style={styles.ruleLabel}
+                                    >
+                                        {rule.label}
+                                    </Caption3>
+                                </Pressable>
+                            );
+                        })}
+                    </View>
+                </ScrollView>
 
                 {/* Bottom button */}
                 <View style={styles.footer}>
@@ -195,25 +198,23 @@ export default function CompleteInformationScreen() {
                         }}
                         width="100%"
                         height={hp(52)}
-                        borderRadius={14}
+                        borderRadius={8}
                     />
                 </View>
             </KeyboardAvoidingView>
-        </>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: Colors.APP_BACKGROUND,
         paddingHorizontal: wp(20),
         paddingTop: hp(20),
     },
     topRow: {
         marginBottom: hp(40),
         marginTop: hp(10),
-        // marginVertical: hp(20),
     },
     backBtn: {
         width: wp(36),
@@ -224,14 +225,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         overflow: 'hidden',
     },
-    arrowLeft: {
-        // width: wp(10),
-        // height: wp(10),
-        // borderLeftWidth: 2,
-        // borderBottomWidth: 2,
-        // borderColor: Colors.PRIMARY_TEXT,
-        // transform: [{ rotate: '45deg' }],
-    },
+    arrowLeft: {},
     content: {
         flex: 1,
         marginTop: hp(10),
@@ -286,6 +280,6 @@ const styles = StyleSheet.create({
     },
     ruleLabel: {},
     footer: {
-        paddingBottom: hp(32),
+        // paddingTop: hp(32),
     },
 });

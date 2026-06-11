@@ -52,7 +52,7 @@ function InfoRow({
                 </View>
                 <EditPenIcon size={18} color={Colors.TEXT_COLOR} />
             </Pressable>
-            {showDivider && <View style={styles.divider} />}
+            {/* {showDivider && <View style={styles.divider} />} */}
         </>
     );
 }

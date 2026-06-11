@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
 
     // Footer
     footer: {
-        paddingVertical: hp(16),
+        // paddingVertical: hp(16),
         backgroundColor: Colors.APP_BACKGROUND,
     },
 });

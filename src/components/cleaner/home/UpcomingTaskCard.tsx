@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
         marginBottom: hp(10),
     },
     thumb: {
-        width: wp(60),
-        height: hp(80),
+        width: wp(90),
+        height: hp(110),
         borderRadius: wp(8),
     },
     info: { flex: 1, gap: hp(3) },

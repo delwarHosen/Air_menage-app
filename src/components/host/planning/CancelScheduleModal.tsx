@@ -1,3 +1,4 @@
+import { RedVerifyIcon } from '@/assets/icons/host_icon/RedVerifyIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
 import { Body5 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
@@ -17,9 +18,7 @@ export function CancelScheduleModal({ visible, onClose, onConfirm }: Props) {
             <Pressable style={styles.overlay} onPress={onClose}>
                 <Pressable style={styles.modal}>
                     {/* Badge icon */}
-                    <View style={styles.badgeWrapper}>
-                        <Body5 color={Colors.COLOR_DANGER} style={styles.exclamation}>!</Body5>
-                    </View>
+                   <RedVerifyIcon/>
 
                     <Body5
                         color={Colors.PRIMARY_TEXT}
@@ -38,6 +37,7 @@ export function CancelScheduleModal({ visible, onClose, onConfirm }: Props) {
                             color="#fff"
                             borderRadius={wp(12)}
                             height={hp(48)}
+                            // style={{fontSize:12}}
                         />
                         <CustomButton
                             title="Back"

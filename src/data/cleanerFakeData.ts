@@ -26,7 +26,7 @@ export const CLEANER_TASKS: CleanerTask[] = [
         client: {
             name: 'Sophie Martin',
             phone: '+33 6 12 34 56 78',
-            image: IMAGE_COMPONENTS.cleanerPP,
+            image: IMAGE_COMPONENTS.hostPP,
         },
     },
     {
@@ -35,7 +35,7 @@ export const CLEANER_TASKS: CleanerTask[] = [
         address: '15 Pur da la Paris, 7500 Paris',
         date: 'Thursday, May 15',
         time: '14:00 - 16:00',
-        image: IMAGE_COMPONENTS.apartment,
+        image: IMAGE_COMPONENTS.apartment1,
         isPrincipal: false,
         isUpcoming: false,
         type: 'Apartment',
@@ -51,7 +51,7 @@ export const CLEANER_TASKS: CleanerTask[] = [
         client: {
             name: 'Sophie Martin',
             phone: '+33 6 12 34 56 78',
-            image: IMAGE_COMPONENTS.cleanerPP,
+            image: IMAGE_COMPONENTS.hostPP1,
         },
     },
     {
@@ -60,7 +60,7 @@ export const CLEANER_TASKS: CleanerTask[] = [
         address: '15 Pur da la Paris, 7500 Paris',
         date: 'Thursday, May 15',
         time: '18:00 - 24:00',
-        image: IMAGE_COMPONENTS.apartment,
+        image: IMAGE_COMPONENTS.apartment2,
         isPrincipal: true,
         isUpcoming: false,
         type: 'Apartment',
@@ -76,7 +76,7 @@ export const CLEANER_TASKS: CleanerTask[] = [
         client: {
             name: 'Sophie Martin',
             phone: '+33 6 12 34 56 78',
-            image: IMAGE_COMPONENTS.cleanerPP,
+            image: IMAGE_COMPONENTS.hostPP1,
         },
     },
 ];
@@ -88,7 +88,7 @@ export const UPCOMING_TASKS: CleanerTask[] = [
         address: '15 Pur da la Paris, 7500 Paris',
         date: 'May 25 • 09:00 AM',
         time: '09:00 - 12:00',
-        image: IMAGE_COMPONENTS.apartment,
+        image: IMAGE_COMPONENTS.apartment3,
         isPrincipal: true,
         isUpcoming: true,
         type: 'Apartment',
@@ -104,7 +104,7 @@ export const UPCOMING_TASKS: CleanerTask[] = [
         client: {
             name: 'Sophie Martin',
             phone: '+33 6 12 34 56 78',
-            image: IMAGE_COMPONENTS.cleanerPP,
+            image: IMAGE_COMPONENTS.hostPP,
         },
     },
     {
@@ -113,7 +113,7 @@ export const UPCOMING_TASKS: CleanerTask[] = [
         address: '15 Pur da la Paris, 7500 Paris',
         date: 'May 25 • 09:00 AM',
         time: '09:00 - 12:00',
-        image: IMAGE_COMPONENTS.apartment,
+        image: IMAGE_COMPONENTS.apartment4,
         isPrincipal: false,
         isUpcoming: true,
         type: 'Apartment',
@@ -129,7 +129,7 @@ export const UPCOMING_TASKS: CleanerTask[] = [
         client: {
             name: 'Sophie Martin',
             phone: '+33 6 12 34 56 78',
-            image: IMAGE_COMPONENTS.cleanerPP,
+            image: IMAGE_COMPONENTS.hostPP1,
         },
     },
 ];
@@ -146,7 +146,7 @@ export const CLEANING_REQUESTS: CleaningRequest[] = [
         address: '45 Rue de la Paix, Paris',
         pricePerCleaning: '25 €',
         description: 'Looking for a trust worthy person for regular cleaning',
-        image: IMAGE_COMPONENTS.apartment,
+        image: IMAGE_COMPONENTS.apartment4,
         status: 'active',
         location: 'Paris 12e',
         cleaningsCompleted: 45,
@@ -172,7 +172,7 @@ export const CLEANING_REQUESTS: CleaningRequest[] = [
         address: '45 Rue de la Paix, Paris',
         pricePerCleaning: '25 €',
         description: 'Looking for a trust worthy person for regular cleaning',
-        image: IMAGE_COMPONENTS.apartment,
+        image: IMAGE_COMPONENTS.apartment6,
         status: 'active',
         location: 'Paris 12e',
         cleaningsCompleted: 45,
@@ -189,7 +189,7 @@ export const CLEANING_REQUESTS: CleaningRequest[] = [
         client: {
             name: 'Sophie Martin',
             phone: '+33 6 12 34 56 78',
-            image: IMAGE_COMPONENTS.cleanerPP,
+            image: IMAGE_COMPONENTS.cleanerPP1,
         },
     },
 ];
@@ -200,7 +200,7 @@ export const CONNECTION_REQUESTS: ConnectionRequest[] = [
         name: 'Kristin Watson',
         role: 'Host',
         location: 'Paris 11th and surroundings',
-        image: IMAGE_COMPONENTS.cleanerPP,
+        image: IMAGE_COMPONENTS.hostPP,
         propertiesCount: 13,
         city: 'Berlin',
         memberSince: 'March 2024',
@@ -209,7 +209,7 @@ export const CONNECTION_REQUESTS: ConnectionRequest[] = [
                 id: '1',
                 name: 'Appartement T3 – City Center',
                 location: 'Paris 12e',
-                image: IMAGE_COMPONENTS.apartment,
+                image: IMAGE_COMPONENTS.apartment7,
                 accommodationType: 'Apartment',
                 bedrooms: '2 Bedrooms',
                 surface: '65m²',
@@ -224,7 +224,7 @@ export const CONNECTION_REQUESTS: ConnectionRequest[] = [
         name: 'Floyd Miles',
         role: 'Host',
         location: 'Paris 11th and surroundings',
-        image: IMAGE_COMPONENTS.cleanerPP,
+        image: IMAGE_COMPONENTS.hostPP1,
         propertiesCount: 27,
         city: 'Paris',
         memberSince: 'January 2023',

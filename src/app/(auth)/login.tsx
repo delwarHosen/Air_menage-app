@@ -15,9 +15,11 @@ import {
     KeyboardAvoidingView,
     Platform,
     Pressable,
+    ScrollView,
     StyleSheet,
     View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../utils/responsiveDevice';
 import { validateEmail, validatePassword } from '../../../utils/validation';
 
@@ -40,7 +42,7 @@ export default function LoginScreen() {
     });
 
     return (
-        <>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.APP_BACKGROUND }}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.scrollContent}
@@ -49,115 +51,120 @@ export default function LoginScreen() {
                     <SectionTitle title="Sign In" />
                 </View>
 
-                <View style={styles.container}>
-                    <View style={styles.inner}>
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
+                >
+                    <View style={styles.container}>
+                        <View style={styles.inner}>
 
-                        {/* Logo + title + description */}
-                        <AuthHeading
-                            imageSource={IMAGE_COMPONENTS.logo}
-                            title="Welcome to Gestlio"
-                            description="Cleaning your properties, from Planning to payment"
-                        />
-
-                        {/* Form */}
-                        <View style={styles.form}>
-
-                            {/* Email */}
-                            <View style={styles.fieldGroup}>
-                                <Body3 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                                    Email
-                                </Body3>
-                                <FormInput
-                                    value={values[FORM_FIELDS.EMAIL]}
-                                    onChangeText={(text) => handleChange(FORM_FIELDS.EMAIL, text)}
-                                    type="email"
-                                    placeholder="Your Email"
-                                     leftIcon={<EmailIcon size={16} color="#8C88A3" />}
-                                    error={errors[FORM_FIELDS.EMAIL]}
-                                    touched={touched[FORM_FIELDS.EMAIL]}
-                                />
-                            </View>
-
-                            {/* Password */}
-                            <View style={styles.fieldGroup}>
-                                <Body3 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                                    Password
-                                </Body3>
-                                <FormInput
-                                    value={values[FORM_FIELDS.PASSWORD]}
-                                    onChangeText={(text) => handleChange(FORM_FIELDS.PASSWORD, text)}
-                                    placeholder="Your Password"
-                                     leftIcon={<LockIcon size={16} color="#8C88A3" />}
-                                    type="password"
-                                    error={errors[FORM_FIELDS.PASSWORD]}
-                                    touched={touched[FORM_FIELDS.PASSWORD]}
-                                />
-                            </View>
-
-                            {/* Remember me + Forgot password */}
-                            <View style={styles.rememberRow}>
-                                <Pressable
-                                    style={styles.rememberLeft}
-                                    onPress={() => setRememberMe(!rememberMe)}
-                                >
-                                    <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
-                                        {rememberMe && <View style={styles.checkmark} />}
-                                    </View>
-                                    <Caption3 color={Colors.TEXT_COLOR} style={{ marginLeft: wp(6) }}>
-                                        Remember me
-                                    </Caption3>
-                                </Pressable>
-
-                                <Pressable onPress={() => router.push("/(auth)/forgot_password" as any)}>
-                                    <Caption3 color={Colors.BRAND_PRIMARY}>
-                                        Forgot password?
-                                    </Caption3>
-                                </Pressable>
-                            </View>
-
-                            {/* Login button */}
-                            <CustomButton
-                                title="Log in"
-                                onPress={() => router.push("/host/(tabs)")}
-                                width="100%"
-                                height={hp(52)}
-                                borderRadius={14}
-                                style={{ marginTop: hp(8) }}
+                            {/* Logo + title + description */}
+                            <AuthHeading
+                                imageSource={IMAGE_COMPONENTS.logo}
+                                title="Welcome to Gestlio"
+                                description="Cleaning your properties, from Planning to payment"
                             />
-                        </View>
 
-                        {/* Or divider */}
-                        <View style={styles.dividerRow}>
-                            <View style={styles.dividerLine} />
-                            <Body3 color={Colors.TEXT_COLOR} style={styles.dividerText}>
-                                Or
-                            </Body3>
-                            <View style={styles.dividerLine} />
-                        </View>
+                            {/* Form */}
+                            <View style={styles.form}>
 
-                        {/* Sign up */}
-                        <View style={styles.footer}>
-                            <Body6 color={Colors.TEXT_COLOR}>
-                                Don't have an account?
-                            </Body6>
-                            <Pressable
-                                onPress={() => router.push("/(auth)/take_email" as any)}
-                            >
-                                <Body6 color={Colors.BRAND_PRIMARY}> Sign Up</Body6>
-                            </Pressable>
-                        </View>
+                                {/* Email */}
+                                <View style={styles.fieldGroup}>
+                                    <Body3 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                        Email
+                                    </Body3>
+                                    <FormInput
+                                        value={values[FORM_FIELDS.EMAIL]}
+                                        onChangeText={(text) => handleChange(FORM_FIELDS.EMAIL, text)}
+                                        type="email"
+                                        placeholder="Your Email"
+                                        leftIcon={<EmailIcon size={16} color="#8C88A3" />}
+                                        error={errors[FORM_FIELDS.EMAIL]}
+                                        touched={touched[FORM_FIELDS.EMAIL]}
+                                    />
+                                </View>
 
+                                {/* Password */}
+                                <View style={styles.fieldGroup}>
+                                    <Body3 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                        Password
+                                    </Body3>
+                                    <FormInput
+                                        value={values[FORM_FIELDS.PASSWORD]}
+                                        onChangeText={(text) => handleChange(FORM_FIELDS.PASSWORD, text)}
+                                        placeholder="Your Password"
+                                        leftIcon={<LockIcon size={16} color="#8C88A3" />}
+                                        type="password"
+                                        error={errors[FORM_FIELDS.PASSWORD]}
+                                        touched={touched[FORM_FIELDS.PASSWORD]}
+                                    />
+                                </View>
+
+                                {/* Remember me + Forgot password */}
+                                <View style={styles.rememberRow}>
+                                    <Pressable
+                                        style={styles.rememberLeft}
+                                        onPress={() => setRememberMe(!rememberMe)}
+                                    >
+                                        <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
+                                            {rememberMe && <View style={styles.checkmark} />}
+                                        </View>
+                                        <Caption3 color={Colors.TEXT_COLOR} style={{ marginLeft: wp(6) }}>
+                                            Remember me
+                                        </Caption3>
+                                    </Pressable>
+
+                                    <Pressable onPress={() => router.push("/(auth)/forgot_password" as any)}>
+                                        <Caption3 color={Colors.BRAND_PRIMARY}>
+                                            Forgot password?
+                                        </Caption3>
+                                    </Pressable>
+                                </View>
+
+                                {/* Login button */}
+                                <CustomButton
+                                    title="Log in"
+                                    onPress={() => router.push("/host/(tabs)")}
+                                    width="100%"
+                                    height={hp(52)}
+                                    borderRadius={14}
+                                    style={{ marginTop: hp(8) }}
+                                />
+                            </View>
+
+                            {/* Or divider */}
+                            <View style={styles.dividerRow}>
+                                <View style={styles.dividerLine} />
+                                <Body3 color={Colors.TEXT_COLOR} style={styles.dividerText}>
+                                    Or
+                                </Body3>
+                                <View style={styles.dividerLine} />
+                            </View>
+
+                            {/* Sign up */}
+                            <View style={styles.footer}>
+                                <Body6 color={Colors.TEXT_COLOR}>
+                                    Don't have an account?
+                                </Body6>
+                                <Pressable
+                                    onPress={() => router.push("/(auth)/take_email" as any)}
+                                >
+                                    <Body6 color={Colors.BRAND_PRIMARY}> Sign Up</Body6>
+                                </Pressable>
+                            </View>
+
+                        </View>
                     </View>
-                </View>
+                </ScrollView>
             </KeyboardAvoidingView>
-        </>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     scrollContent: {
         flex: 1,
-        backgroundColor: Colors.APP_BACKGROUND,
         paddingHorizontal: wp(20),
         paddingTop: hp(20),
     },

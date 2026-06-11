@@ -135,7 +135,7 @@ const revStyles = StyleSheet.create({
         backgroundColor: Colors.APP_BACKGROUND,
 
     },
-    scroll: { paddingBottom: hp(40) },
+    scroll: { paddingBottom: hp(40), paddingTop: hp(10) },
     card: {
         backgroundColor: Colors.INPUT_BACKGROUND,
         borderRadius: wp(14),
@@ -143,6 +143,7 @@ const revStyles = StyleSheet.create({
         // borderColor: Colors.BORDER_COLOR,
         paddingHorizontal: wp(20),
         padding: wp(16),
+
     },
     // Chart
     chartHeader: {
@@ -212,11 +213,15 @@ const revStyles = StyleSheet.create({
         marginHorizontal: wp(20)
     },
     txRow: {
+        backgroundColor: Colors.INPUT_BACKGROUND,
+        borderRadius:wp(14),
+        marginBottom:hp(10),
         flexDirection: 'row',
         alignItems: 'center',
         gap: wp(12),
         paddingVertical: hp(14),
-           marginHorizontal: wp(20)
+        paddingHorizontal:wp(8),
+        marginHorizontal: wp(20)
     },
     txIcon: {
         width: wp(40), height: wp(40),

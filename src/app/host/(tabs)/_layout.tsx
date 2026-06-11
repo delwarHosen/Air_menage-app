@@ -35,17 +35,17 @@ export default function PatientTabsLayout() {
                 tabBarLabelStyle: {
                     fontSize: 12,
                     fontWeight: '500',
-                    marginTop: 8,
+                    marginTop: 2,
                     // color:"#8E8E93"
                 },
                 tabBarStyle: {
                     backgroundColor: "#FFFFFF",
-                    height: hp(70) + insets.bottom,
+                    height: hp(60) + insets.bottom,
                     position: 'absolute',
                     bottom: 0,
                     left: wp(20),
                     right: wp(20),
-                    borderTopWidth: 0,
+                    borderTopWidth: 0.6,
                     elevation: 0,
                     shadowOpacity: 0,
                     paddingBottom: insets.bottom,

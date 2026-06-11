@@ -1,7 +1,10 @@
-import { LocationPinIcon } from '@/assets/icons/cleaner_icon/LocationPinIcon';
+import { LocationIcon } from '@/assets/icons/cleaner_icon/LocationIcon';
+import { AirBnbIcon } from '@/assets/icons/host_icon/AirBnbIcon';
+import { BookingIcon } from '@/assets/icons/host_icon/BookingIcon';
+import { LinkIcon } from '@/assets/icons/host_icon/LinkIcon';
+import { SecurityIcon } from '@/assets/icons/host_icon/SecurityIcon';
 import SectionTitle from '@/components/shared/SectionTitle';
-import { showToast } from '@/components/shared/Toast';
-import { Body5, Caption3, Caption4 } from '@/components/typo/Typography';
+import { Caption2, Caption3, Caption4, H3 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { PLANNING_PROPERTIES } from '@/data/planningfakedata';
 import { Image } from 'expo-image';
@@ -17,16 +20,17 @@ type Platform = {
     label: string;
     bgColor: string;
     textColor: string;
-    logo: string;
+    icon: React.ReactNode;
 };
 
+
 const PLATFORMS: Platform[] = [
-    { id: 'airbnb',   name: 'Airbnb',          label: 'A', bgColor: '#FF5A5F20', textColor: '#FF5A5F', logo: 'A' },
-    { id: 'booking',  name: 'Booking.com',      label: 'B', bgColor: '#00358020', textColor: '#003580', logo: 'B' },
-    { id: 'vrbo',     name: 'Vrbo',             label: 'V', bgColor: '#1A1A2E20', textColor: '#1A1A2E', logo: 'V' },
-    { id: 'abritel',  name: 'Abritel',          label: '⌂', bgColor: '#0066CC20', textColor: '#0066CC', logo: '⌂' },
-    { id: 'agoda',    name: 'Agoda',            label: '●', bgColor: '#FF690020', textColor: '#FF6900', logo: '●' },
-    { id: 'other',    name: 'Other Platform',   label: '⊕', bgColor: '#66666620', textColor: '#666666', logo: '⊕' },
+    { id: 'airbnb', name: 'Airbnb', label: 'A', bgColor: '#34C7591A', textColor: '#34C759', icon: <AirBnbIcon /> },
+    { id: 'booking', name: 'Booking.com', label: 'B', bgColor: '#4B6DF61A', textColor: '#34C759', icon: <BookingIcon /> },
+    // { id: 'vrbo', name: 'Vrbo', label: 'V', bgColor: '#1A1A2E20', textColor: '#34C759', icon: <AirBnbIcon /> },
+    // { id: 'abritel', name: 'Abritel', label: '⌂', bgColor: '#0066CC20', textColor: '#34C759', icon: <AirBnbIcon /> },
+    // { id: 'agoda', name: 'Agoda', label: '●', bgColor: '#FF690020', textColor: '#34C759', icon: <AirBnbIcon /> },
+    { id: 'other', name: 'Other Platform', label: '⊕', bgColor: '#66666620', textColor: '#34C759', icon: <LinkIcon size={22} color='#1E1E1E' /> },
 ];
 
 export default function ConnectCalendarScreen() {
@@ -52,23 +56,23 @@ export default function ConnectCalendarScreen() {
                 <View style={styles.propertyCard}>
                     <Image source={property.image} style={styles.thumb} contentFit="cover" />
                     <View style={styles.propertyInfo}>
-                        <Caption3 color={Colors.PRIMARY_TEXT} numberOfLines={2}>
+                        <Caption2 color={Colors.PRIMARY_TEXT} numberOfLines={1}>
                             {property.name}
-                        </Caption3>
+                        </Caption2>
                         <View style={styles.row}>
-                            <LocationPinIcon size={12} color={Colors.TEXT_COLOR} />
+                            <LocationIcon size={17} color={Colors.TEXT_COLOR} />
                             <Caption3 color={Colors.TEXT_COLOR}>{property.location}</Caption3>
                         </View>
                     </View>
                 </View>
 
                 {/* Title */}
-                <Body5
-                    color={Colors.PRIMARY_TEXT}
+                <H3
+                    color={Colors.TEXT_COLOR}
                     style={[styles.title, { fontFamily: 'Poppins_600SemiBold' }]}
                 >
                     Connect Your Calendar
-                </Body5>
+                </H3>
                 <Caption3 color={Colors.TEXT_COLOR} style={styles.subtitle}>
                     Paste the iCal link from your platform to automatically import your bookingtts
                 </Caption3>
@@ -79,24 +83,22 @@ export default function ConnectCalendarScreen() {
                         {/* Platform header */}
                         <View style={styles.platformHeader}>
                             <View style={[styles.platformIcon, { backgroundColor: platform.bgColor }]}>
-                                <Caption3
-                                    color={platform.textColor}
-                                    style={{ fontFamily: 'Poppins_600SemiBold' }}
-                                >
-                                    {platform.logo}
-                                </Caption3>
+                                <View style={styles.iconCircle}>
+                                    {platform.icon}
+                                </View>
                             </View>
                             <View style={{ flex: 1 }}>
                                 <Caption3 color={Colors.PRIMARY_TEXT}>{platform.name}</Caption3>
                                 <Caption4 color={Colors.TEXT_COLOR}>paste Ical(URL)</Caption4>
                             </View>
                             <Pressable
-                                style={[styles.saveBtn, { backgroundColor: platform.bgColor }]}
-                                onPress={() => {
-                                    if (urls[platform.id]) {
-                                        showToast(`${platform.name} calendar saved!`, 'success');
-                                    }
-                                }}
+                                style={[styles.saveBtn, { backgroundColor: "#34C7591A" }]}
+                                // onPress={() => {
+                                //     if (urls[platform.id]) {
+                                //         showToast(`${platform.name} calendar saved!`, 'success');
+                                //     }
+                                // }}
+                                onPress={()=>router.push("/host/(tabs)/planning")}
                             >
                                 <Caption3 color={platform.textColor}>Save</Caption3>
                             </Pressable>
@@ -107,7 +109,7 @@ export default function ConnectCalendarScreen() {
                             <TextInput
                                 style={styles.input}
                                 placeholder="Example: www.website.com"
-                                placeholderTextColor={Colors.TEXT_COLOR}
+                                placeholderTextColor={Colors.PLACEHOLDER_TEXT}
                                 value={urls[platform.id]}
                                 onChangeText={(v) =>
                                     setUrls((prev) => ({ ...prev, [platform.id]: v }))
@@ -122,7 +124,7 @@ export default function ConnectCalendarScreen() {
                 {/* Security note */}
                 <View style={styles.securityNote}>
                     <View style={styles.shieldIcon}>
-                        <Caption3 color={Colors.COLOR_ACTIVE}>🛡</Caption3>
+                        <Caption3 color={Colors.COLOR_ACTIVE}><SecurityIcon/></Caption3>
                     </View>
                     <View style={{ flex: 1 }}>
                         <Caption3 color={Colors.PRIMARY_TEXT}>Your data is secure</Caption3>
@@ -137,8 +139,14 @@ export default function ConnectCalendarScreen() {
 }
 
 const styles = StyleSheet.create({
-    safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND },
-    scroll: { paddingHorizontal: wp(20), paddingBottom: hp(40) },
+    safe: {
+        flex: 1,
+        backgroundColor: Colors.APP_BACKGROUND,
+        paddingHorizontal: wp(20),
+    },
+    scroll: {
+        paddingVertical: hp(20)
+    },
 
     // Property
     propertyCard: {
@@ -147,7 +155,7 @@ const styles = StyleSheet.create({
         gap: wp(12),
         marginBottom: hp(16),
     },
-    thumb: { width: wp(80), height: hp(70), borderRadius: wp(8) },
+    thumb: { width: wp(120), height: hp(70), borderRadius: wp(8) },
     propertyInfo: { flex: 1, gap: hp(4) },
     row: { flexDirection: 'row', alignItems: 'center', gap: wp(4) },
 
@@ -156,7 +164,12 @@ const styles = StyleSheet.create({
     subtitle: { marginBottom: hp(24), lineHeight: hp(20) },
 
     // Platform block
-    platformBlock: { marginBottom: hp(20) },
+    platformBlock: {
+         marginBottom: hp(14),
+        backgroundColor:Colors.INPUT_BACKGROUND,
+        padding:8,
+        borderRadius:wp(8)
+        },
     platformHeader: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -168,6 +181,14 @@ const styles = StyleSheet.create({
         borderRadius: wp(10),
         alignItems: 'center', justifyContent: 'center',
     },
+    iconCircle: {
+        height: wp(28),
+        width: wp(28),
+        borderRadius: wp(14),
+        backgroundColor: Colors.TEXT_WHITE,
+        alignItems: 'center',
+        justifyContent: 'center',   
+    },
     saveBtn: {
         paddingHorizontal: wp(16),
         paddingVertical: hp(8),
@@ -178,6 +199,8 @@ const styles = StyleSheet.create({
         borderRadius: wp(10),
         paddingHorizontal: wp(14),
         paddingVertical: hp(12),
+        borderWidth:0.5,
+        borderColor:Colors.BORDER_COLOR
     },
     input: {
         fontSize: 12,

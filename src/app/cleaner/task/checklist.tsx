@@ -14,11 +14,13 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
     Alert,
+    KeyboardAvoidingView,
+    Platform,
     Pressable,
     ScrollView,
     StyleSheet,
     TextInput,
-    View,
+    View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../../utils/responsiveDevice';
@@ -40,7 +42,7 @@ export default function ChecklistScreen() {
             return;
         }
         const result = await ImagePicker.launchCameraAsync({
-            mediaTypes: ['images'],   // ✅ deprecated MediaTypeOptions এর বদলে
+            mediaTypes: ['images'],
             quality: 0.8,
         });
         if (!result.canceled && result.assets[0]) {
@@ -56,7 +58,11 @@ export default function ChecklistScreen() {
         <SafeAreaView style={styles.safe}>
             <SectionTitle title="Check List" />
 
-            <View style={styles.container}>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                //  keyboardVerticalOffset={hp(10)}
+            >
                 <ScrollView
                     contentContainerStyle={styles.scroll}
                     showsVerticalScrollIndicator={false}
@@ -156,7 +162,7 @@ export default function ChecklistScreen() {
                         height={hp(52)}
                     />
                 </View>
-            </View>
+            </KeyboardAvoidingView>
 
             <ChecklistSentModal
                 visible={modalVisible}
@@ -258,7 +264,7 @@ const styles = StyleSheet.create({
     },
 
     footer: {
-        paddingVertical: hp(16),
+
         backgroundColor: Colors.APP_BACKGROUND,
     },
 });

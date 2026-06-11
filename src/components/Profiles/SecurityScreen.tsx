@@ -44,7 +44,7 @@ function Row({
                     </Caption3>
                 )}
             </View>
-            {/* ✅ Body6 এর ভেতর icon না রেখে সরাসরি */}
+           
             <RightAngleIcon size={28} color={Colors.TEXT_COLOR} />
         </Pressable>
     );

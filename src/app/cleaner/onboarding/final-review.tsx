@@ -44,7 +44,7 @@ export default function FinalReviewScreen() {
         <SafeAreaView style={styles.safe}>
             <SectionTitle title="Gestlio" />
 
-            <View style={{ marginVertical: hp(20) }}>
+            <View style={{ marginVertical: hp(30) }}>
                 <StepIndicator
                     totalSteps={5}
                     currentStep={4}
@@ -66,7 +66,7 @@ export default function FinalReviewScreen() {
                 {/* Professional Status card */}
                 <View style={styles.infoRow}>
                     <View style={styles.iconBox}>
-                        <VerifyIcon />
+                        <VerifyIcon  size={20}/>
                     </View>
                     <View style={styles.infoText}>
                         <Body2 color={Colors.SECONDARY_TEXT}>Professional Status</Body2>
@@ -238,8 +238,8 @@ const styles = StyleSheet.create({
     },
     footer: {
         // paddingHorizontal: wp(20),
-        paddingBottom: hp(24),
-        paddingTop: hp(10),
+        // paddingBottom: hp(24),
+        // paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,
     },
 });

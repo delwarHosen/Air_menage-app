@@ -11,7 +11,8 @@ import { useForm } from '@/hooks/useForm';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../utils/responsiveDevice';
 import { validateEmail } from '../../../utils/validation';
 
@@ -32,7 +33,7 @@ export default function TakeEmailScreen() {
   });
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.APP_BACKGROUND }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.root}
@@ -52,45 +53,53 @@ export default function TakeEmailScreen() {
         </View>
 
         {/* Step indicator */}
-        <StepIndicator 
-        totalSteps={4}
-         currentStep={1}
-         activeColor={Colors.BRAND_PRIMARY}
-         inactiveColor={Colors.BRAND_PRIMARY}
-         />
-
-        <View style={styles.content}>
-          {/* Logo */}
-          <Image
-            source={IMAGE_COMPONENTS.homeLogo}
-            style={styles.logo}
-            contentFit="contain"
+        <View style={{ marginVertical: hp(30) }}>
+          <StepIndicator
+            totalSteps={4}
+            currentStep={1}
+            activeColor={Colors.BRAND_PRIMARY}
+            inactiveColor={Colors.BRAND_PRIMARY}
           />
-
-          {/* Title & description */}
-          <H1 color={Colors.PRIMARY_TEXT} style={styles.title}>
-            Create your account
-          </H1>
-          <Caption3 color={Colors.TEXT_COLOR} style={styles.description}>
-            Join our health platform for simplified management of your well-being.
-          </Caption3>
-
-          {/* Email field */}
-          <View style={styles.fieldGroup}>
-            <Body3 color={Colors.PRIMARY_TEXT} style={styles.label}>
-              Email
-            </Body3>
-            <FormInput
-              value={values[FORM_FIELDS.EMAIL]}
-              onChangeText={(text) => handleChange(FORM_FIELDS.EMAIL, text)}
-              type="email"
-              placeholder="Your Email"
-              leftIcon={<EmailIcon size={16} color="#8C88A3" />}
-              error={errors[FORM_FIELDS.EMAIL]}
-              touched={touched[FORM_FIELDS.EMAIL]}
-            />
-          </View>
         </View>
+
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.content}>
+            {/* Logo */}
+            <Image
+              source={IMAGE_COMPONENTS.homeLogo}
+              style={styles.logo}
+              contentFit="contain"
+            />
+
+            {/* Title & description */}
+            <H1 color={Colors.PRIMARY_TEXT} style={styles.title}>
+              Create your account
+            </H1>
+            <Caption3 color={Colors.TEXT_COLOR} style={styles.description}>
+              Join our health platform for simplified management of your well-being.
+            </Caption3>
+
+            {/* Email field */}
+            <View style={styles.fieldGroup}>
+              <Body3 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                Email
+              </Body3>
+              <FormInput
+                value={values[FORM_FIELDS.EMAIL]}
+                onChangeText={(text) => handleChange(FORM_FIELDS.EMAIL, text)}
+                type="email"
+                placeholder="Your Email"
+                leftIcon={<EmailIcon size={16} color="#8C88A3" />}
+                error={errors[FORM_FIELDS.EMAIL]}
+                touched={touched[FORM_FIELDS.EMAIL]}
+              />
+            </View>
+          </View>
+        </ScrollView>
 
         {/* Bottom button */}
         <View style={styles.footer}>
@@ -107,21 +116,19 @@ export default function TakeEmailScreen() {
           />
         </View>
       </KeyboardAvoidingView>
-    </>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: Colors.APP_BACKGROUND,
     paddingHorizontal: wp(20),
     paddingTop: hp(20),
   },
   topRow: {
     marginBottom: hp(30),
-    marginVertical: hp(10),
-
+    marginVertical: hp(30),
   },
   backBtn: {
     width: wp(36),
@@ -132,7 +139,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
   },
-
   content: {
     flex: 1,
   },
@@ -156,6 +162,7 @@ const styles = StyleSheet.create({
     marginLeft: wp(2),
   },
   footer: {
-    paddingBottom: hp(32),
+    // paddingBottom: hp(32),
+    paddingTop: hp(12),
   },
 });

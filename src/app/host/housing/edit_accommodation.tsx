@@ -275,8 +275,8 @@ const editStyles = StyleSheet.create({
         paddingHorizontal: wp(20)
     },
     scroll: {
-        paddingTop: hp(10),
-        paddingBottom: hp(50)
+        paddingTop: hp(20),
+        paddingBottom: hp(10)
     },
     photoBox: {
         width: '100%',
@@ -326,7 +326,7 @@ const editStyles = StyleSheet.create({
     },
     footer: {
         // paddingHorizontal: wp(20),
-        paddingVertical: hp(16),
+        // paddingVertical: hp(16),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1,
         // borderColor: Colors.BORDER_COLOR,

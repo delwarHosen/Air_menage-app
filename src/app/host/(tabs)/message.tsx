@@ -6,11 +6,11 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-  FlatList,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  View,
+    FlatList,
+    Pressable,
+    StyleSheet,
+    TextInput,
+    View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../../utils/responsiveDevice';
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     },
     pageTitle: {
         textAlign: 'center',
-        paddingVertical: hp(14),
+        paddingVertical: hp(20),
         fontFamily: 'Poppins_600SemiBold',
     },
     searchBox: {

@@ -102,7 +102,7 @@ export default function AccommodationScreen() {
                     width="100%"
                     backgroundColor={Colors.PRIMARY_TEXT}
                     color="#fff"
-                    borderRadius={wp(14)}
+                    borderRadius={wp(8)}
                     height={hp(52)}
                     isLoading={loading}
                 />
@@ -126,10 +126,15 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        marginTop: hp(15)
+        marginTop: hp(5)
     },
-    subtitle: { marginBottom: hp(16), marginTop: hp(4) },
-    list: { paddingBottom: hp(100) },
+    subtitle: {
+         marginBottom: hp(16), 
+        marginTop: hp(4) 
+    },
+    list: { 
+        paddingBottom: hp(20)
+     },
     card: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -183,7 +188,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#0088FF",
     },
     footer: {
-        paddingBottom: wp(10),
+        // paddingBottom: wp(10),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1,
         borderColor: Colors.BORDER_COLOR,

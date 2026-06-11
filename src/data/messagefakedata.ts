@@ -39,7 +39,7 @@ export const HOST_CONVERSATIONS: Conversation[] = [
     {
         id: 'cleaner_2',
         name: 'Cyra',
-        image: IMAGE_COMPONENTS.cleanerPP,
+        image: IMAGE_COMPONENTS.cleanerPP1,
         lastMessage: 'its urgentt do it asap',
         time: '3.10 pm',
         messages: [
@@ -51,7 +51,7 @@ export const HOST_CONVERSATIONS: Conversation[] = [
     {
         id: 'cleaner_3',
         name: 'Kiara',
-        image: IMAGE_COMPONENTS.cleanerPP,
+        image: IMAGE_COMPONENTS.cleanerPP1,
         lastMessage: 'your most wlcm',
         time: '3.10 pm',
         messages: [
@@ -73,7 +73,7 @@ export const HOST_CONVERSATIONS: Conversation[] = [
     {
         id: 'cleaner_5',
         name: 'cyron',
-        image: IMAGE_COMPONENTS.cleanerPP,
+        image: IMAGE_COMPONENTS.cleanerPP1,
         lastMessage: 'its amazing bruhhh..',
         time: '3.10 pm',
         messages: [
@@ -104,7 +104,7 @@ export const CLEANER_CONVERSATIONS: Conversation[] = [
     {
         id: 'host_2',
         name: 'Thomas',
-        image: IMAGE_COMPONENTS.hostProfile,
+        image: IMAGE_COMPONENTS.hostPP,
         lastMessage: 'See you tomorrow!',
         time: '2.45 pm',
         messages: [
@@ -116,7 +116,7 @@ export const CLEANER_CONVERSATIONS: Conversation[] = [
     {
         id: 'host_3',
         name: 'Marie',
-        image: IMAGE_COMPONENTS.hostProfile,
+        image: IMAGE_COMPONENTS.hostPP1,
         lastMessage: 'Perfect, thank you!',
         time: '1.30 pm',
         messages: [

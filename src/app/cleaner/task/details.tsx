@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     // Footer
     footer: {
         paddingHorizontal: wp(20),
-        paddingVertical: hp(16),
+        // paddingVertical: hp(16),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1,
         // borderColor: Colors.BORDER_COLOR,

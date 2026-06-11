@@ -1,4 +1,3 @@
-
 import { LeftArrowIcon } from '@/assets/icons/common_icon/LeftArrowIcon';
 import { PlusCircleIcon } from '@/assets/icons/common_icon/PlusCircleIcon';
 import { SendMessageIcon } from '@/assets/icons/common_icon/SendMessageIcon';
@@ -7,54 +6,63 @@ import { Colors } from '@/constants/theme';
 import { HOST_CONVERSATIONS } from '@/data/messagefakedata';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
+    Animated,
     FlatList,
-    KeyboardAvoidingView,
-    Platform,
+    Keyboard,
     Pressable,
     StyleSheet,
     TextInput,
     View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fp, hp, wp } from '../../../../utils/responsiveDevice';
 
 export default function HostChatScreen() {
     const router = useRouter();
+    const insets = useSafeAreaInsets();
     const { conversationId } = useLocalSearchParams<{ conversationId: string }>();
     const flatListRef = useRef<FlatList>(null);
+    const keyboardHeight = useRef(new Animated.Value(0)).current;
 
-    // conversation খুঁজে বের করা
     const conversation = HOST_CONVERSATIONS.find((c) => c.id === conversationId);
-
     const [messages, setMessages] = useState(conversation?.messages ?? []);
     const [inputText, setInputText] = useState('');
+
+    useEffect(() => {
+        const show = Keyboard.addListener('keyboardDidShow', (e) => {
+            Animated.timing(keyboardHeight, {
+                toValue: e.endCoordinates.height,
+                duration: 0,
+                useNativeDriver: false,
+            }).start();
+            setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
+        });
+        const hide = Keyboard.addListener('keyboardDidHide', () => {
+            Animated.timing(keyboardHeight, {
+                toValue: 0,
+                duration: 0,
+                useNativeDriver: false,
+            }).start();
+        });
+        return () => { show.remove(); hide.remove(); };
+    }, []);
 
     const handleSend = () => {
         const text = inputText.trim();
         if (!text) return;
-
         const newMsg = {
             id: String(Date.now()),
             sender: 'me' as const,
-            time: new Date().toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-            }),
+            time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
             text,
         };
-
         setMessages((prev) => [...prev, newMsg]);
         setInputText('');
-
-        // scroll to bottom
-        setTimeout(() => {
-            flatListRef.current?.scrollToEnd({ animated: true });
-        }, 100);
+        setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
     };
 
-    // time label — পরপর দুটো same time হলে শুধু একবার দেখাবে
     const shouldShowTime = (index: number) => {
         if (index === 0) return true;
         return messages[index].time !== messages[index - 1].time;
@@ -63,7 +71,8 @@ export default function HostChatScreen() {
     if (!conversation) return null;
 
     return (
-        <SafeAreaView style={styles.safe}>
+        <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
+
             {/* ── Header ── */}
             <View style={styles.header}>
                 <Pressable
@@ -73,21 +82,14 @@ export default function HostChatScreen() {
                 >
                     <LeftArrowIcon size={22} color={Colors.PRIMARY_TEXT} />
                 </Pressable>
-
-                <Image
-                    source={conversation.image}
-                    style={styles.headerAvatar}
-                    contentFit="cover"
-                />
+                <Image source={conversation.image} style={styles.headerAvatar} contentFit="cover" />
                 <Body6 color={Colors.PRIMARY_TEXT}>{conversation.name}</Body6>
             </View>
 
-            {/* ── Messages ── */}
-            <KeyboardAvoidingView
-                style={{ flex: 1 }}
-                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                keyboardVerticalOffset={hp(10)}
-            >
+            {/* ── Animated container — keyboard উঠলে সাথে উপরে যাবে ── */}
+            <Animated.View style={[styles.inner, { marginBottom: keyboardHeight }]}>
+
+                {/* ── Messages ── */}
                 <FlatList
                     ref={flatListRef}
                     data={messages}
@@ -99,7 +101,6 @@ export default function HostChatScreen() {
                     }
                     renderItem={({ item, index }) => (
                         <View>
-                            {/* Time label */}
                             {shouldShowTime(index) && (
                                 <Caption3
                                     color={"#989898"}
@@ -109,31 +110,15 @@ export default function HostChatScreen() {
                                     — {item.time} —
                                 </Caption3>
                             )}
-
-                            {/* Bubble */}
-                            <View
-                                style={[
-                                    styles.bubbleRow,
-                                    item.sender === 'me'
-                                        ? styles.bubbleRowMe
-                                        : styles.bubbleRowOther,
-                                ]}
-                            >
-                                <View
-                                    style={[
-                                        styles.bubble,
-                                        item.sender === 'me'
-                                            ? styles.bubbleMe
-                                            : styles.bubbleOther,
-                                    ]}
-                                >
-                                    <Caption1
-                                        color={
-                                            item.sender === 'me'
-                                                ? Colors.TEXT_WHITE
-                                                : Colors.PRIMARY_TEXT
-                                        }
-                                    >
+                            <View style={[
+                                styles.bubbleRow,
+                                item.sender === 'me' ? styles.bubbleRowMe : styles.bubbleRowOther,
+                            ]}>
+                                <View style={[
+                                    styles.bubble,
+                                    item.sender === 'me' ? styles.bubbleMe : styles.bubbleOther,
+                                ]}>
+                                    <Caption1 color={item.sender === 'me' ? Colors.TEXT_WHITE : Colors.PRIMARY_TEXT}>
                                         {item.text}
                                     </Caption1>
                                 </View>
@@ -143,7 +128,10 @@ export default function HostChatScreen() {
                 />
 
                 {/* ── Input bar ── */}
-                <View style={styles.inputBar}>
+                <View style={[
+                    styles.inputBar,
+                    { paddingBottom: insets.bottom > 0 ? insets.bottom : hp(12) }
+                ]}>
                     <View style={styles.inputBox}>
                         <TextInput
                             style={styles.input}
@@ -153,26 +141,20 @@ export default function HostChatScreen() {
                             placeholderTextColor={Colors.PLACEHOLDER_TEXT}
                             multiline
                         />
-                        <Pressable
-                            onPress={() => {/* attach */ }}
-                            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                        >
+                        <Pressable onPress={() => {}} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
                             <PlusCircleIcon size={24} color={Colors.TEXT_COLOR} />
                         </Pressable>
                     </View>
-
                     <Pressable
-                        style={[
-                            styles.sendBtn,
-                            !inputText.trim() && styles.sendBtnDisabled,
-                        ]}
+                        style={[styles.sendBtn, !inputText.trim() && styles.sendBtnDisabled]}
                         onPress={handleSend}
                         disabled={!inputText.trim()}
                     >
                         <SendMessageIcon size={20} color={"#FFFFFF"} />
                     </Pressable>
                 </View>
-            </KeyboardAvoidingView>
+
+            </Animated.View>
         </SafeAreaView>
     );
 }
@@ -182,6 +164,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
     },
+    inner: {
+        flex: 1,
+    },
 
     // ── Header ───────────────────────────────────────────────────────────────
     header: {
@@ -189,13 +174,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: wp(10),
         paddingHorizontal: wp(20),
-        paddingVertical: hp(14),
-        // borderBottomWidth: 1,
-        // borderBottomColor: Colors.BORDER_COLOR,
+        paddingVertical: hp(20),
     },
-    backBtn: {
-        marginRight: wp(4),
-    },
+    backBtn: { marginRight: wp(4) },
     headerAvatar: {
         width: wp(36),
         height: wp(36),
@@ -205,22 +186,13 @@ const styles = StyleSheet.create({
     // ── Messages ──────────────────────────────────────────────────────────────
     messageList: {
         paddingHorizontal: wp(16),
-        paddingVertical: hp(16),
+        paddingTop: hp(16),
         gap: hp(4),
     },
-    timeLabel: {
-        marginVertical: hp(12),
-    },
-    bubbleRow: {
-        flexDirection: 'row',
-        marginBottom: hp(8),
-    },
-    bubbleRowMe: {
-        justifyContent: 'flex-end',
-    },
-    bubbleRowOther: {
-        justifyContent: 'flex-start',
-    },
+    timeLabel: { marginVertical: hp(12) },
+    bubbleRow: { flexDirection: 'row', marginBottom: hp(8) },
+    bubbleRowMe: { justifyContent: 'flex-end' },
+    bubbleRowOther: { justifyContent: 'flex-start' },
     bubble: {
         maxWidth: '75%',
         borderRadius: wp(24),
@@ -228,7 +200,7 @@ const styles = StyleSheet.create({
         paddingVertical: hp(10),
     },
     bubbleMe: {
-        backgroundColor: '#636363',   // dark gray — design এর মতো
+        backgroundColor: '#636363',
         borderBottomRightRadius: wp(2),
     },
     bubbleOther: {
@@ -244,9 +216,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         gap: wp(10),
         paddingHorizontal: wp(16),
-        paddingVertical: hp(12),
-        // borderTopWidth: 1,
-        // borderTopColor: Colors.BORDER_COLOR,
+        paddingTop: hp(12),
         backgroundColor: Colors.APP_BACKGROUND,
     },
     inputBox: {
@@ -271,14 +241,11 @@ const styles = StyleSheet.create({
     },
     sendBtn: {
         width: wp(78),
-        height: wp(48),
+        height: wp(42),
         borderRadius: wp(24),
         backgroundColor: "#006C93",
         alignItems: 'center',
         justifyContent: 'center',
-        // flexShrink: 0,
     },
-    sendBtnDisabled: {
-        opacity: 0.5,
-    },
+    sendBtnDisabled: { opacity: 0.5 },
 });

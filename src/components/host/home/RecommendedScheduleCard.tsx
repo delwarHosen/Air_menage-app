@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     thumb: {
         width: wp(110),
         height: hp(160),
+        borderRadius:wp(10)
     },
     rightContent: {
         flex: 1,

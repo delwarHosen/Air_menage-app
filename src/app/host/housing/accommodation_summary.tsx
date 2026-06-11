@@ -185,7 +185,8 @@ const styles = StyleSheet.create({
     },
     footer: {
         paddingHorizontal: wp(20),
-        paddingVertical: hp(24),
+        // paddingVertical: hp(24),
+        paddingBottom:hp(10),
         backgroundColor: Colors.APP_BACKGROUND,
         alignItems: 'center',
         gap: hp(12),

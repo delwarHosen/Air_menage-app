@@ -1,8 +1,9 @@
 import { Colors } from '@/constants/theme';
 import React from 'react';
-import { DimensionValue, StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
+import { DimensionValue, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 
-import { fp, hp, wp } from '../../../utils/responsiveDevice';
+import { hp, wp } from '../../../utils/responsiveDevice';
+import { Caption2 } from '../typo/Typography';
 import CustomLoader from './CustomLoader';
 
 interface CustomButtonProps {
@@ -54,9 +55,9 @@ export const CustomButton = ({
         >
             {icon && icon}
             {title ? (
-                <Text style={{ fontFamily: "Poppins_600SemiBold", color, fontSize: fp(14) }}>
+                <Caption2 style={{  color }}>
                     {isLoading && <CustomLoader size={16} />} {title}
-                </Text>
+                </Caption2>
             ) : null}
             
         </TouchableOpacity>

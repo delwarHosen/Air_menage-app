@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND },
     header: {
         paddingHorizontal: wp(20),
-        paddingTop: hp(8),
+        paddingTop: hp(30),
         paddingBottom: hp(16),
         gap: hp(4),
     },
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
         padding:5
     },
     thumb: {
-        width: wp(100),
-        height: hp(100),
+        width: wp(90),
+        height: hp(110),
         borderRadius: wp(10),
     },
     info: { flex: 1, gap: hp(4) },

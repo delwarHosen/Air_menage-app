@@ -94,7 +94,7 @@ export default function HostMenuScreen() {
                     onPress={() =>
                         Alert.alert('Logout', 'Are you sure?', [
                             { text: 'Cancel', style: 'cancel' },
-                            { text: 'Logout', style: 'destructive', onPress: () => router.replace('/auth' as any) },
+                            { text: 'Logout', style: 'destructive', onPress: () => router.replace('/(auth)/login' as any) },
                         ])
                     }
                 >

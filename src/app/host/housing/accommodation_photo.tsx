@@ -19,10 +19,13 @@ export default function AccommodationPhotoScreen() {
     return (
         <SafeAreaView style={styles.safe}>
 
-            <View style={{paddingHorizontal: wp(20),}}>
-              <SectionTitle title="Accommodation photo" />
-          </View>
-            <View style={{ marginVertical: hp(20) }}>
+            <View style={{ paddingHorizontal: wp(20), }}>
+                <SectionTitle title="Accommodation photo" />
+            </View>
+            <View style={{
+                marginTop: hp(30),
+                marginBottom: hp(10)
+            }}>
                 <StepIndicator totalSteps={5} currentStep={3} activeColor='#0088FF' inactiveColor='#0088FF' />
             </View>
 
@@ -38,7 +41,7 @@ export default function AccommodationPhotoScreen() {
                 <Pressable
                     style={styles.uploadBox}
                     onPress={() => setPhoto(IMAGE_COMPONENTS.apartment)}
-                    // activeOpacity={0.8}
+                // activeOpacity={0.8}
                 >
                     {photo ? (
                         <>
@@ -49,7 +52,7 @@ export default function AccommodationPhotoScreen() {
                             />
                             {/* Overlay with camera icon */}
                             <View style={styles.overlay}>
-                                <Caption3 color="#fff" style={{ fontSize: 24 }}><CameraIcon/></Caption3>
+                                <Caption3 color="#fff" style={{ fontSize: 24 }}><CameraIcon /></Caption3>
                                 <Caption3 color="#fff" style={styles.uploadText}>
                                     Upload here
                                 </Caption3>
@@ -90,8 +93,8 @@ export default function AccommodationPhotoScreen() {
 const styles = StyleSheet.create({
     safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND },
     content: { flex: 1, paddingHorizontal: wp(20) },
-    title: { marginBottom: hp(6), fontFamily: 'Poppins_600SemiBold' },
-    subtitle: { marginBottom: hp(20) },
+    title: { marginBottom: hp(6), fontFamily: 'Poppins_600SemiBold',textAlign:"center" },
+    subtitle: { marginBottom: hp(20),textAlign:"center" },
     uploadBox: {
         width: '100%',
         height: hp(300),

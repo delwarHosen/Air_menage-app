@@ -1,7 +1,7 @@
 import { LocationIcon } from '@/assets/icons/cleaner_icon/LocationIcon';
 import { RightAngleIcon } from '@/assets/icons/common_icon/RightAngleIcon';
 import { DateScrollPicker } from '@/components/cleaner/task/Datescrollpicker';
-import { Body1, Body4, Body5, Caption2, Caption3, Caption4 } from '@/components/typo/Typography';
+import { Body4, Body5, Caption2, Caption3, Caption4, H6 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { ALL_PLANNING_TASKS, PLANNING_DATA } from '@/data/planningfakedata';
 import { Image } from 'expo-image';
@@ -86,7 +86,7 @@ export default function PlanningScreen() {
             >
                 {/* Page title */}
                 <View style={styles.titleRow}>
-                    <Body1 color={Colors.PRIMARY_TEXT}>Planning</Body1>
+                    <H6 color={Colors.PRIMARY_TEXT}>Planning</H6>
                     <Caption3 color={Colors.TEXT_COLOR}>Your upcoming mission</Caption3>
                 </View>
 
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         paddingBottom: hp(100),
     },
     titleRow: {
-        marginBottom: hp(16),
+        marginVertical: hp(20),
         gap: hp(2),
     },
     sectionHeader: {

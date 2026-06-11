@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
 
     // Footer
     footer: {
-        padding: wp(20),
+        // padding: wp(20),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1,
         // borderColor: Colors.BORDER_COLOR,

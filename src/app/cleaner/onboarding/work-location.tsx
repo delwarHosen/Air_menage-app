@@ -50,7 +50,7 @@ export default function WorkLocationScreen() {
         <SafeAreaView style={styles.safe}>
             <SectionTitle title="Gestlio" />
 
-            <View style={{ marginVertical: hp(20) }}>
+            <View style={{ marginVertical: hp(30) }}>
                 <StepIndicator
                     totalSteps={5}
                     currentStep={3}
@@ -257,8 +257,8 @@ const styles = StyleSheet.create({
     },
     footer: {
         // paddingHorizontal: wp(20),
-        paddingBottom: hp(24),
-        paddingTop: hp(10),
+        // paddingBottom: hp(24),
+        // paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,
     },
 });

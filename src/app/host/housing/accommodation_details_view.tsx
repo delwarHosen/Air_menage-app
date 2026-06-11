@@ -265,14 +265,14 @@ const styles = StyleSheet.create({
         marginBottom: hp(16),
     },
     footer: {
-        paddingVertical: hp(16),
+        // paddingVertical: hp(16),
         gap: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,
     },
     editBtn: {
         alignItems: 'center',
         paddingVertical: hp(14),
-        borderRadius: wp(14),
+        borderRadius: wp(8),
         borderWidth: 1,
         borderColor: Colors.BORDER_COLOR,
     },
