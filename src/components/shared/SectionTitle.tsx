@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingBottom: hp(10),
         // paddingTop: hp(20),
+        marginTop:hp(30)
     },
     sideSlot: {
         width: wp(40),

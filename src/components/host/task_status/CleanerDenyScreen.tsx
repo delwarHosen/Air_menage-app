@@ -113,8 +113,9 @@ export function CleanerDenyScreen() {
                 width="100%"
                 backgroundColor={Colors.PRIMARY_TEXT}
                 color="#fff"
-                borderRadius={wp(14)}
+                borderRadius={wp(8)}
                 style={{ marginTop: hp(24) }}
+                height={hp(52)}
             />
         </ScrollView>
     );
@@ -155,7 +156,8 @@ const styles = StyleSheet.create({
     },
     thumb: {
         width: wp(120),
-        height: hp(160)
+        height: hp(160),
+        borderRadius:wp(10)
     },
     apartmentInfo: {
         flex: 1,

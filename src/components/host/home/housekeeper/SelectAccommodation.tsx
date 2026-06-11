@@ -84,7 +84,7 @@ export function SelectAccommodation({
                     width="100%"
                     backgroundColor={Colors.PRIMARY_TEXT}
                     color="#fff"
-                    borderRadius={wp(14)}
+                    borderRadius={wp(8)}
                     height={hp(52)}
                 />
             </View>
@@ -94,7 +94,7 @@ export function SelectAccommodation({
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
-    list: { paddingBottom: hp(100) },
+    list: { paddingBottom: hp(20) },
     card: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
         gap: hp(4),
     },
     footer: {
-        paddingBottom: wp(10),
+        // paddingBottom: wp(10),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1,
         // borderColor: Colors.BORDER_COLOR,

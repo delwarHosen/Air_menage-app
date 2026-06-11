@@ -12,10 +12,12 @@ import {
     KeyboardAvoidingView,
     Platform,
     Pressable,
+    ScrollView,
     StyleSheet,
     TextInput,
     View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { fp, hp, wp } from '../../../utils/responsiveDevice';
 
 const OTP_LENGTH = 6;
@@ -25,7 +27,6 @@ export default function VerificationEmailScreen() {
     const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(''));
     const inputRefs = useRef<(TextInput | null)[]>([]);
 
-    // Replace with real email from navigation params / context
     const email = 'julien.dupont@email.com';
     const maskedDisplay = email;
 
@@ -45,12 +46,6 @@ export default function VerificationEmailScreen() {
         }
     };
 
-    const handleContinue = () => {
-        const code = otp.join('');
-        console.log('Email OTP submitted:', code);
-        // router.push('/(auth)/how_do_you_use' as any);
-    };
-
     const handleResend = () => {
         console.log('Resend code tapped');
     };
@@ -58,120 +53,129 @@ export default function VerificationEmailScreen() {
     return (
         <>
             <Stack.Screen options={{ headerShown: false }} />
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.root}
-            >
-                {/* Back button */}
-                <View style={styles.topRow}>
-                    <Pressable
-                        onPress={() => router.back()}
-                        style={({ pressed }) => [
-                            styles.backBtn,
-                            { opacity: pressed ? 0.6 : 1 }
-                        ]}
-                        hitSlop={8}
-                    >
-                        <LeftAngleIcon />
-                    </Pressable>
-                </View>
-
-                {/* Step indicator */}
-                <StepIndicator 
-                totalSteps={4}
-                 currentStep={2}
-                 activeColor={Colors.BRAND_PRIMARY}
-                 inactiveColor={Colors.BRAND_PRIMARY}
-                 />
-
-                <View style={styles.content}>
-                    <Image
-                        source={IMAGE_COMPONENTS.emailImage}
-                        style={styles.imageEmail}
-                        contentFit="contain"
-                    />
-
-                    <H1 color={Colors.PRIMARY_TEXT} style={styles.title}>
-                        Verification E-mail
-                    </H1>
-                    <Body6 color={Colors.TEXT_COLOR} style={styles.description}>
-                        We have sent to a code to
-                    </Body6>
-                    <Body6 color={Colors.PRIMARY_TEXT} style={styles.emailText}>
-                        {maskedDisplay}
-                    </Body6>
-
-                    {/* Email display row */}
-                    <View style={styles.fieldGroup}>
-                        <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                            Email
-                        </Body6>
-                        <View style={styles.emailRow}>
-                            {/* Email icon */}
-                            <View style={styles.emailIconWrapper}>
-                                <View style={styles.emailIconOuter}>
-                                    <EmailIcon/>
-                                </View>
-                            </View>
-                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.emailValue}>
-                                {maskedDisplay}
-                            </Body6>
-                            <Pressable onPress={() => router.back()}>
-                                <Caption3 color={"#35A9D6"}>Modify?</Caption3>
-                            </Pressable>
-                        </View>
-                    </View>
-
-                    {/* OTP boxes */}
-                    <Caption3 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                        Type here code
-                    </Caption3>
-                    <View style={styles.otpRow}>
-                        {otp.map((digit, index) => (
-                            <TextInput
-                                key={index}
-                                ref={(ref) => { inputRefs.current[index] = ref; }}
-                                style={[styles.otpBox, digit ? styles.otpBoxFilled : styles.otpBoxEmpty]}
-                                value={digit}
-                                onChangeText={(text) => handleChange(text, index)}
-                                onKeyPress={({ nativeEvent }) => handleKeyPress(nativeEvent.key, index)}
-                                keyboardType="number-pad"
-                                maxLength={1}
-                                textContentType="oneTimeCode"
-                                selectTextOnFocus
-                            />
-                        ))}
-                    </View>
-
-                    {/* Resend */}
-                    <View style={styles.resendRow}>
-                        <Pressable onPress={handleResend}>
-                            <Caption3
-                                color={Colors.PRIMARY_TEXT}
-                                style={styles.resendText}
-                            >
-                                Resend Code
-                            </Caption3>
+            <SafeAreaView style={{ flex: 1, backgroundColor: Colors.APP_BACKGROUND }}>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    style={styles.root}
+                >
+                    {/* Back button */}
+                    <View style={styles.topRow}>
+                        <Pressable
+                            onPress={() => router.back()}
+                            style={({ pressed }) => [
+                                styles.backBtn,
+                                { opacity: pressed ? 0.6 : 1 }
+                            ]}
+                            hitSlop={8}
+                        >
+                            <LeftAngleIcon />
                         </Pressable>
                     </View>
-                </View>
 
-                {/* Bottom button */}
-                <View style={styles.footer}>
-                    <CustomButton
-                        title="Continue"
-                        // onPress={handleContinue}
-                        onPress={() => {
-                            const code = otp.join('');
-                            console.log('Email OTP submitted:', code);
-                            router.push('/(auth)/complete_information' as any);
-                        }}
-                        width="100%"
-                        height={hp(52)}
-                        borderRadius={14}
-                    />
-                </View>
-            </KeyboardAvoidingView>
+                    {/* Step indicator */}
+                    <View style={{ marginVertical: hp(20) }}>
+                        <StepIndicator
+                            totalSteps={4}
+                            currentStep={2}
+                            activeColor={Colors.BRAND_PRIMARY}
+                            inactiveColor={Colors.BRAND_PRIMARY}
+                        />
+                    </View>
+
+                    <ScrollView
+                        contentContainerStyle={{ flexGrow: 1 }}
+                        showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps="handled"
+                    >
+                        <View style={styles.content}>
+                            <Image
+                                source={IMAGE_COMPONENTS.emailImage}
+                                style={styles.imageEmail}
+                                contentFit="contain"
+                            />
+
+                            <H1 color={Colors.PRIMARY_TEXT} style={styles.title}>
+                                Verification E-mail
+                            </H1>
+                            <Body6 color={Colors.TEXT_COLOR} style={styles.description}>
+                                We have sent to a code to
+                            </Body6>
+                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.emailText}>
+                                {maskedDisplay}
+                            </Body6>
+
+                            {/* Email display row */}
+                            <View style={styles.fieldGroup}>
+                                <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                    Email
+                                </Body6>
+                                <View style={styles.emailRow}>
+                                    <View style={styles.emailIconWrapper}>
+                                        <View style={styles.emailIconOuter}>
+                                            <EmailIcon />
+                                        </View>
+                                    </View>
+                                    <Body6 color={Colors.PRIMARY_TEXT} style={styles.emailValue}>
+                                        {maskedDisplay}
+                                    </Body6>
+                                    <Pressable onPress={() => router.back()}>
+                                        <Caption3 color={"#35A9D6"}>Modify?</Caption3>
+                                    </Pressable>
+                                </View>
+                            </View>
+
+                            {/* OTP boxes */}
+                            <Caption3 color={Colors.PRIMARY_TEXT} style={styles.label}>
+                                Type here code
+                            </Caption3>
+                            <View style={styles.otpRow}>
+                                {otp.map((digit, index) => (
+                                    <TextInput
+                                        key={index}
+                                        ref={(ref) => { inputRefs.current[index] = ref; }}
+                                        style={[styles.otpBox, digit ? styles.otpBoxFilled : styles.otpBoxEmpty]}
+                                        value={digit}
+                                        onChangeText={(text) => handleChange(text, index)}
+                                        onKeyPress={({ nativeEvent }) => handleKeyPress(nativeEvent.key, index)}
+                                        keyboardType="number-pad"
+                                        maxLength={1}
+                                        textContentType="oneTimeCode"
+                                        selectTextOnFocus
+                                    />
+                                ))}
+                            </View>
+
+                            {/* Resend */}
+                            <View style={styles.resendRow}>
+                                <Pressable onPress={handleResend}>
+                                    <Caption3
+                                        color={Colors.PRIMARY_TEXT}
+                                        style={styles.resendText}
+                                    >
+                                        Resend Code
+                                    </Caption3>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </ScrollView>
+
+                    {/* Bottom button */}
+                    <View style={styles.footer}>
+                        <CustomButton
+                            title="Continue"
+                            // onPress={handleContinue}
+                            onPress={() => {
+                                const code = otp.join('');
+                                console.log('Email OTP submitted:', code);
+                                router.push('/(auth)/complete_information' as any);
+                            }}
+                            width="100%"
+                            height={hp(52)}
+                            borderRadius={14}
+                        />
+                    </View>
+                </KeyboardAvoidingView>
+            </SafeAreaView>
         </>
     );
 }
@@ -179,7 +183,6 @@ export default function VerificationEmailScreen() {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: Colors.APP_BACKGROUND,
         paddingHorizontal: wp(20),
         paddingTop: hp(20),
     },
@@ -283,15 +286,7 @@ const styles = StyleSheet.create({
     emailIconWrapper: {
         marginRight: wp(10),
     },
-    emailIconOuter: {
-        // width: wp(18),
-        // height: wp(14),
-        // borderRadius: 3,
-        // // borderWidth: 1.5,
-        // borderColor: Colors.TEXT_COLOR,
-        // justifyContent: 'center',
-        // alignItems: 'center',
-    },
+    emailIconOuter: {},
     emailIconInner: {
         width: wp(12),
         height: wp(6),
@@ -335,6 +330,6 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
     },
     footer: {
-        paddingBottom: hp(32),
+        // paddingBottom: hp(32),
     },
 });

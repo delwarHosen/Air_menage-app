@@ -101,7 +101,7 @@ export function HousekeeperDetail({ data, onAddHousekeeper }: Props) {
                     width="100%"
                     backgroundColor={Colors.PRIMARY_TEXT}
                     color="#fff"
-                    borderRadius={wp(14)}
+                    borderRadius={wp(8)}
                     height={hp(52)}
                 />
             </View>
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     footer: {
-        paddingBottom: wp(10),
+        // paddingBottom: wp(10),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1,
         // borderColor: Colors.BORDER_COLOR,

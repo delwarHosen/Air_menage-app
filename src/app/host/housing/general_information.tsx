@@ -26,7 +26,7 @@ export default function GeneralInformationScreen() {
           <View style={{paddingHorizontal: wp(20),}}>
               <SectionTitle title="General information" />
           </View>
-            <View style={{ marginVertical: hp(20) }}>
+            <View style={{ marginTop: hp(30),marginBottom:hp(10) }}>
                 <StepIndicator totalSteps={5} currentStep={1} activeColor='#0088FF' inactiveColor='#0088FF' />
             </View>
 
@@ -109,9 +109,9 @@ paddingHorizontal: wp(20),
     title: { marginBottom: hp(8),
         textAlign:"center"
     },
-    subtitle: { marginBottom: hp(24) },
+    subtitle: { marginBottom: hp(24),textAlign:"center" },
     footer: {
-        paddingVertical: hp(16),
+        // paddingVertical: hp(16),
         paddingHorizontal: wp(20),
         backgroundColor: Colors.APP_BACKGROUND,
     },

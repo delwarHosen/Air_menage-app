@@ -1,6 +1,6 @@
 import { LocationIcon } from '@/assets/icons/cleaner_icon/LocationIcon';
 import { RightAngleIcon } from '@/assets/icons/common_icon/RightAngleIcon';
-import { Body2, Body4, Caption1, Caption3, Caption4 } from '@/components/typo/Typography';
+import { Body2, Caption1, Caption3, Caption4, H2 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { HOUSING_LIST } from '@/data/hostFakeData';
 import { HousingItem } from '@/types/taskStatus';
@@ -77,7 +77,7 @@ export default function HousingScreen() {
         <SafeAreaView style={styles.safe}>
             {/* Header */}
             <View style={styles.header}>
-                <Body4 color={Colors.PRIMARY_TEXT}>Housing</Body4>
+                <H2 color={Colors.PRIMARY_TEXT}>Housing</H2>
                 <Pressable
                     style={styles.plusBtn}
                     onPress={() =>
@@ -85,6 +85,7 @@ export default function HousingScreen() {
                     }
                 >
                     <Caption3 color={Colors.PRIMARY_TEXT} style={styles.plusText}>+</Caption3>
+                    {/* <PlusCircleIcon size={24}/> */}
                 </Pressable>
             </View>
 
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: wp(20),
-        paddingBottom: hp(14),
+        paddingVertical: hp(20),
     },
     plusBtn: {
         width: wp(40),

@@ -180,7 +180,8 @@ const styles = StyleSheet.create({
         },
     photo: {
          width: '100%',
-          height: hp(450)
+          height: hp(450),
+          borderRadius:wp(15)
         },
     closeBtn: {
         position: 'absolute', top: wp(8), right: wp(8),
@@ -189,10 +190,10 @@ const styles = StyleSheet.create({
         alignItems: 'center', justifyContent: 'center',
     },
     footer: {
-        position: 'absolute', bottom: 0, left: 0, right: 0,
+        // position: 'absolute', bottom: 0, left: 0, right: 0,
         flexDirection: 'row',
         gap: wp(10),
-        padding: wp(20),
+        // padding: wp(20),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1,
         // borderColor: Colors.BORDER_COLOR,

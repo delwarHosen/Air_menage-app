@@ -144,8 +144,8 @@ const styles = StyleSheet.create({
         padding: wp(14),
     },
     footer: {
-        position: 'absolute', bottom: 0, left: 0, right: 0,
-        paddingVertical: wp(20),
+        // position: 'absolute', bottom: 0, left: 0, right: 0,
+        // paddingVertical: wp(20),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1, borderColor: Colors.BORDER_COLOR,
     },

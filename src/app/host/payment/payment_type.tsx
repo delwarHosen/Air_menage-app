@@ -162,7 +162,8 @@ export default function PaymentScreen() {
                     width="100%"
                     backgroundColor={"#0088FF"}
                     color="#fff"
-                    borderRadius={wp(14)}
+                    borderRadius={wp(8)}
+                    height={hp(52)}
                 />
             </View>
         </SafeAreaView>
@@ -211,8 +212,8 @@ const payStyles = StyleSheet.create({
     payIcon: { width: wp(36), height: hp(22) },
     payMethodIcon: { width: wp(44), height: hp(24) },
     footer: {
-        position: 'absolute', bottom: 0, left: 0, right: 0,
-        padding: wp(20),
+        // position: 'absolute', bottom: 0, left: 0, right: 0,
+        // padding: wp(20),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1,
         //  borderColor: Colors.BORDER_COLOR,

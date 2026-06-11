@@ -67,13 +67,13 @@ export default function HostHomeScreen() {
         } as any);
     };
 
-    // শুধু ২টা দেখাবে
+   
     const visibleSchedule = RECOMMENDED_SCHEDULE ? [RECOMMENDED_SCHEDULE].slice(0, 2) : [];
     const visibleTasks = TODO_TASKS.slice(0, 2);
 
     return (
         <SafeAreaView style={styles.safe}>
-            <H2 color={Colors.TEXT_COLOR} style={styles.pageTitle}>Home</H2>
+            <H2 color={Colors.PRIMARY_TEXT} style={styles.pageTitle}>Home</H2>
             <ScrollView
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
@@ -152,7 +152,8 @@ const styles = StyleSheet.create({
     safe: {
         flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
-        paddingHorizontal: wp(20)
+        paddingHorizontal: wp(20),
+        paddingTop:hp(30)
     },
     scroll: {
         paddingBottom: hp(80)

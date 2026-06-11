@@ -29,7 +29,10 @@ export default function PracticalInformationScreen() {
             <View style={{ paddingHorizontal: wp(20), }}>
                 <SectionTitle title="Practical information" />
             </View>
-            <View style={{ marginVertical: hp(20) }}>
+            <View style={{
+                marginTop: hp(30),
+                marginBottom: hp(10)
+            }}>
                 <StepIndicator totalSteps={5} currentStep={4} activeColor='#0088FF' inactiveColor='#0088FF' />
             </View>
             <ScrollView
@@ -156,7 +159,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         paddingHorizontal: wp(20),
-        paddingVertical: hp(16),
+        // paddingVertical: hp(16),
         backgroundColor: Colors.APP_BACKGROUND,
     },
 });

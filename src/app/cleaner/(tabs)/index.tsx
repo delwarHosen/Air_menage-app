@@ -1,6 +1,6 @@
 import { TodayTaskCard } from '@/components/cleaner/home/TodayTaskCard';
 import { UpcomingTaskCard } from '@/components/cleaner/home/UpcomingTaskCard';
-import { Body4, Body5, Caption1, Caption3, Caption4, Caption5, H2 } from '@/components/typo/Typography';
+import { Body5, Caption1, Caption3, Caption4, Caption5, H2, H3 } from '@/components/typo/Typography';
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
 import { CLEANER_TASKS, UPCOMING_TASKS } from '@/data/cleanerFakeData';
@@ -60,7 +60,7 @@ export default function CleanerHomeScreen() {
             >
                 {/* Stats card */}
                 <View style={styles.statsCard}>
-                    <Body4 color={Colors.TEXT_COLOR}>Welcome back, Operative</Body4>
+                    <H3 color={Colors.TEXT_COLOR}>Welcome back, Operative</H3>
                     <View style={styles.statsRow}>
                         <View style={styles.statItem}>
                             <H2 color={Colors.PRIMARY_TEXT}>

@@ -67,7 +67,7 @@ function CleaningRequestCard({
                 <CustomButton
                     title='Accept'
                     color='#FFFFFF'
-                   onPress={onAccept}
+                    onPress={onAccept}
                     borderRadius={wp(5)}
                     borderColor='#FF383C1A'
                     backgroundColor={"#000000"}
@@ -106,17 +106,20 @@ export default function RequestsScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <ScrollView
-                contentContainerStyle={styles.scroll}
-                showsVerticalScrollIndicator={false}
-            >
-                {/* Header */}
+            {/* Header */}
+            <View style={{ marginTop: hp(20),paddingHorizontal:wp(20) }}>
                 <H3 color={Colors.PRIMARY_TEXT} style={styles.pageTitle}>
                     Requests
                 </H3>
                 <Caption3 color={Colors.TEXT_COLOR} style={styles.pageSubtitle}>
                     Hosts want to add your for regular cleaning
                 </Caption3>
+            </View>
+            <ScrollView
+                contentContainerStyle={styles.scroll}
+                showsVerticalScrollIndicator={false}
+            >
+
 
                 {/* Cleaning Requests */}
                 <Body4 color={Colors.TEXT_COLOR} style={styles.sectionTitle}>
@@ -201,9 +204,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         // borderTopWidth: 1,
         // borderTopColor: Colors.BORDER_COLOR,
-        paddingHorizontal:wp(8),
-        paddingVertical:hp(10),
-        gap:wp(5)
+        paddingHorizontal: wp(8),
+        paddingVertical: hp(10),
+        gap: wp(5)
     },
     refuseBtn: {
         flex: 1,
@@ -225,9 +228,9 @@ const styles = StyleSheet.create({
         borderRadius: wp(12),
     },
     connectionRow: {
-         backgroundColor: Colors.INPUT_BACKGROUND,
-          borderRadius: wp(12),
-          marginBottom:hp(10),
+        backgroundColor: Colors.INPUT_BACKGROUND,
+        borderRadius: wp(12),
+        marginBottom: hp(10),
         flexDirection: 'row',
         alignItems: 'center',
         gap: wp(12),

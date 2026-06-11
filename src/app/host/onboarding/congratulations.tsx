@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
         marginTop: hp(2),
     },
     footer: {
-        paddingBottom: hp(24),
-        paddingTop: hp(10),
+        // paddingBottom: hp(24),
+        // paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,
     },
 });

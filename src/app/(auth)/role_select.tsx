@@ -47,9 +47,9 @@ export default function RoleSelectScreen() {
         dispatch(setRole(selectedRole));
 
         if (selectedRole === 'host') {
-            router.push('/host/(tabs)' as any);
+            router.push('/host/onboarding/welcome_host' as any);
         } else {
-            router.push('/cleaner/(tabs)' as any);
+            router.push('/cleaner/onboarding/housekeeper_welcome' as any);
         }
     };
 
@@ -108,17 +108,18 @@ export default function RoleSelectScreen() {
                         </Pressable>
                     );
                 })}
+                <View style={styles.footer}>
+                    <CustomButton
+                        title="Continue"
+                        onPress={handleContinue}
+                        width="100%"
+                        height={hp(56)}
+                        borderRadius={8}
+                    />
+                </View>
             </View>
 
-            <View style={styles.footer}>
-                <CustomButton
-                    title="Continue"
-                    onPress={handleContinue}
-                    width="100%"
-                    height={hp(56)}
-                    borderRadius={14}
-                />
-            </View>
+
         </KeyboardAvoidingView>
     );
 }
@@ -183,5 +184,7 @@ const styles = StyleSheet.create({
         borderRadius: wp(5),
         backgroundColor: Colors.BRAND_PRIMARY,
     },
-    footer: { paddingBottom: hp(32) },
+    footer: {
+        //  paddingBottom: hp(32)
+    },
 });

@@ -104,7 +104,7 @@ export default function PaymentSuccessScreen() {
                     width="100%"
                     backgroundColor={Colors.PRIMARY_TEXT}
                     color="#fff"
-                    borderRadius={wp(14)}
+                    borderRadius={wp(8)}
                     height={hp(52)}
                 />
             </View>
@@ -143,8 +143,8 @@ const successStyles = StyleSheet.create({
     infoLeft: { flexDirection: 'row', alignItems: 'center', gap: wp(8) },
     divider: { height: 1, backgroundColor: Colors.BORDER_COLOR },
     footer: {
-        position: 'absolute', bottom: 0, left: 0, right: 0,
-        padding: wp(20),
+        // position: 'absolute', bottom: 0, left: 0, right: 0,
+        // padding: wp(20),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1, borderColor: Colors.BORDER_COLOR,
     },

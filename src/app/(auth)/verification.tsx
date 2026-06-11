@@ -121,19 +121,20 @@ export default function VerificationScreen() {
                             </Caption3>
                         </Pressable>
                     </View>
+                    {/* Bottom button */}
+                    <View style={styles.footer}>
+                        <CustomButton
+                            title="Verify"
+                            onPress={handleVerify}
+                            width="100%"
+                            height={hp(56)}
+                            borderRadius={14}
+                            backgroundColor={Colors.BG_BLACK}
+                        />
+                    </View>
                 </View>
 
-                {/* Bottom button */}
-                <View style={styles.footer}>
-                    <CustomButton
-                        title="Verify"
-                        onPress={handleVerify}
-                        width="100%"
-                        height={hp(56)}
-                        borderRadius={14}
-                        backgroundColor={Colors.BG_BLACK}
-                    />
-                </View>
+
             </KeyboardAvoidingView>
         </>
     );
@@ -197,6 +198,6 @@ const styles = StyleSheet.create({
         opacity: 0.5,
     },
     footer: {
-        paddingBottom: hp(32),
+        paddingTop: hp(32),
     },
 });

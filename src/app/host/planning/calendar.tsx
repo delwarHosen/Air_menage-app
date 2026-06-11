@@ -1,4 +1,5 @@
 import { LocationIcon } from '@/assets/icons/cleaner_icon/LocationIcon';
+import { PlusIcon } from '@/assets/icons/host_icon/PlusIcon';
 import { CalendarView } from '@/components/host/planning/CalendarView';
 import { ListView } from '@/components/host/planning/ListView';
 import { CustomButton } from '@/components/shared/CustomButton';
@@ -18,9 +19,7 @@ type Tab = 'calendrier' | 'liste';
 export default function CalendarScreen() {
     const router = useRouter();
     const { propertyId } = useLocalSearchParams<{ propertyId: string }>();
-    const property =
-        PLANNING_PROPERTIES.find((p) => p.id === propertyId) ?? PLANNING_PROPERTIES[0];
-
+    const property = PLANNING_PROPERTIES.find((p) => p.id === propertyId) ?? PLANNING_PROPERTIES[0];
     const [tab, setTab] = useState<Tab>('calendrier');
 
     const handleConnectCalendar = () => {
@@ -70,25 +69,34 @@ export default function CalendarScreen() {
                 {/* Tab content */}
                 <View style={styles.tabContent}>
                     {tab === 'calendrier' ? (
-                        <CalendarView onConnectCalendar={handleConnectCalendar} />
+                        <CalendarView
+                            onConnectCalendar={handleConnectCalendar}
+                            hasData={property.hasCalendarData}
+                        />
                     ) : (
-                        <ListView onConnectCalendar={handleConnectCalendar} />
+                        <ListView
+                            onConnectCalendar={handleConnectCalendar}
+                            hasData={property.hasCalendarData}
+                        />
                     )}
                 </View>
             </View>
 
-            {/* Add a Manual Cleaning button */}
-            <View style={styles.footer}>
-                <CustomButton
-                    title="+ Add a Manual Cleaning"
-                    onPress={() => router.push('/host/housing/manage_cleaners' as any)}
-                    width="100%"
-                    backgroundColor="#0088FF"
-                    color="#fff"
-                    borderRadius={wp(8)}
-                    height={hp(52)}
-                />
-            </View>
+            {/* Add a Manual Cleaning button — শুধু hasData true হলে দেখাবে */}
+            {property.hasCalendarData && (
+                <View style={styles.footer}>
+                    <CustomButton
+                        title=" Add a Manual Cleaning"
+                        onPress={() => router.push('/host/housing/manage_cleaners' as any)}
+                        width="100%"
+                        backgroundColor="#0088FF"
+                        color="#fff"
+                        borderRadius={wp(8)}
+                        height={hp(52)}
+                        icon={<PlusIcon color='#fff' />}
+                    />
+                </View>
+            )}
         </SafeAreaView>
     );
 }
@@ -97,11 +105,12 @@ const styles = StyleSheet.create({
     safe: {
         flex: 1,
         backgroundColor: Colors.APP_BACKGROUND,
-        paddingHorizontal: wp(20)
+        paddingHorizontal: wp(20),
     },
-    content: { flex: 1 },
-
-    // Property card
+    content: {
+        flex: 1,
+        marginTop: hp(20),
+    },
     propertyCard: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -111,32 +120,26 @@ const styles = StyleSheet.create({
     thumb: { width: wp(130), height: hp(70), borderRadius: wp(10) },
     propertyInfo: { flex: 1, gap: hp(4) },
     row: { flexDirection: 'row', alignItems: 'center', gap: wp(4) },
-
-    // Tab
     tabWrapper: {
         flexDirection: 'row',
-        // backgroundColor: Colors.INPUT_BACKGROUND,
         borderRadius: wp(12),
         padding: wp(4),
         marginBottom: hp(16),
-        gap:wp(8)
+        gap: wp(8),
     },
     tabBtn: {
         flex: 1,
         alignItems: 'center',
         paddingVertical: hp(10),
         borderRadius: wp(10),
-         backgroundColor: Colors.INPUT_BACKGROUND
+        backgroundColor: Colors.INPUT_BACKGROUND,
     },
     tabBtnActive: {
         backgroundColor: '#EEF4FF',
     },
     tabContent: { flex: 1 },
-
-    // Footer
     footer: {
-        // paddingHorizontal: wp(20),
-        paddingVertical: hp(16),
+        // paddingVertical: hp(16),
         backgroundColor: Colors.APP_BACKGROUND,
     },
 });

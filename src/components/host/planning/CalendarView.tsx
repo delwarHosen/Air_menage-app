@@ -1,62 +1,135 @@
+import { DownArrowIcon } from '@/assets/icons/common_icon/DownArrowIcon';
+import { RightAngleIcon } from '@/assets/icons/common_icon/RightAngleIcon';
+import { RightarrowAngleIcon } from '@/assets/icons/common_icon/RightArrowAngleIcon';
+import { AirBnbIcon } from '@/assets/icons/host_icon/AirBnbIcon';
+import { BookingIcon } from '@/assets/icons/host_icon/BookingIcon';
+import { LinkIcon } from '@/assets/icons/host_icon/LinkIcon';
+import { PlusIcon } from '@/assets/icons/host_icon/PlusIcon';
 import { CancelScheduleModal } from '@/components/host/planning/CancelScheduleModal';
+import { CustomButton } from '@/components/shared/CustomButton';
 import { Caption3, Caption4 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
-
-import { CALENDAR_EVENTS, CalendarEvent, PLATFORM_COLORS } from '@/data/planningfakedata';
+import {
+    CALENDAR_EVENTS,
+    CalendarEvent
+} from '@/data/planningfakedata';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { hp, wp } from '../../../../utils/responsiveDevice';
 
-const DAYS = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
-const MONTH = 'Avril 2024';
+const DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+const MONTH_NAMES = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
 
-// April 2024 starts on Monday (day index 0)
-const FIRST_DAY_INDEX = 0;
-const TOTAL_DAYS = 30;
+function getDaysInMonth(year: number, month: number) {
+    return new Date(year, month + 1, 0).getDate();
+}
+function getFirstDayOfMonth(year: number, month: number) {
+    const day = new Date(year, month, 1).getDay();
+    return day === 0 ? 6 : day - 1;
+}
 
-export function CalendarView({ onConnectCalendar }: { onConnectCalendar: () => void }) {
+function PlatformIcon({ platform }: { platform: string }) {
+    if (platform === 'airbnb') return <AirBnbIcon size={18} />;
+    if (platform === 'booking') return <BookingIcon size={18} />;
+    return <Caption4 color={Colors.TEXT_COLOR}>{platform[0].toUpperCase()}</Caption4>;
+}
+
+type PopupData = {
+    platform: string;
+    date: string;
+    checkOut: string;
+    checkIn: string;
+} | null;
+
+type Props = {
+    onConnectCalendar: () => void;
+    hasData: boolean;
+};
+
+export function CalendarView({ onConnectCalendar, hasData }: Props) {
     const router = useRouter();
+    const now = new Date();
+    const [year, setYear] = useState(now.getFullYear());
+    const [month, setMonth] = useState(now.getMonth());
     const [cancelVisible, setCancelVisible] = useState(false);
-    const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
-    const [currentMonth, setCurrentMonth] = useState(0); // offset
+    const [popup, setPopup] = useState<PopupData>(null);
 
-    const isConnected = CALENDAR_EVENTS.length > 0;
+    const totalDays = getDaysInMonth(year, month);
+    const firstDayIndex = getFirstDayOfMonth(year, month);
 
-    // Build grid cells
     const cells: (number | null)[] = [
-        ...Array(FIRST_DAY_INDEX).fill(null),
-        ...Array.from({ length: TOTAL_DAYS }, (_, i) => i + 1),
+        ...Array(firstDayIndex).fill(null),
+        ...Array.from({ length: totalDays }, (_, i) => i + 1),
     ];
-    // Pad to complete last row
     while (cells.length % 7 !== 0) cells.push(null);
 
-    const getEventForDay = (day: number | null) => {
+    const getEventForDay = (day: number | null): CalendarEvent | null => {
         if (!day) return null;
-        return CALENDAR_EVENTS.find((e) => e.date === day);
+        return CALENDAR_EVENTS.find((e) => e.date === day) ?? null;
     };
 
-    const handleCleanerPress = (event: CalendarEvent) => {
-        setSelectedEvent(event);
-        setCancelVisible(true);
+    const handlePrevMonth = () => {
+        if (month === 0) { setMonth(11); setYear(y => y - 1); }
+        else setMonth(m => m - 1);
     };
+    const handleNextMonth = () => {
+        if (month === 11) { setMonth(0); setYear(y => y + 1); }
+        else setMonth(m => m + 1);
+    };
+
+    // FIX 1: cleaner assign আছে এমন date এ bar দেখাবে না
+    // শুধু empty date গুলোতে bar দেখাবে
+    function getEmptyRanges(week: (number | null)[]) {
+        const ranges: { start: number; end: number; color: string; isEmpty: boolean }[] = [];
+        let i = 0;
+        while (i < week.length) {
+            const day = week[i];
+            if (day === null) { i++; continue; }
+            const event = getEventForDay(day);
+
+            if (!event) {
+                // empty date — bar দেখাবে
+                const start = i;
+                while (i < week.length) {
+                    const d = week[i];
+                    if (d !== null && !getEventForDay(d)) i++;
+                    else break;
+                }
+                ranges.push({ start, end: i - 1, color: '#E5E7EB', isEmpty: true });
+            } else {
+                // cleaner assigned — bar দেখাবে না (transparent)
+                ranges.push({
+                    start: i,
+                    end: i,
+                    color: 'transparent',   // ← FIX 1: cleaner আছে → bar নেই
+                    isEmpty: false,
+                });
+                i++;
+            }
+        }
+        return ranges;
+    }
 
     return (
-        <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
             {/* Month nav */}
             <View style={styles.monthNav}>
-                <Pressable style={styles.navBtn} onPress={() => setCurrentMonth((m) => m - 1)}>
-                    <Caption3 color={Colors.PRIMARY_TEXT}>{'<'}</Caption3>
+                <Pressable style={styles.navBtn} onPress={handlePrevMonth}>
+                    <RightarrowAngleIcon />
                 </Pressable>
-                <View style={styles.monthLabel}>
+                <Pressable style={styles.monthLabel}>
                     <Caption3 color={Colors.PRIMARY_TEXT} style={styles.monthText}>
-                        {MONTH}
+                        {MONTH_NAMES[month]} {year}
                     </Caption3>
-                    <Caption3 color={Colors.TEXT_COLOR}> ▾</Caption3>
-                </View>
-                <Pressable style={styles.navBtn} onPress={() => setCurrentMonth((m) => m + 1)}>
-                    <Caption3 color={Colors.PRIMARY_TEXT}>{'>'}</Caption3>
+                    <DownArrowIcon color="#4B5563" />
+                </Pressable>
+                <Pressable style={styles.navBtn} onPress={handleNextMonth}>
+                    <RightAngleIcon size={22} />
                 </Pressable>
             </View>
 
@@ -69,8 +142,7 @@ export function CalendarView({ onConnectCalendar }: { onConnectCalendar: () => v
                 ))}
             </View>
 
-            {!isConnected ? (
-                /* Empty state */
+            {!hasData ? (
                 <View style={styles.emptyState}>
                     <Caption3
                         color={Colors.PRIMARY_TEXT}
@@ -86,17 +158,24 @@ export function CalendarView({ onConnectCalendar }: { onConnectCalendar: () => v
                     >
                         Connect your booking calendar (Airbnb, Booking.com etc.) to automatically display your reservations
                     </Caption3>
-                    <Pressable style={styles.connectBtn} onPress={onConnectCalendar}>
-                        <Caption3 color="#fff">⊕  Connect my calendar</Caption3>
-                    </Pressable>
+                    <CustomButton
+                        title='Connect my calendar'
+                        onPress={onConnectCalendar}
+                        borderRadius={wp(8)}
+                        height={hp(50)}
+                        width={"70%"}
+                        icon={<LinkIcon />}
+                    />
                 </View>
             ) : (
-                /* Calendar grid */
                 <View style={styles.grid}>
                     {Array.from({ length: cells.length / 7 }).map((_, rowIdx) => {
                         const week = cells.slice(rowIdx * 7, rowIdx * 7 + 7);
+                        const ranges = getEmptyRanges(week);
+
                         return (
                             <View key={rowIdx} style={styles.weekRow}>
+                                {/* Day cells */}
                                 {week.map((day, colIdx) => {
                                     const event = getEventForDay(day as number | null);
                                     return (
@@ -104,22 +183,17 @@ export function CalendarView({ onConnectCalendar }: { onConnectCalendar: () => v
                                             {day !== null && (
                                                 <Caption4 color={Colors.PRIMARY_TEXT}>{day}</Caption4>
                                             )}
-
                                             {event?.hasManualCleaning ? (
-                                                /* Green + icon */
                                                 <Pressable
                                                     style={styles.plusIcon}
                                                     onPress={() =>
                                                         router.push('/host/housing/manage_cleaners' as any)
                                                     }
                                                 >
-                                                    <Caption4 color={Colors.COLOR_ACTIVE}>+</Caption4>
+                                                    <PlusIcon color={Colors.COLOR_ACTIVE} />
                                                 </Pressable>
                                             ) : event ? (
-                                                /* Cleaner avatar */
-                                                <Pressable
-                                                    onPress={() => handleCleanerPress(event)}
-                                                >
+                                                <Pressable onPress={() => setCancelVisible(true)}>
                                                     <Image
                                                         source={event.cleanerImage}
                                                         style={styles.cleanerAvatar}
@@ -131,19 +205,43 @@ export function CalendarView({ onConnectCalendar }: { onConnectCalendar: () => v
                                     );
                                 })}
 
-                                {/* Booking bar row */}
-                                <View style={styles.barRowAbsolute} pointerEvents="none">
-                                    {week.map((day, colIdx) => {
-                                        const event = getEventForDay(day as number | null);
-                                        if (!event) return <View key={colIdx} style={styles.barCell} />;
+                                {/* Bars — FIX 2: empty bar click করলে popup দেখাবে */}
+                                <View style={styles.barRowAbsolute} pointerEvents="box-none">
+                                    {ranges.map((range, ri) => {
+                                        const flexVal = range.end - range.start + 1;
+                                        const rangeDay = week[range.start];
+
+                                        // FIX 2: empty bar only — cleaner bar transparent তাই non-pressable
+                                        if (!range.isEmpty) {
+                                            return (
+                                                <View
+                                                    key={ri}
+                                                    style={[
+                                                        styles.barSegment,
+                                                        { flex: flexVal, backgroundColor: 'transparent' },
+                                                    ]}
+                                                />
+                                            );
+                                        }
+
                                         return (
-                                            <View
-                                                key={colIdx}
+                                            <Pressable
+                                                key={ri}
                                                 style={[
-                                                    styles.barCell,
-                                                    styles.barFill,
-                                                    { backgroundColor: PLATFORM_COLORS[event.platform] + '40' },
+                                                    styles.barSegment,
+                                                    { flex: flexVal, backgroundColor: range.color },
                                                 ]}
+                                                onPress={() => {
+                                                    // FIX 2: empty bar click → popup
+                                                    if (rangeDay) {
+                                                        setPopup({
+                                                            platform: 'airbnb',
+                                                            date: `${rangeDay} ${MONTH_NAMES[month]} ${year}`,
+                                                            checkOut: '10:00 AM',
+                                                            checkIn: '01:00 PM',
+                                                        });
+                                                    }
+                                                }}
                                             />
                                         );
                                     })}
@@ -154,19 +252,50 @@ export function CalendarView({ onConnectCalendar }: { onConnectCalendar: () => v
                 </View>
             )}
 
+            {/* Booking detail popup */}
+            {popup && (
+                <Modal transparent animationType="fade" onRequestClose={() => setPopup(null)}>
+                    <Pressable style={styles.popupOverlay} onPress={() => setPopup(null)}>
+                        <View style={styles.popup}>
+                            <View style={styles.popupHeader}>
+                                <PlatformIcon platform={popup.platform} />
+                                <Caption3
+                                    color={Colors.PRIMARY_TEXT}
+                                    style={{ fontFamily: 'Poppins_600SemiBold' }}
+                                >
+                                    {popup.platform === 'airbnb' ? 'Airbnb' : 'Booking.com'}
+                                </Caption3>
+                            </View>
+                            <Caption4 color={Colors.TEXT_COLOR} style={{ marginBottom: hp(10) }}>
+                                {popup.date}
+                            </Caption4>
+                            <View style={styles.popupTimes}>
+                                <View style={styles.popupTimeItem}>
+                                    <Caption4 color={Colors.TEXT_COLOR}>CHECK-OUT</Caption4>
+                                    <Caption3 color={Colors.PRIMARY_TEXT}>{popup.checkOut}</Caption3>
+                                </View>
+                                <Caption3 color={Colors.TEXT_COLOR} style={styles.popupArrow}>→</Caption3>
+                                <View style={styles.popupTimeItem}>
+                                    <Caption4 color={Colors.TEXT_COLOR}>CHECK-IN</Caption4>
+                                    <Caption3 color={Colors.PRIMARY_TEXT}>{popup.checkIn}</Caption3>
+                                </View>
+                            </View>
+                        </View>
+                    </Pressable>
+                </Modal>
+            )}
+
             <CancelScheduleModal
                 visible={cancelVisible}
                 onClose={() => setCancelVisible(false)}
                 onConfirm={() => setCancelVisible(false)}
             />
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
-
-    // Month nav
     monthNav: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -179,59 +308,83 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.INPUT_BACKGROUND,
         alignItems: 'center', justifyContent: 'center',
     },
-    monthLabel: { flexDirection: 'row', alignItems: 'center' },
+    monthLabel: { flexDirection: 'row', alignItems: 'center', gap: wp(4) },
     monthText: { fontFamily: 'Poppins_600SemiBold', fontSize: 16 },
-
-    // Day headers
     dayHeaders: { flexDirection: 'row', marginBottom: hp(4) },
     dayHeaderCell: { flex: 1, alignItems: 'center', paddingVertical: hp(4) },
-
-    // Grid
     grid: {},
     weekRow: {
         flexDirection: 'row',
         position: 'relative',
         marginBottom: hp(8),
+        minHeight: hp(48),
     },
     dayCell: {
         flex: 1,
         alignItems: 'center',
-        minHeight: hp(44),
         paddingTop: hp(2),
         gap: hp(2),
+        zIndex: 1,
     },
     cleanerAvatar: {
-        width: wp(28), height: wp(28),
+        width: wp(28),
+        height: wp(28),
         borderRadius: wp(14),
     },
     plusIcon: {
-        width: wp(28), height: wp(28),
-        borderRadius: wp(14),
-        borderWidth: 1.5,
+        width: wp(24), height: wp(24),
+        borderRadius: wp(12),
+        borderWidth: 2,
         borderColor: Colors.COLOR_ACTIVE,
         alignItems: 'center', justifyContent: 'center',
+        marginTop:hp(5)
     },
-
-    // Booking bars
     barRowAbsolute: {
         position: 'absolute',
         bottom: 0, left: 0, right: 0,
         flexDirection: 'row',
-        height: hp(8),
+        height: hp(10),
+        zIndex: 0,
     },
-    barCell: { flex: 1, marginHorizontal: wp(1), borderRadius: wp(4) },
-    barFill: {},
-
-    // Empty state
+    barSegment: {
+        marginHorizontal: wp(1),
+        borderRadius: wp(4),
+        height: hp(10),
+    },
     emptyState: {
         alignItems: 'center',
         paddingHorizontal: wp(20),
         paddingTop: hp(40),
     },
-    connectBtn: {
-        backgroundColor: Colors.COLOR_ACTIVE,
-        paddingHorizontal: wp(24),
-        paddingVertical: hp(14),
-        borderRadius: wp(12),
+    popupOverlay: {
+        flex: 1,
+        backgroundColor: '#00000030',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: wp(40),
     },
+    popup: {
+        backgroundColor: '#fff',
+        borderRadius: wp(14),
+        padding: wp(16),
+        width: wp(200),
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
+        elevation: 8,
+    },
+    popupHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: wp(6),
+        marginBottom: hp(4),
+    },
+    popupTimes: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: wp(6),
+    },
+    popupTimeItem: { flex: 1, gap: hp(2) },
+    popupArrow: { paddingHorizontal: wp(2) },
 });

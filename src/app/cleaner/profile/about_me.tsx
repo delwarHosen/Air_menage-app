@@ -64,19 +64,22 @@ const aboutStyles = StyleSheet.create({
     scroll: { paddingBottom: hp(40) },
     sectionLabel: { marginBottom: hp(8), marginTop: hp(16) },
     card: {
-        backgroundColor: Colors.INPUT_BACKGROUND,
-        borderRadius: wp(14),
+        // backgroundColor: Colors.INPUT_BACKGROUND,
+        // borderRadius: wp(14),
         // borderWidth: 1,
         // borderColor: Colors.BORDER_COLOR,
         // overflow: 'hidden',
         marginBottom: hp(16),
     },
     row: {
+        backgroundColor: Colors.INPUT_BACKGROUND,
+        borderRadius: wp(14),
         flexDirection: 'row',
         alignItems: 'flex-start',
         paddingHorizontal: wp(16),
         paddingVertical: hp(20),
         gap: wp(8),
+        marginBottom:hp(10)
     },
     divider: { height: 1, backgroundColor: Colors.BORDER_COLOR },
 });

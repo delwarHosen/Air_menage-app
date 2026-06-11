@@ -22,17 +22,17 @@ type Client = {
 };
 
 const CLIENTS: Client[] = [
-    { id: '1', title: '2 Room apartment – City Center', address: '15 Pur da la Paris, 7500 Paris', owner: 'M. et Mme Matrin', isPrimary: true,  image: IMAGE_COMPONENTS.apartment },
-    { id: '2', title: '2 Room apartment – City Center', address: '15 Pur da la Paris, 7500 Paris', owner: 'M. et Mme Matrin', isPrimary: false, image: IMAGE_COMPONENTS.apartment },
-    { id: '3', title: '2 Room apartment – City Center', address: '15 Pur da la Paris, 7500 Paris', owner: 'M. et Mme Matrin', isPrimary: false, image: IMAGE_COMPONENTS.apartment},
-    { id: '4', title: '2 Room apartment – City Center', address: '15 Pur da la Paris, 7500 Paris', owner: 'M. et Mme Matrin', isPrimary: true,  image:IMAGE_COMPONENTS.apartment},
+    { id: '1', title: '2 Room apartment – City Center', address: '15 Pur da la Paris, 7500 Paris', owner: 'M. et Mme Matrin', isPrimary: true, image: IMAGE_COMPONENTS.apartment2 },
+    { id: '2', title: '2 Room apartment – City Center', address: '15 Pur da la Paris, 7500 Paris', owner: 'M. et Mme Matrin', isPrimary: false, image: IMAGE_COMPONENTS.apartment1 },
+    { id: '3', title: '2 Room apartment – City Center', address: '15 Pur da la Paris, 7500 Paris', owner: 'M. et Mme Matrin', isPrimary: false, image: IMAGE_COMPONENTS.apartment3 },
+    { id: '4', title: '2 Room apartment – City Center', address: '15 Pur da la Paris, 7500 Paris', owner: 'M. et Mme Matrin', isPrimary: true, image: IMAGE_COMPONENTS.apartment7 },
 ];
 
 function ClientCard({ item }: { item: Client }) {
     const handleDelete = () =>
         Alert.alert('Remove Client', 'Are you sure?', [
             { text: 'Cancel', style: 'cancel' },
-            { text: 'Remove', style: 'destructive', onPress: () => {} },
+            { text: 'Remove', style: 'destructive', onPress: () => { } },
         ]);
 
     return (
@@ -60,7 +60,7 @@ function ClientCard({ item }: { item: Client }) {
                         item.isPrimary ? clientStyles.badgePrimary : clientStyles.badgeSecondary,
                     ]}>
                         {item.isPrimary && (
-                            <StarCircleIcon/>
+                            <StarCircleIcon />
                         )}
                         <Caption3 color={item.isPrimary ? Colors.COLOR_ACTIVE : Colors.TEXT_COLOR}>
                             {item.isPrimary ? 'Principal' : 'Secondary'}
@@ -94,10 +94,10 @@ export default function MyClientsScreen() {
 const clientStyles = StyleSheet.create({
     safe: { flex: 1, backgroundColor: Colors.APP_BACKGROUND, paddingHorizontal: wp(20) },
     list: {
-       paddingBottom: hp(40),
-       paddingTop:hp(12),
-        gap: hp(12) 
-      },
+        paddingBottom: hp(40),
+        paddingTop: hp(12),
+        gap: hp(12)
+    },
     card: {
         flexDirection: 'row',
         backgroundColor: Colors.INPUT_BACKGROUND,
@@ -105,10 +105,13 @@ const clientStyles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: Colors.BORDER_COLOR,
         // overflow: 'hidden',
+         padding:5
     },
-    thumb: { width: wp(110), 
-      height: '100%', 
-    borderRadius:wp(20)
+    thumb: {
+        width: wp(110),
+        height: '100%',
+        borderRadius: wp(20),
+       
     },
     info: { flex: 1, padding: wp(12), gap: hp(4) },
     metaRow: { flexDirection: 'row', alignItems: 'center', gap: wp(4) },

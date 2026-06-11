@@ -36,7 +36,7 @@ export default function HousekeeperWelcomeScreen() {
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
             >
-                <View style={{ marginVertical: hp(20) }}>
+                <View style={{ marginVertical: hp(30) }}>
                     <StepIndicator
                     totalSteps={5}
                     currentStep={1}
@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
     cards: { gap: hp(10) },
     footer: {
         // paddingHorizontal: wp(20),
-        paddingBottom: hp(24),
-        paddingTop: hp(10),
+        // paddingBottom: hp(24),
+        // paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,
     },
 });

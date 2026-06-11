@@ -127,7 +127,7 @@ export function HelpSupportScreen() {
                     backgroundColor={Colors.BRAND_PRIMARY}
                     width="100%"
                     height={hp(54)}
-                    borderRadius={wp(14)}
+                    borderRadius={wp(8)}
                     isLoading={isLoading}
                     disabled={isLoading}
                     style={{ marginBottom: hp(16) }}

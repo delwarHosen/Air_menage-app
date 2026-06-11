@@ -150,7 +150,7 @@ export default function RecommendedCleaningScreen() {
                                 </Caption2>
                             </View>
                             <Pressable style={cleanStyles.messageBtn} onPress={() => { }}>
-                                <Body6 color={Colors.APP_BACKGROUND}>Message</Body6>
+                                <Body6 color={Colors.APP_BACKGROUND}>Manage</Body6>
                             </Pressable>
                         </View>
                     </View>
@@ -292,10 +292,10 @@ const cleanStyles = StyleSheet.create({
 
     // Footer
     footer: {
-        position: 'absolute', bottom: 0, left: 0, right: 0,
-        padding: wp(20),
+        // position: 'absolute', bottom: 0, left: 0, right: 0,
+        // padding: wp(20),
         backgroundColor: Colors.APP_BACKGROUND,
         // borderTopWidth: 1, borderColor: Colors.BORDER_COLOR,
-        marginBottom:hp(10)
+        // marginBottom:hp(10)
     },
 });

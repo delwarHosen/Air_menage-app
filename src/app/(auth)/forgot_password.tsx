@@ -62,20 +62,21 @@ export default function ForgotPasswordScreen() {
                             />
                         </View>
                     </View>
+                    {/* Bottom button */}
+                    <View style={styles.footer}>
+                        <CustomButton
+                            title="Send OTP"
+                            // onPress={handleSubmit}
+                            onPress={() => router.push('/(auth)/verification' as any)}
+                            width="100%"
+                            height={hp(52)}
+                            borderRadius={14}
+                            backgroundColor={Colors.BG_BLACK}
+                        />
+                    </View>
                 </View>
 
-                {/* Bottom button */}
-                <View style={styles.footer}>
-                    <CustomButton
-                        title="Send OTP"
-                        // onPress={handleSubmit}
-                        onPress={() => router.push('/(auth)/verification' as any)}
-                        width="100%"
-                        height={hp(52)}
-                        borderRadius={14}
-                        backgroundColor={Colors.BG_BLACK}
-                    />
-                </View>
+
             </KeyboardAvoidingView>
         </>
     );
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        paddingTop: hp(24),
+        paddingTop: hp(50),
     },
     title: {
         marginBottom: hp(8),

@@ -149,6 +149,6 @@ const styles = StyleSheet.create({
         marginRight: wp(12),
     },
     footer: {
-        paddingBottom: hp(32),
+        // paddingBottom: hp(32),
     },
 });

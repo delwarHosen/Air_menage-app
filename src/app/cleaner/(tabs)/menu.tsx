@@ -2,6 +2,7 @@ import { ClientsIcon } from '@/assets/icons/cleaner_icon/clientsIcon';
 import { PaymentMethodIcon } from '@/assets/icons/cleaner_icon/PaymentMethodIcon';
 import { RevenueIcon } from '@/assets/icons/cleaner_icon/RevenueIcon';
 import { LockIcon } from '@/assets/icons/common_icon/LockIcon';
+import { LogoutIcon } from '@/assets/icons/common_icon/LogoutIcon';
 import { RightAngleIcon } from '@/assets/icons/common_icon/RightAngleIcon';
 import { UserIcon } from '@/assets/icons/common_icon/UserIcon';
 import { HeadPhoneIcon } from '@/assets/icons/host_icon/HeadPhoneIcon';
@@ -56,7 +57,7 @@ export default function CleanerMenuScreen() {
                 contentContainerStyle={styles.scroll}
                 showsVerticalScrollIndicator={false}
             >
-               
+
                 <Pressable
                     style={styles.profileHeader}
                     onPress={() => router.push('/cleaner/profile/about_me' as any)}
@@ -65,14 +66,14 @@ export default function CleanerMenuScreen() {
                         <Image
                             source={IMAGE_COMPONENTS.cleanerPP}
                             style={{ height: 60, width: 60 }}
-                           contentFit="cover"
+                            contentFit="cover"
                         />
                     </View>
                     <View style={styles.profileText}>
                         <Body5 color={Colors.PRIMARY_TEXT} style={styles.name}>Sophie Martin</Body5>
                         <Caption5 color={Colors.TEXT_COLOR}>Housekeeper</Caption5>
                     </View>
-                    <RightAngleIcon size={28}/>
+                    <RightAngleIcon size={28} />
                 </Pressable>
 
                 {/* Availability toggle — card style */}
@@ -108,7 +109,7 @@ export default function CleanerMenuScreen() {
                                         </View>
                                         <RightAngleIcon />
                                     </Pressable>
-                                    {idx < sec.items.length - 1 && <View style={styles.divider} />}
+                                    {/* {idx < sec.items.length - 1 && <View style={styles.divider} />} */}
                                 </React.Fragment>
                             ))}
                         </View>
@@ -121,10 +122,11 @@ export default function CleanerMenuScreen() {
                     onPress={() =>
                         Alert.alert('Logout', 'Are you sure?', [
                             { text: 'Cancel', style: 'cancel' },
-                            { text: 'Logout', style: 'destructive', onPress: () => router.replace('/auth' as any) },
+                            { text: 'Logout', style: 'destructive', onPress: () => router.replace('/(auth)/login' as any) },
                         ])
                     }
                 >
+                    <LogoutIcon />
                     <Body6 color={Colors.TEXT_COLOR}>Log out</Body6>
                 </Pressable>
             </ScrollView>
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
     },
     pageTitle: {
         textAlign: 'center',
-        paddingVertical: hp(14),
+        paddingVertical: hp(20),
         fontFamily: 'Poppins_600SemiBold',
     },
     scroll: {
@@ -183,8 +185,9 @@ const styles = StyleSheet.create({
 
     // ── Card ──────────────────────────────────────────────────────────────────
     card: {
-        backgroundColor: Colors.INPUT_BACKGROUND,
-        borderRadius: wp(14),
+        // backgroundColor: Colors.INPUT_BACKGROUND,
+        // borderRadius: wp(14),
+        // marginBottom:hp(10)
         // borderWidth: 1,
         // borderColor: Colors.BORDER_COLOR,
         // overflow: 'hidden',
@@ -192,11 +195,16 @@ const styles = StyleSheet.create({
 
     // ── Menu row ──────────────────────────────────────────────────────────────
     menuRow: {
+        backgroundColor: Colors.INPUT_BACKGROUND,
+        borderRadius: wp(14),
+        marginBottom: hp(6),
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: wp(16),
         paddingVertical: hp(16),
         gap: wp(12),
+        borderWidth: 1,
+        borderColor: Colors.BORDER_COLOR
     },
     iconWrapper: {
         width: wp(32),
@@ -213,7 +221,13 @@ const styles = StyleSheet.create({
     // ── Logout ────────────────────────────────────────────────────────────────
     logoutRow: {
         paddingVertical: hp(16),
-        borderTopWidth: 1,
+        backgroundColor: Colors.INPUT_BACKGROUND,
+        paddingHorizontal: wp(24),
+        borderRadius: wp(8),
+        flexDirection: "row",
+        gap: wp(12),
+        borderWidth: 1,
         borderColor: Colors.BORDER_COLOR,
+        marginBottom: hp(50)
     },
 });

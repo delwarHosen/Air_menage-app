@@ -152,8 +152,8 @@ const styles = StyleSheet.create({
     miniCardTitle: { marginTop: hp(4) },
     footer: {
         // paddingHorizontal: wp(20),
-        paddingBottom: hp(24),
-        paddingTop: hp(10),
+        // paddingBottom: hp(24),
+        // paddingTop: hp(10),
         backgroundColor: Colors.APP_BACKGROUND,
     },
 });

@@ -37,7 +37,10 @@ export function AlertScreen() {
                             <Caption3 color={Colors.TEXT_COLOR}>{data.cleanerLocation}</Caption3>
                         </View>
                     </View>
-                    <Pressable style={styles.messageBtn} onPress={() => {}}>
+                    <Pressable style={styles.messageBtn}
+                        onPress={() => router.push("/host/(tabs)/message")}
+
+                    >
                         <Caption5 color={Colors.TEXT_COLOR}>Message</Caption5>
                     </Pressable>
                 </View>
@@ -73,7 +76,7 @@ export function AlertScreen() {
                 </View>
             </ScrollView>
 
-       
+
             <View style={styles.footer}>
                 <View style={{ marginVertical: hp(20) }}>
                     <CustomButton
@@ -86,7 +89,7 @@ export function AlertScreen() {
                         height={hp(52)}
                     />
                 </View>
-                <Caption3 color={Colors.TEXT_COLOR} align="center" style={{ marginBottom: hp(16) }}>
+                <Caption3 color={Colors.TEXT_COLOR} align="center" style={{ paddingBottom: hp(0) }}>
                     This alert will be removed from the home screen.
                 </Caption3>
             </View>
@@ -95,11 +98,11 @@ export function AlertScreen() {
 }
 
 const styles = StyleSheet.create({
-   
+
     container: {
         flex: 1,
     },
-    
+
     scroll: {
         paddingBottom: hp(140),
     },
@@ -134,7 +137,7 @@ const styles = StyleSheet.create({
         borderRadius: wp(12),
         padding: wp(14),
     },
-    
+
     footer: {
         backgroundColor: Colors.APP_BACKGROUND,
         paddingHorizontal: wp(0),
