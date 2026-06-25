@@ -3,14 +3,26 @@ import { LockIcon } from '@/assets/icons/common_icon/LockIcon';
 import { UserIcon } from '@/assets/icons/common_icon/UserIcon';
 import { FormInput } from '@/components/inputForm/inputForm';
 import { CustomButton } from '@/components/shared/CustomButton';
+import CustomLoader from '@/components/shared/CustomLoader';
 import { StepIndicator } from '@/components/shared/StepIndicator';
+import Toast, { showToast } from '@/components/shared/Toast';
 import { Body6, Caption2, Caption3, H1 } from '@/components/typo/Typography';
 import { FORM_FIELDS } from '@/components/ui/form';
 import { Colors } from '@/constants/theme';
 import { useForm } from '@/hooks/useForm';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useCompleteProfileMutation } from '@/redux/services/authApi';
+import { setCredentials } from '@/redux/slices/authSlice';
 import { useRouter } from 'expo-router';
-import React, { useMemo, useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import React, { useMemo } from 'react';
+import {
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    View
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { hp, wp } from '../../../utils/responsiveDevice';
 import { validatePassword } from '../../../utils/validation';
@@ -27,8 +39,10 @@ const SECURITY_RULES: SecurityRule[] = [
 ];
 
 export default function CompleteInformationScreen() {
-    const [selectedRules, setSelectedRules] = useState<number[]>([]);
     const router = useRouter();
+    const dispatch = useAppDispatch();
+    const role = useAppSelector((state) => state.auth.role);
+    const [completeProfile, { isLoading }] = useCompleteProfileMutation();
 
     const { values, errors, touched, handleChange, handleSubmit } = useForm({
         initialValues: {
@@ -42,44 +56,61 @@ export default function CompleteInformationScreen() {
             [FORM_FIELDS.PASSWORD]: validatePassword,
         },
         onSubmit: async (values) => {
-            console.log('Complete info submitted:', JSON.stringify(values, null, 2));
+            try {
+                const res = await completeProfile({
+                    firstName: values[FORM_FIELDS.FULL_NAME],
+                    lastName: (values as any).lastName,
+                    password: values[FORM_FIELDS.PASSWORD],
+                }).unwrap();
+
+                if (res.success) {
+                    dispatch(setCredentials({
+                        token: '', // token already saved from OTP step
+                        user: res.data,
+                    }));
+
+                    showToast(res.message ?? 'Profile completed!', 'success');
+
+                    setTimeout(() => {
+                        if (role === 'cleaner') {
+                            router.replace('/cleaner/(tabs)' as any);
+                        } else {
+                            router.replace('/host/(tabs)' as any);
+                        }
+                    }, 800);
+                }
+            } catch (err: any) {
+                const message = err?.data?.message ?? 'Failed to complete profile. Try again.';
+                showToast(message, 'error');
+            }
         },
     });
 
     const passwordRules = useMemo(
-        () => SECURITY_RULES.map((rule) => ({ ...rule, passed: rule.test(values[FORM_FIELDS.PASSWORD] ?? '') })),
+        () => SECURITY_RULES.map((rule) => ({
+            ...rule,
+            passed: rule.test(values[FORM_FIELDS.PASSWORD] ?? '')
+        })),
         [values[FORM_FIELDS.PASSWORD]]
     );
 
-    const toggleRule = (index: number) => {
-        setSelectedRules(prev =>
-            prev.includes(index)
-                ? prev.filter(i => i !== index)
-                : [...prev, index]
-        );
-    };
-
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.APP_BACKGROUND }}>
+            <Toast />
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.root}
             >
-                {/* Back button */}
                 <View style={styles.topRow}>
                     <Pressable
                         onPress={() => router.back()}
-                        style={({ pressed }) => [
-                            styles.backBtn,
-                            { opacity: pressed ? 0.6 : 1 }
-                        ]}
+                        style={({ pressed }) => [styles.backBtn, { opacity: pressed ? 0.6 : 1 }]}
                         hitSlop={8}
                     >
                         <LeftAngleIcon />
                     </Pressable>
                 </View>
 
-                {/* Step indicator */}
                 <StepIndicator
                     totalSteps={4}
                     currentStep={3}
@@ -102,9 +133,7 @@ export default function CompleteInformationScreen() {
 
                         {/* First Name */}
                         <View style={styles.fieldGroup}>
-                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                                First Name
-                            </Body6>
+                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>First Name</Body6>
                             <FormInput
                                 value={values[FORM_FIELDS.FULL_NAME]}
                                 onChangeText={(text) => handleChange(FORM_FIELDS.FULL_NAME, text)}
@@ -118,14 +147,12 @@ export default function CompleteInformationScreen() {
 
                         {/* Last Name */}
                         <View style={styles.fieldGroup}>
-                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                                Last Name
-                            </Body6>
+                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>Last Name</Body6>
                             <FormInput
                                 value={(values as any).lastName ?? ''}
                                 onChangeText={(text) => handleChange('lastName' as any, text)}
                                 type="text"
-                                placeholder="e.g. John"
+                                placeholder="e.g. Doe"
                                 leftIcon={<UserIcon size={16} color="#8C88A3" />}
                                 error={(errors as any).lastName}
                                 touched={(touched as any).lastName}
@@ -134,9 +161,7 @@ export default function CompleteInformationScreen() {
 
                         {/* Password */}
                         <View style={styles.fieldGroup}>
-                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>
-                                Password
-                            </Body6>
+                            <Body6 color={Colors.PRIMARY_TEXT} style={styles.label}>Password</Body6>
                             <FormInput
                                 value={values[FORM_FIELDS.PASSWORD]}
                                 onChangeText={(text) => handleChange(FORM_FIELDS.PASSWORD, text)}
@@ -152,54 +177,36 @@ export default function CompleteInformationScreen() {
                         <Caption2 color={Colors.PRIMARY_TEXT} style={styles.securityTitle}>
                             Password Security
                         </Caption2>
-                        {passwordRules.map((rule, index) => {
-                            const isSelected = selectedRules.includes(index);
-                            return (
-                                <Pressable
-                                    key={index}
-                                    onPress={() => toggleRule(index)}
-                                    style={({ pressed }) => [
-                                        styles.ruleRow,
-                                        { opacity: pressed ? 0.7 : 1 }
-                                    ]}
-                                    hitSlop={6}
+                        {passwordRules.map((rule, index) => (
+                            <View key={index} style={styles.ruleRow}>
+                                <View style={[styles.ruleCircle, rule.passed && styles.ruleCirclePassed]}>
+                                    {rule.passed && <View style={styles.ruleDot} />}
+                                </View>
+                                <Caption3
+                                    color={rule.passed ? Colors.PRIMARY_TEXT : Colors.TEXT_COLOR}
+                                    style={styles.ruleLabel}
                                 >
-                                    <View style={[
-                                        styles.ruleCircle,
-                                        rule.passed && styles.ruleCirclePassed,
-                                        isSelected && styles.ruleCircleSelected,
-                                    ]}>
-                                        {(rule.passed || isSelected) && (
-                                            <View style={styles.ruleDot} />
-                                        )}
-                                    </View>
-                                    <Caption3
-                                        color={(rule.passed || isSelected)
-                                            ? Colors.PRIMARY_TEXT
-                                            : Colors.TEXT_COLOR}
-                                        style={styles.ruleLabel}
-                                    >
-                                        {rule.label}
-                                    </Caption3>
-                                </Pressable>
-                            );
-                        })}
+                                    {rule.label}
+                                </Caption3>
+                            </View>
+                        ))}
                     </View>
                 </ScrollView>
 
-                {/* Bottom button */}
                 <View style={styles.footer}>
                     <CustomButton
-                        title="Continue"
-                        // onPress={handleSubmit}
-                        onPress={() => {
-                            console.log('Complete info submitted:', JSON.stringify(values, null, 2));
-                            router.push('/(auth)/role_select' as any);
-                        }}
+                        title={isLoading ? '' : 'Continue'}
+                        onPress={handleSubmit}
                         width="100%"
                         height={hp(52)}
                         borderRadius={8}
+                        disabled={isLoading}
                     />
+                    {isLoading && (
+                        <View style={styles.loaderOverlay}>
+                            <CustomLoader size={32} strokeWidth={2} />
+                        </View>
+                    )}
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
@@ -225,7 +232,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         overflow: 'hidden',
     },
-    arrowLeft: {},
     content: {
         flex: 1,
         marginTop: hp(10),
@@ -236,18 +242,13 @@ const styles = StyleSheet.create({
     },
     description: {
         marginBottom: hp(20),
-        textAlign: 'center',
     },
-    fieldGroup: {
-        marginBottom: hp(12),
-    },
+    fieldGroup: { marginBottom: hp(12) },
     label: {
         marginBottom: hp(6),
         marginLeft: wp(2),
     },
-    securityTitle: {
-        marginBottom: hp(10),
-    },
+    securityTitle: { marginBottom: hp(10) },
     ruleRow: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -268,10 +269,6 @@ const styles = StyleSheet.create({
         borderColor: Colors.BRAND_PRIMARY,
         backgroundColor: Colors.BRAND_PRIMARY,
     },
-    ruleCircleSelected: {
-        borderColor: Colors.BRAND_PRIMARY,
-        backgroundColor: Colors.BRAND_PRIMARY,
-    },
     ruleDot: {
         width: wp(8),
         height: wp(8),
@@ -279,7 +276,11 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.TEXT_WHITE,
     },
     ruleLabel: {},
-    footer: {
-        // paddingTop: hp(32),
+    footer: { position: 'relative' },
+    loaderOverlay: {
+        position: 'absolute',
+        top: 0, left: 0, right: 0, bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

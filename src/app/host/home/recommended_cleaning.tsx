@@ -77,7 +77,7 @@ export default function RecommendedCleaningScreen() {
                 {/* ── Accommodation ── */}
                 <View style={cleanStyles.section}>
 
-                    <Pressable style={cleanStyles.accommodationRow} onPress={() => { }}>
+                    <Pressable style={cleanStyles.accommodationRow} onPress={() => router.push("/host/housing/accommodation_details_view")}>
                         <Image
                             source={data.apartmentImage}
                             style={cleanStyles.thumb}
@@ -149,7 +149,7 @@ export default function RecommendedCleaningScreen() {
                                     {data.cleaner.completedCleanings} Cleaning completed
                                 </Caption2>
                             </View>
-                            <Pressable style={cleanStyles.messageBtn} onPress={() => { }}>
+                            <Pressable style={cleanStyles.messageBtn} onPress={() => router.push("/host/housing/manage_cleaners")}>
                                 <Body6 color={Colors.APP_BACKGROUND}>Manage</Body6>
                             </Pressable>
                         </View>

@@ -2,20 +2,23 @@ import { CleanerAvtIcon } from '@/assets/icons/cleaner_icon/CleanerAvtIcon';
 import { LeftAngleIcon } from '@/assets/icons/common_icon/LiftAngleIcon';
 import { HostAvtIcon } from '@/assets/icons/host_icon/HostAvtIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
+import CustomLoader from '@/components/shared/CustomLoader';
 import { StepIndicator } from '@/components/shared/StepIndicator';
+import Toast, { showToast } from '@/components/shared/Toast';
 import { Body6, Caption3, H1, H3 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
 import { useAppDispatch } from '@/redux/hooks';
+import { useSelectRoleMutation } from '@/redux/services/authApi';
 import { setRole } from '@/redux/slices/authSlice';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { hp, wp } from '../../../utils/responsiveDevice';
 
-type Role = 'host' | 'cleaner';
+type RoleType = 'host' | 'cleaner';
 
 interface RoleOption {
-    id: Role;
+    id: RoleType;
     title: string;
     description: string;
     IconComponent: React.FC;
@@ -39,17 +42,22 @@ const ROLES: RoleOption[] = [
 export default function RoleSelectScreen() {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const [selectedRole, setSelectedRole] = useState<Role | null>('host');
+    const [selectedRole, setSelectedRole] = useState<RoleType>('host');
+    const [selectRole, { isLoading }] = useSelectRoleMutation();
 
-    const handleContinue = () => {
-        if (!selectedRole) return;
-
-        dispatch(setRole(selectedRole));
-
-        if (selectedRole === 'host') {
-            router.push('/host/onboarding/welcome_host' as any);
-        } else {
-            router.push('/cleaner/onboarding/housekeeper_welcome' as any);
+    const handleContinue = async () => {
+        try {
+            const res = await selectRole({ role: selectedRole }).unwrap();
+            if (res.success) {
+                dispatch(setRole(selectedRole));
+                showToast(res.message ?? 'Role selected!', 'success');
+                setTimeout(() => {
+                    router.push('/(auth)/complete_information' as any);
+                }, 800);
+            }
+        } catch (err: any) {
+            const message = err?.data?.message ?? 'Failed to select role. Try again.';
+            showToast(message, 'error');
         }
     };
 
@@ -58,6 +66,8 @@ export default function RoleSelectScreen() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.root}
         >
+            <Toast />
+
             <View style={styles.topRow}>
                 <Pressable
                     onPress={() => router.back()}
@@ -108,18 +118,23 @@ export default function RoleSelectScreen() {
                         </Pressable>
                     );
                 })}
+
                 <View style={styles.footer}>
                     <CustomButton
-                        title="Continue"
+                        title={isLoading ? '' : 'Continue'}
                         onPress={handleContinue}
                         width="100%"
                         height={hp(56)}
                         borderRadius={8}
+                        disabled={isLoading}
                     />
+                    {isLoading && (
+                        <View style={styles.loaderOverlay}>
+                            <CustomLoader size={32} strokeWidth={2} />
+                        </View>
+                    )}
                 </View>
             </View>
-
-
         </KeyboardAvoidingView>
     );
 }
@@ -184,7 +199,11 @@ const styles = StyleSheet.create({
         borderRadius: wp(5),
         backgroundColor: Colors.BRAND_PRIMARY,
     },
-    footer: {
-        //  paddingBottom: hp(32)
+    footer: { position: 'relative' },
+    loaderOverlay: {
+        position: 'absolute',
+        top: 0, left: 0, right: 0, bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

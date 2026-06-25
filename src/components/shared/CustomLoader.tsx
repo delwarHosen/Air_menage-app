@@ -1,4 +1,3 @@
-import { Colors } from '@/constants/theme';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, View } from 'react-native';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
@@ -13,7 +12,7 @@ interface Props {
 export default function CustomLoader({
     size = 160,
     strokeWidth = 1,
-    color = Colors.BRAND_PRIMARY,
+    color = "#00C853",
     visible = true,
 }: Props) {
     const rotateAnim = useRef(new Animated.Value(0)).current;

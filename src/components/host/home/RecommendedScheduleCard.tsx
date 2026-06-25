@@ -48,7 +48,7 @@ export function RecommendedScheduleCard({ data, onPress }: Props) {
 
                         {/* Time slot chip */}
                         <View style={styles.infoChip}>
-                            <ClockIcon size={11} color={Colors.TEXT_COLOR} />
+                            <ClockIcon size={17} color={Colors.TEXT_COLOR} />
                             <View style={styles.chipText}>
                                 <Caption5 color={Colors.TEXT_COLOR}>Time slot:</Caption5>
                                 <Caption5
