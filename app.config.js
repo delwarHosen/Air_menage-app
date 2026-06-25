@@ -1,3 +1,7 @@
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+
 const { withAndroidManifest } = require('@expo/config-plugins');
 
 export default ({ config }) => {

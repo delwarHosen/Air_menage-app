@@ -1,10 +1,10 @@
 import { SearchIcon } from '@/assets/icons/common_icon/SearchIcon';
 import { Body5, Caption1, Caption3 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
-import { CLEANER_CONVERSATIONS } from '@/data/messagefakedata';
+import { CLEANER_CONVERSATIONS, Conversation } from '@/data/messagefakedata';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -19,10 +19,27 @@ export default function CleanerMessageScreen() {
   const router = useRouter();
   const [search, setSearch] = useState('');
 
-  const filtered = CLEANER_CONVERSATIONS.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase()) ||
-    c.lastMessage.toLowerCase().includes(search.toLowerCase())
+  // const filtered = CLEANER_CONVERSATIONS.filter((c) =>
+  //   c.name.toLowerCase().includes(search.toLowerCase()) ||
+  //   c.lastMessage.toLowerCase().includes(search.toLowerCase())
+  // );
+
+  const filtered = useMemo(() =>
+    CLEANER_CONVERSATIONS.filter((c) =>
+      c.name.toLowerCase().includes(search.toLowerCase()) ||
+      c.lastMessage.toLowerCase().includes(search.toLowerCase())
+    ),
+    [search]
   );
+
+  const handleNavigate = useCallback((id: string) => {
+    router.push({
+      pathname: '/cleaner/message/chat' as any,
+      params: { conversationId: id },
+    });
+  }, [router]);
+
+
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -50,31 +67,8 @@ export default function CleanerMessageScreen() {
         data={filtered}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Pressable
-            style={styles.row}
-            onPress={() =>
-              router.push({
-                pathname: '/cleaner/message/chat' as any,
-                params: { conversationId: item.id },
-              })
-            }
-          >
-            <Image
-              source={item.image}
-              style={styles.avatar}
-              contentFit="cover"
-            />
-            <View style={styles.rowInfo}>
-              <Caption1 color={Colors.PRIMARY_TEXT}>{item.name}</Caption1>
-              <Caption3
-                color={Colors.TEXT_COLOR}
-                numberOfLines={1}
-              >
-                {item.lastMessage}
-              </Caption3>
-            </View>
-            <Caption3 color={Colors.TEXT_COLOR}>{item.time}</Caption3>
-          </Pressable>
+          <ConversationRow item={item} onPress={handleNavigate} />
+
         )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.list}
@@ -83,6 +77,27 @@ export default function CleanerMessageScreen() {
     </SafeAreaView>
   );
 }
+
+
+
+const ConversationRow = React.memo(({ item, onPress }: {
+  item: Conversation,
+  onPress: (id: string) => void
+}) => {
+  console.log('Row render:', item.name); // কতবার render হচ্ছে দেখো
+  return (
+    <Pressable style={styles.row} onPress={() => onPress(item.id)}>
+      <Image source={item.image} style={styles.avatar} contentFit="cover" />
+      <View style={styles.rowInfo}>
+        <Caption1 color={Colors.PRIMARY_TEXT}>{item.name}</Caption1>
+        <Caption3 color={Colors.TEXT_COLOR} numberOfLines={1}>
+          {item.lastMessage}
+        </Caption3>
+      </View>
+      <Caption3 color={Colors.TEXT_COLOR}>{item.time}</Caption3>
+    </Pressable>
+  );
+});
 
 const styles = StyleSheet.create({
   safe: {

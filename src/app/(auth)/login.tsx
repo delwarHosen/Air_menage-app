@@ -3,12 +3,17 @@ import { LockIcon } from '@/assets/icons/common_icon/LockIcon';
 import { FormInput } from '@/components/inputForm/inputForm';
 import { AuthHeading } from '@/components/shared/AuthHeading';
 import { CustomButton } from '@/components/shared/CustomButton';
+import CustomLoader from '@/components/shared/CustomLoader';
 import SectionTitle from '@/components/shared/SectionTitle';
+import Toast, { showToast } from '@/components/shared/Toast';
 import { Body3, Body6, Caption3 } from '@/components/typo/Typography';
 import { FORM_FIELDS } from '@/components/ui/form';
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
 import { useForm } from '@/hooks/useForm';
+import { saveToken } from '@/redux/api/baseApi';
+import { useLoginMutation } from '@/redux/services/authApi';
+import { setCredentials } from '@/redux/slices/authSlice';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -20,12 +25,15 @@ import {
     View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 import { hp, wp } from '../../../utils/responsiveDevice';
 import { validateEmail, validatePassword } from '../../../utils/validation';
 
 export default function LoginScreen() {
     const router = useRouter();
+    const dispatch = useDispatch();
     const [rememberMe, setRememberMe] = useState(false);
+    const [login, { isLoading }] = useLoginMutation();
 
     const { values, errors, touched, handleChange, handleSubmit } = useForm({
         initialValues: {
@@ -37,12 +45,42 @@ export default function LoginScreen() {
             [FORM_FIELDS.PASSWORD]: validatePassword,
         },
         onSubmit: async (values) => {
-            console.log('Form submitted:', JSON.stringify(values, null, 2));
+            try {
+                const res = await login({
+                    email: values[FORM_FIELDS.EMAIL],
+                    password: values[FORM_FIELDS.PASSWORD],
+                }).unwrap();
+
+                // Token save 
+                await saveToken(res.token);
+
+                // credentials set to Redux   
+                dispatch(setCredentials({ token: res.token, user: res.data }));
+
+                showToast(res.message ?? 'Signed in successfully', 'success');
+
+                // Role waise navigate
+                setTimeout(() => {
+                    if (res.data.role === 'host') {
+                        router.replace('/host/(tabs)' as any);
+                    } else if (res.data.role === 'cleaner') {
+                        router.replace('/cleaner/(tabs)' as any);
+                    } else {
+                        router.replace('/host/(tabs)' as any);
+                    }
+                }, 800);
+
+            } catch (err: any) {
+                console.log('Login error:', JSON.stringify(err, null, 2)); 
+                const message = err?.data?.message ?? 'Login failed. Please try again.';
+                showToast(message, 'error');
+            }
         },
     });
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.APP_BACKGROUND }}>
+            <Toast />
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.scrollContent}
@@ -59,14 +97,12 @@ export default function LoginScreen() {
                     <View style={styles.container}>
                         <View style={styles.inner}>
 
-                            {/* Logo + title + description */}
                             <AuthHeading
                                 imageSource={IMAGE_COMPONENTS.logo}
                                 title="Welcome to Gestlio"
                                 description="Cleaning your properties, from Planning to payment"
                             />
 
-                            {/* Form */}
                             <View style={styles.form}>
 
                                 {/* Email */}
@@ -123,14 +159,22 @@ export default function LoginScreen() {
                                 </View>
 
                                 {/* Login button */}
-                                <CustomButton
-                                    title="Log in"
-                                    onPress={() => router.push("/host/(tabs)")}
-                                    width="100%"
-                                    height={hp(52)}
-                                    borderRadius={14}
-                                    style={{ marginTop: hp(8) }}
-                                />
+                                <View style={styles.btnWrapper}>
+                                    <CustomButton
+                                        title={isLoading ? '' : 'Log in'}
+                                        onPress={handleSubmit}
+                                        width="100%"
+                                        height={hp(52)}
+                                        borderRadius={14}
+                                        style={{ marginTop: hp(8) }}
+                                        disabled={isLoading}
+                                    />
+                                    {isLoading && (
+                                        <View style={styles.loaderOverlay}>
+                                            <CustomLoader size={32} strokeWidth={2} />
+                                        </View>
+                                    )}
+                                </View>
                             </View>
 
                             {/* Or divider */}
@@ -147,9 +191,7 @@ export default function LoginScreen() {
                                 <Body6 color={Colors.TEXT_COLOR}>
                                     Don't have an account?
                                 </Body6>
-                                <Pressable
-                                    onPress={() => router.push("/(auth)/take_email" as any)}
-                                >
+                                <Pressable onPress={() => router.push("/(auth)/take_email" as any)}>
                                     <Body6 color={Colors.BRAND_PRIMARY}> Sign Up</Body6>
                                 </Pressable>
                             </View>
@@ -236,5 +278,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         marginBottom: hp(24),
+    },
+    btnWrapper: {
+        position: 'relative',
+    },
+    loaderOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

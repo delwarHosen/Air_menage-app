@@ -3,10 +3,10 @@ import { PlusCircleIcon } from '@/assets/icons/common_icon/PlusCircleIcon';
 import { SendMessageIcon } from '@/assets/icons/common_icon/SendMessageIcon';
 import { Body6, Caption1, Caption3 } from '@/components/typo/Typography';
 import { Colors } from '@/constants/theme';
-import { CLEANER_CONVERSATIONS } from '@/data/messagefakedata';
+import { ChatMessage, CLEANER_CONVERSATIONS } from '@/data/messagefakedata';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     Animated,
     FlatList,
@@ -49,24 +49,46 @@ export default function CleanerChatScreen() {
         return () => { show.remove(); hide.remove(); };
     }, []);
 
-    const handleSend = () => {
+    // const handleSend = () => {
+    //     const text = inputText.trim();
+    //     if (!text) return;
+    //     const newMsg = {
+    //         id: String(Date.now()),
+    //         sender: 'me' as const,
+    //         time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+    //         text,
+    //     };
+    //     setMessages((prev) => [...prev, newMsg]);
+    //     setInputText('');
+    //     setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
+    // };
+
+
+
+    const handleSend = useCallback(() => {
         const text = inputText.trim();
         if (!text) return;
         const newMsg = {
             id: String(Date.now()),
-            sender: 'me' as const,
-            time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+            sender: "me" as const,
+            time: new Date().toLocaleDateString("en-US", { hour: "2-digit", minute: "2-digit" }),
             text,
         };
         setMessages((prev) => [...prev, newMsg]);
-        setInputText('');
+        setInputText("");
         setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
-    };
+    }, [inputText])
 
-    const shouldShowTime = (index: number) => {
+
+    // const shouldShowTime = (index: number) => {
+    //     if (index === 0) return true;
+    //     return messages[index].time !== messages[index - 1].time;
+    // };
+
+    const shouldShowTime = useCallback((index: number) => {
         if (index === 0) return true;
         return messages[index].time !== messages[index - 1].time;
-    };
+    }, [messages])
 
     if (!conversation) return null;
 
@@ -100,30 +122,10 @@ export default function CleanerChatScreen() {
                         flatListRef.current?.scrollToEnd({ animated: false })
                     }
                     renderItem={({ item, index }) => (
-                        <View>
-                            {shouldShowTime(index) && (
-                                <Caption3
-                                    color={Colors.TEXT_COLOR}
-                                    align="center"
-                                    style={styles.timeLabel}
-                                >
-                                    — {item.time} —
-                                </Caption3>
-                            )}
-                            <View style={[
-                                styles.bubbleRow,
-                                item.sender === 'me' ? styles.bubbleRowMe : styles.bubbleRowOther,
-                            ]}>
-                                <View style={[
-                                    styles.bubble,
-                                    item.sender === 'me' ? styles.bubbleMe : styles.bubbleOther,
-                                ]}>
-                                    <Caption1 color={item.sender === 'me' ? Colors.TEXT_WHITE : Colors.PRIMARY_TEXT}>
-                                        {item.text}
-                                    </Caption1>
-                                </View>
-                            </View>
-                        </View>
+                        <MessageBubble
+                            item={item}
+                            showTime={shouldShowTime(index)}
+                        />
                     )}
                 />
 
@@ -138,7 +140,7 @@ export default function CleanerChatScreen() {
                             placeholderTextColor={Colors.PLACEHOLDER_TEXT}
                             multiline
                         />
-                        <Pressable onPress={() => {}} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                        <Pressable onPress={() => { }} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
                             <PlusCircleIcon size={24} color={Colors.TEXT_COLOR} />
                         </Pressable>
                     </View>
@@ -155,6 +157,35 @@ export default function CleanerChatScreen() {
         </SafeAreaView>
     );
 }
+
+
+const MessageBubble = React.memo(({ item, showTime }: {
+    item: ChatMessage,
+    showTime: boolean
+}) => {
+    return (
+        <View>
+            {showTime && (
+                <Caption3 color={Colors.TEXT_COLOR} align="center" style={styles.timeLabel}>
+                    — {item.time} —
+                </Caption3>
+            )}
+            <View style={[
+                styles.bubbleRow,
+                item.sender === 'me' ? styles.bubbleRowMe : styles.bubbleRowOther,
+            ]}>
+                <View style={[
+                    styles.bubble,
+                    item.sender === 'me' ? styles.bubbleMe : styles.bubbleOther,
+                ]}>
+                    <Caption1 color={item.sender === 'me' ? Colors.TEXT_WHITE : Colors.PRIMARY_TEXT}>
+                        {item.text}
+                    </Caption1>
+                </View>
+            </View>
+        </View>
+    );
+});
 
 const styles = StyleSheet.create({
     safe: {

@@ -1,13 +1,18 @@
 import { EmailIcon } from '@/assets/icons/common_icon/EmailIcon';
 import { LeftAngleIcon } from '@/assets/icons/common_icon/LiftAngleIcon';
 import { CustomButton } from '@/components/shared/CustomButton';
+import CustomLoader from '@/components/shared/CustomLoader';
 import { StepIndicator } from '@/components/shared/StepIndicator';
+import Toast, { showToast } from '@/components/shared/Toast';
 import { Body6, Caption3, H1 } from '@/components/typo/Typography';
 import { IMAGE_COMPONENTS } from '@/constants/image.index';
 import { Colors } from '@/constants/theme';
+import { saveToken } from '@/redux/api/baseApi';
+import { useSignupMutation, useVerifyOtpMutation } from '@/redux/services/authApi';
+import { setCredentials } from '@/redux/slices/authSlice';
 import { Image } from 'expo-image';
-import { Stack, useRouter } from 'expo-router';
-import React, { useRef, useState } from 'react';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     KeyboardAvoidingView,
     Platform,
@@ -18,18 +23,48 @@ import {
     View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 import { fp, hp, wp } from '../../../utils/responsiveDevice';
 
-const OTP_LENGTH = 6;
+const OTP_LENGTH = 4;
+const RESEND_SECONDS = 60;
 
 export default function VerificationEmailScreen() {
     const router = useRouter();
+    const dispatch = useDispatch();
+    const { email } = useLocalSearchParams<{ email: string }>();
     const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(''));
     const inputRefs = useRef<(TextInput | null)[]>([]);
+    const [timer, setTimer] = useState(RESEND_SECONDS);
+    const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-    const email = 'julien.dupont@email.com';
-    const maskedDisplay = email;
+    const [verifyOtp, { isLoading: isVerifying }] = useVerifyOtpMutation();
+    const [signup, { isLoading: isResending }] = useSignupMutation();
 
+    // ── Timer ─────────────────────────────────────────────────────────────────
+    const startTimer = () => {
+        if (timerRef.current) clearInterval(timerRef.current);
+        setTimer(RESEND_SECONDS);
+        timerRef.current = setInterval(() => {
+            setTimer((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timerRef.current!);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+    };
+
+    useEffect(() => {
+        // Page load হলেই timer শুরু
+        startTimer();
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current);
+        };
+    }, []);
+
+    // ── Handlers ──────────────────────────────────────────────────────────────
     const handleChange = (text: string, index: number) => {
         const cleaned = text.replace(/[^0-9]/g, '').slice(-1);
         const newOtp = [...otp];
@@ -46,34 +81,67 @@ export default function VerificationEmailScreen() {
         }
     };
 
-    const handleResend = () => {
-        console.log('Resend code tapped');
+    const handleResend = async () => {
+        if (!email || timer > 0) return;
+        try {
+            const res = await signup({ email }).unwrap();
+            if (res.success) {
+                showToast('OTP resent to your email', 'success');
+                setOtp(Array(OTP_LENGTH).fill(''));
+                inputRefs.current[0]?.focus();
+                startTimer(); // timer reset করুন
+            }
+        } catch (err: any) {
+            const message = err?.data?.message ?? 'Failed to resend OTP';
+            showToast(message, 'error');
+        }
     };
+
+    const handleContinue = async () => {
+        const code = otp.join('');
+        if (code.length < OTP_LENGTH) {
+            showToast('Please enter the complete OTP', 'error');
+            return;
+        }
+        if (!email) return;
+
+        try {
+            const res = await verifyOtp({ email, otp: code }).unwrap();
+            await saveToken(res.token);
+            dispatch(setCredentials({ token: res.token, user: res.data }));
+            showToast(res.message ?? 'Email verified!', 'success');
+            setTimeout(() => {
+                router.push('/(auth)/role_select' as any);
+            }, 800);
+        } catch (err: any) {
+            const message = err?.data?.message ?? 'Invalid OTP. Please try again.';
+            showToast(message, 'error');
+        }
+    };
+
+    const isLoading = isVerifying || isResending;
+    const canResend = timer === 0 && !isResending;
 
     return (
         <>
             <Stack.Screen options={{ headerShown: false }} />
             <SafeAreaView style={{ flex: 1, backgroundColor: Colors.APP_BACKGROUND }}>
+                <Toast />
                 <KeyboardAvoidingView
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                     style={styles.root}
                 >
-                    {/* Back button */}
                     <View style={styles.topRow}>
                         <Pressable
                             onPress={() => router.back()}
-                            style={({ pressed }) => [
-                                styles.backBtn,
-                                { opacity: pressed ? 0.6 : 1 }
-                            ]}
+                            style={({ pressed }) => [styles.backBtn, { opacity: pressed ? 0.6 : 1 }]}
                             hitSlop={8}
                         >
                             <LeftAngleIcon />
                         </Pressable>
                     </View>
 
-                    {/* Step indicator */}
-                    <View style={{ marginVertical: hp(20) }}>
+                    <View style={{ marginTop: hp(10) }}>
                         <StepIndicator
                             totalSteps={4}
                             currentStep={2}
@@ -101,7 +169,7 @@ export default function VerificationEmailScreen() {
                                 We have sent to a code to
                             </Body6>
                             <Body6 color={Colors.PRIMARY_TEXT} style={styles.emailText}>
-                                {maskedDisplay}
+                                {email}
                             </Body6>
 
                             {/* Email display row */}
@@ -111,12 +179,10 @@ export default function VerificationEmailScreen() {
                                 </Body6>
                                 <View style={styles.emailRow}>
                                     <View style={styles.emailIconWrapper}>
-                                        <View style={styles.emailIconOuter}>
-                                            <EmailIcon />
-                                        </View>
+                                        <EmailIcon />
                                     </View>
                                     <Body6 color={Colors.PRIMARY_TEXT} style={styles.emailValue}>
-                                        {maskedDisplay}
+                                        {email}
                                     </Body6>
                                     <Pressable onPress={() => router.back()}>
                                         <Caption3 color={"#35A9D6"}>Modify?</Caption3>
@@ -141,18 +207,35 @@ export default function VerificationEmailScreen() {
                                         maxLength={1}
                                         textContentType="oneTimeCode"
                                         selectTextOnFocus
+                                        editable={!isLoading}
                                     />
                                 ))}
                             </View>
 
-                            {/* Resend */}
+                            {/* Resend + Timer */}
                             <View style={styles.resendRow}>
-                                <Pressable onPress={handleResend}>
+                                {/* বাম দিকে timer */}
+                                {timer > 0 ? (
+                                    <Caption3 color={Colors.BRAND_PRIMARY}>
+                                        {`Resend in ${timer}s`}
+                                    </Caption3>
+                                ) : (
+                                    <View /> // placeholder যাতে resend right এ থাকে
+                                )}
+
+                                {/* ডান দিকে resend button */}
+                                <Pressable
+                                    onPress={handleResend}
+                                    disabled={!canResend}
+                                >
                                     <Caption3
-                                        color={Colors.PRIMARY_TEXT}
-                                        style={styles.resendText}
+                                        color={canResend ? Colors.PRIMARY_TEXT : Colors.TEXT_COLOR}
+                                        style={[
+                                            styles.resendText,
+                                            !canResend && { opacity: 0.4 }
+                                        ]}
                                     >
-                                        Resend Code
+                                        {isResending ? 'Resending...' : 'Resend Code'}
                                     </Caption3>
                                 </Pressable>
                             </View>
@@ -162,17 +245,18 @@ export default function VerificationEmailScreen() {
                     {/* Bottom button */}
                     <View style={styles.footer}>
                         <CustomButton
-                            title="Continue"
-                            // onPress={handleContinue}
-                            onPress={() => {
-                                const code = otp.join('');
-                                console.log('Email OTP submitted:', code);
-                                router.push('/(auth)/complete_information' as any);
-                            }}
+                            title={isVerifying ? '' : 'Continue'}
+                            onPress={handleContinue}
                             width="100%"
                             height={hp(52)}
                             borderRadius={14}
+                            disabled={isLoading}
                         />
+                        {isVerifying && (
+                            <View style={styles.loaderOverlay}>
+                                <CustomLoader size={32} strokeWidth={2} />
+                            </View>
+                        )}
                     </View>
                 </KeyboardAvoidingView>
             </SafeAreaView>
@@ -199,76 +283,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         overflow: 'hidden',
     },
-    arrowLeft: {
-        width: wp(10),
-        height: wp(10),
-        borderLeftWidth: 2,
-        borderBottomWidth: 2,
-        borderColor: Colors.PRIMARY_TEXT,
-        transform: [{ rotate: '45deg' }],
-    },
-    content: {
-        flex: 1,
-    },
+    content: { flex: 1 },
     imageEmail: {
         width: wp(160),
         height: hp(124),
         alignSelf: 'center',
-        marginVertical: hp(20),
+        marginVertical: hp(10),
     },
-    illustrationPlaceholder: {
-        alignItems: 'center',
-        marginBottom: hp(16),
-    },
-    envelope: {
-        width: wp(80),
-        height: wp(60),
-        position: 'relative',
-        alignItems: 'center',
-    },
-    envelopeFlap: {
-        width: wp(80),
-        height: wp(30),
-        backgroundColor: '#D6DCF5',
-        borderTopLeftRadius: wp(8),
-        borderTopRightRadius: wp(8),
-    },
-    envelopeBody: {
-        width: wp(80),
-        height: wp(30),
-        backgroundColor: '#E8ECFA',
-        borderBottomLeftRadius: wp(8),
-        borderBottomRightRadius: wp(8),
-    },
-    checkBadge: {
-        position: 'absolute',
-        bottom: -wp(8),
-        right: wp(8),
-        width: wp(22),
-        height: wp(22),
-        borderRadius: wp(11),
-        backgroundColor: Colors.SUCCESS_COLOR,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    checkmark: {
-        width: wp(8),
-        height: wp(5),
-        borderLeftWidth: 2,
-        borderBottomWidth: 2,
-        borderColor: Colors.TEXT_WHITE,
-        transform: [{ rotate: '-45deg' }, { translateY: -wp(1) }],
-    },
-    title: {
-        marginBottom: hp(4),
-    },
+    title: { marginBottom: hp(4) },
     description: {},
-    emailText: {
-        marginBottom: hp(16),
-    },
-    fieldGroup: {
-        marginBottom: hp(12),
-    },
+    emailText: { marginBottom: hp(16) },
+    fieldGroup: { marginBottom: hp(12) },
     label: {
         marginBottom: hp(6),
         marginLeft: wp(2),
@@ -283,30 +308,16 @@ const styles = StyleSheet.create({
         paddingVertical: hp(14),
         backgroundColor: Colors.INPUT_BACKGROUND,
     },
-    emailIconWrapper: {
-        marginRight: wp(10),
-    },
-    emailIconOuter: {},
-    emailIconInner: {
-        width: wp(12),
-        height: wp(6),
-        borderLeftWidth: 1,
-        borderRightWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: Colors.TEXT_COLOR,
-        transform: [{ rotate: '0deg' }],
-    },
-    emailValue: {
-        flex: 1,
-    },
+    emailIconWrapper: { marginRight: wp(10) },
+    emailValue: { flex: 1 },
     otpRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: hp(12),
     },
     otpBox: {
-        width: wp(46),
-        height: wp(50),
+        width: wp(60),
+        height: wp(60),
         borderRadius: 10,
         borderWidth: 1.5,
         textAlign: 'center',
@@ -324,12 +335,17 @@ const styles = StyleSheet.create({
         color: Colors.PRIMARY_TEXT,
     },
     resendRow: {
-        alignItems: 'flex-end',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: hp(8),
     },
-    resendText: {
-        textDecorationLine: 'underline',
-    },
-    footer: {
-        // paddingBottom: hp(32),
+    resendText: { textDecorationLine: 'underline' },
+    footer: { position: 'relative' },
+    loaderOverlay: {
+        position: 'absolute',
+        top: 0, left: 0, right: 0, bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
