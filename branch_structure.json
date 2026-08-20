@@ -1,0 +1,27 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "ahsan-timezone",
+    "backup-old-integration",
+    "feature-cleaner",
+    "integration",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "ahsan-timezone": "main",
+    "backup-old-integration": "main",
+    "feature-cleaner": "main",
+    "integration": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "ahsan-timezone",
+    "backup-old-integration",
+    "feature-cleaner",
+    "integration",
+    "origin"
+  ]
+}
